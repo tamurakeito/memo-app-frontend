@@ -1,0 +1,24 @@
+@use "assets/scss/config/variables" as var;
+
+.Text {
+  &.title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var.$GRAY900;
+  }
+  &.t1 {
+    font-size: 12px;
+    font-weight: 500;
+    color: var.$GRAY900;
+  }
+  &.t2 {
+    font-size: 12px;
+    font-weight: 100;
+    color: var.$BLACK1000;
+  }
+  &.t3 {
+    font-size: 12px;
+    font-weight: 500;
+    color: var.$GRAY500;
+  }
+}

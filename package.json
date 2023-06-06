@@ -10,19 +10,22 @@
     "@types/node": "^16.18.12",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
+    "axios": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
+    "react-swipeable": "^7.0.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start & yarn mock_server",
     "build": "react-scripts build",
     "push": "chmod 755 .gitpush.sh &&./.gitpush.sh",
-    "ini": "chmod 755 .init.sh && ./.init.sh"
+    "ini": "chmod 755 .init.sh && ./.init.sh",
+    "mock_server": "./node_modules/.bin/json-server --watch mock/db_mock.json --routes mock/routes.json --middlewares mock/middleware.js  --port 3004"
   },
   "eslintConfig": {
     "extends": [
@@ -45,6 +48,8 @@
   "devDependencies": {
     "@types/sass": "^1.43.1",
     "classnames": "^2.3.2",
+    "json-server": "^0.17.3",
+    "react-feather": "^2.0.10",
     "sass": "^1.58.0",
     "the-new-css-reset": "^1.8.4"
   }

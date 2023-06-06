@@ -1,0 +1,127 @@
+@use "assets/scss/config/variables" as var;
+
+.MemoCard {
+  // position: relative;
+  height: calc(100vh - 140px);
+  .Line {
+    z-index: 100;
+  }
+  .memo-card {
+    position: relative;
+    z-index: 1;
+    margin: {
+      bottom: 135px;
+    }
+    // background: pink;
+    .InCompleteContainer {
+      position: relative;
+      background: var.$WHITE000;
+      z-index: 10;
+      margin: {
+        top: 25px;
+        left: 16px;
+        right: 16px;
+        bottom: 22px;
+      }
+    }
+
+    .CompleteContainer {
+      position: relative;
+      z-index: 1;
+      margin: {
+        top: 25px;
+        left: 16px;
+        right: 16px;
+        bottom: 22px;
+      }
+      &.close {
+        height: 0;
+      }
+      .toggle {
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        height: 30px;
+        background: var.$WHITE000;
+        // background: pink;
+        .kanryou {
+          position: absolute;
+          top: 12px;
+          left: 0;
+        }
+        .arrow {
+          position: absolute;
+          top: 12px;
+          right: 0;
+          color: var.$GRAY400;
+          transition: 0.2s;
+          &.open {
+            top: 6px;
+            transform: rotateX(180deg);
+          }
+        }
+      }
+      .complete-box {
+        z-index: 1;
+        transition: 0.1s;
+        transform: translateY(-100%);
+        opacity: 0;
+        &.open {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+    }
+
+    .TitleBlock {
+      // background: pink;
+      height: 24px;
+      position: relative;
+      margin: {
+        bottom: 15px;
+      }
+      svg {
+        position: absolute;
+        top: 4px;
+        left: 1px;
+        color: var.$GRAY900;
+        fill: var.$GRAY300;
+      }
+      .block-content {
+        position: absolute;
+        top: 0;
+        left: 35px;
+      }
+    }
+
+    .ListBlock {
+      height: 18px;
+      // background: skyblue;
+      position: relative;
+      margin: {
+        top: 15px;
+        bottom: 15px;
+      }
+      .point-icon {
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        color: var.$GRAY900;
+        &.complete {
+          color: var.$GRAY400;
+        }
+      }
+      .block-content {
+        position: absolute;
+        top: 0;
+        left: 36px;
+      }
+      .delete-icon {
+        position: absolute;
+        top: 0;
+        right: 3px;
+        color: var.$GRAY400;
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+@use "assets/scss/config/variables" as var;
+@import "assets/scss/animation/keyframes";
+
+.Shadow {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba($color: var.$BLACK1000, $alpha: 0.2);
+  display: none;
+  &.active {
+    display: block;
+    animation: fadeInAnime 0.1s ease;
+  }
+}

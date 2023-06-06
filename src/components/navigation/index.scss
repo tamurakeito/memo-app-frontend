@@ -1,0 +1,95 @@
+@use "assets/scss/config/variables" as var;
+
+.Navigation {
+  position: fixed;
+  z-index: 10;
+  width: 275px;
+  height: 100vh;
+  transform: translateX(-100vw);
+  background: var.$WHITE000;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  transition: 0.2s;
+  &.active {
+    transform: translateX(0);
+  }
+  .memo-box-container {
+    position: absolute;
+    top: 88px;
+    height: calc(100vh - 225px);
+  }
+  .icon-setting {
+    position: absolute;
+    top: 691px;
+    left: 23px;
+    color: var.$GRAY400;
+  }
+}
+
+.MemoListBox {
+  position: relative;
+  margin: {
+    top: 15px;
+    // left: 23px;
+    // right: 23px;
+    bottom: 25px;
+  }
+  .tag-box {
+    // background: skyblue;
+    height: 20px;
+    margin: {
+      bottom: 6px;
+    }
+    .tag-point {
+      position: absolute;
+      top: 3px;
+      left: 23px;
+      color: var.$GRAY500;
+    }
+    .memo-point {
+      position: absolute;
+      top: 3px;
+      left: 24px;
+      color: var.$GRAY500;
+    }
+    .tag-text {
+      position: absolute;
+      top: 1px;
+      left: 51px;
+    }
+    .memo-add {
+      position: absolute;
+      top: 0px;
+      right: 14px;
+      color: var.$GRAY400;
+      &:active {
+        color: var.$GRAY700;
+      }
+    }
+  }
+}
+
+.MemoList {
+  position: relative;
+  margin: 0 0;
+  height: 30px;
+  &.selected {
+    background: var.$GRAY200;
+  }
+  // background: pink;
+  .memo-point {
+    position: absolute;
+    top: 9px;
+    left: 25px;
+    fill: var.$GRAY300;
+  }
+  .content-text {
+    position: absolute;
+    top: 6px;
+    left: 53px;
+  }
+  .memo-size {
+    position: absolute;
+    top: 6px;
+    right: 20px;
+  }
+}

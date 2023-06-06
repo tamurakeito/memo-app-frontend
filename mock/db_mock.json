@@ -1,0 +1,52 @@
+{
+  "participants-required-line": ["900001", "900004"],
+  "generate-line-token": {
+    "id": "900001",
+    "carte": "04582734",
+    "tokenCode": "7364",
+    "sysURL": "https://linq.ibd.ai/linq-api-dev",
+    "clientId": "10349"
+  },
+  "list-summary": [
+    { "id": 1, "name": "タスクリスト", "tag": true, "length": 6 },
+    { "id": 2, "name": "買うものリスト", "tag": false, "length": 3 },
+    { "id": 3, "name": "勉強リスト", "tag": false, "length": 5 }
+  ],
+  "list-detail": {
+    "id": 1,
+    "name": "タスクリスト",
+    "tag": false,
+    "tasks": [
+      {
+        "id": 1,
+        "name": "アプリ作る",
+        "complete": false
+      },
+      {
+        "id": 2,
+        "name": "ChatGTP",
+        "complete": false
+      },
+      {
+        "id": 3,
+        "name": "麻雀",
+        "complete": true
+      },
+      {
+        "id": 4,
+        "name": "服買う",
+        "complete": false
+      },
+      {
+        "id": 5,
+        "name": "たまご",
+        "complete": true
+      },
+      {
+        "id": 6,
+        "name": "たぬき",
+        "complete": true
+      }
+    ]
+  }
+}

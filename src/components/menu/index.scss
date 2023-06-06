@@ -1,0 +1,52 @@
+@use "assets/scss/config/variables" as var;
+@import "assets/scss/animation/keyframes";
+
+.Menu {
+  position: fixed;
+  top: 68px;
+  right: 22px;
+  z-index: 10;
+  width: 205px;
+  background: var.$WHITE000;
+  border-radius: 7.5px;
+  display: none;
+  &.active {
+    display: block;
+    animation: fadeInAnime 0.1s ease;
+  }
+  .menu-container {
+    margin: {
+      top: 12px;
+      left: 16px;
+      right: 16px;
+      bottom: 27px;
+    }
+    // background: skyblue;
+    .menu-line {
+      position: relative;
+      height: 0.1px;
+      margin: {
+        top: 20px;
+        bottom: 27px;
+      }
+      background: pink;
+    }
+  }
+}
+
+.MenuList {
+  position: relative;
+  height: 18px;
+  margin: 20px 0;
+  // background: pink;
+  .menu-icon {
+    position: absolute;
+    top: 2px;
+    left: 0;
+  }
+  .menu-text {
+    position: absolute;
+    top: 0;
+    left: 25px;
+  }
+}

@@ -1,0 +1,41 @@
+@use "assets/scss/config/variables" as var;
+
+.PlusButton {
+  position: fixed;
+  bottom: 100px;
+  right: 14px;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background: var.$GRAY100;
+  border: 2px solid var.$GRAY700;
+  color: var.$GRAY700;
+  // transition: 0.05s;
+  &:active {
+    background: var.$GRAY400;
+  }
+  .PlusMark {
+    width: 16px;
+    height: 16px;
+    // background: pink;
+    margin: 15px;
+    position: relative;
+    * {
+      display: block;
+      position: absolute;
+      background: var.$GRAY700;
+    }
+    .vertical {
+      width: 2px;
+      height: 100%;
+      top: 0;
+      left: 7px;
+    }
+    .horizontal {
+      width: 100%;
+      height: 2px;
+      top: 7px;
+      left: 0;
+    }
+  }
+}

@@ -1,0 +1,73 @@
+@use "assets/scss/config/variables" as var;
+
+.Swiper {
+  position: fixed;
+  top: 95px;
+  width: 100vw;
+  height: calc(100vh - 95px);
+  .SwipeCard {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 95px);
+    transition: 0.3s;
+    &.center {
+      translate: (0);
+    }
+    &.left {
+      translate: (-100vw);
+    }
+    &.right {
+      translate: (100vw);
+    }
+  }
+  .SwipeTapArea {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    width: 50vw;
+    max-width: 150px;
+    height: calc(100vh - 95px);
+    &.left {
+      left: 0;
+      // background: pink;
+    }
+    &.right {
+      right: 0;
+      // background: skyblue;
+    }
+  }
+  .Page {
+    position: absolute;
+    top: 0;
+    transition: 0.3s;
+    &.center {
+      translate: (0);
+    }
+    &.left {
+      translate: (-100vw);
+    }
+    &.right {
+      translate: (100vw);
+    }
+  }
+  .SwipeIndexDisplay {
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .Circle {
+      width: 10px;
+      height: 10px;
+      border-radius: 5px;
+      margin: 0 5px;
+      transition: 10s;
+      background: var.$GRAY300;
+      &.active {
+        background: var.$GRAY400;
+      }
+    }
+  }
+}

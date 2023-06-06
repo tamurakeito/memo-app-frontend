@@ -1,0 +1,29 @@
+@use "assets/scss/config/variables" as var;
+
+.TopBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 95px;
+  // border-bottom: 0.5px solid var.$GRAY300;
+  .IconButton {
+    position: absolute;
+    top: 65px;
+    &.HamburgerIconButton {
+      left: 16px;
+    }
+    &.TagIconButton {
+      right: 50px;
+      transition: 0.2s;
+      &.tagged {
+        svg {
+          fill: var.$GRAY300;
+        }
+      }
+    }
+    &.OptionIconButton {
+      right: 16px;
+    }
+  }
+}

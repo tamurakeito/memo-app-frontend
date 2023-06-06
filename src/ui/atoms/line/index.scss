@@ -1,0 +1,8 @@
+@use "assets/scss/config/variables" as var;
+
+.Line {
+  position: absolute;
+  width: 100%;
+  height: 0.1px;
+  border-top: 0.5px solid var.$GRAY300;
+}
