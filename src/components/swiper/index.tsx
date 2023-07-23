@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from "react";
 import "./index.scss";
 import classNames from "classnames";
 import { useSwipeable } from "react-swipeable";
-import { useTabContext } from "provider/tab-provider";
+import { useTabContext } from "providers/tab-provider";
 
 export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
   const [pageIndex, setPageIndex] = useState<number>(0);

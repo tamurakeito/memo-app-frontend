@@ -9,7 +9,7 @@ import { TextSizes } from "ui/atoms/text";
 import { Settings } from "react-feather";
 import { useSwipeable } from "react-swipeable";
 import { ListSummaryType } from "types/types";
-import { useTabContext } from "provider/tab-provider";
+import { useTabContext } from "providers/tab-provider";
 
 export const Navigation = ({
   list,

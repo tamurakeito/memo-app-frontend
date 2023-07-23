@@ -8,17 +8,22 @@ import { Navigation } from "components/navigation";
 import { useEffect, useState } from "react";
 import { Shadow } from "ui/atoms/shadow";
 import { Menu } from "components/menu";
-import { ListSummaryType } from "types/types";
 import { getListSummary } from "data/api/getListSummary";
-import { useListContext } from "provider/list-provider";
+import { useListContext } from "providers/list-provider";
+import { useTabContext } from "providers/tab-provider";
+import {
+  ExceptionDisplay,
+  ExceptionIcons,
+} from "ui/molecules/exception-display";
 
 export const Home = () => {
-  // const [list, setList] = useState<Array<ListSummaryType>>([]);
   const { list, setListData } = useListContext();
+  const { tab } = useTabContext();
+  const [isError, setIsError] = useState(false);
   useEffect(() => {
     (async () => {
       const response = await getListSummary();
-      !!response && setListData(response);
+      !!response ? setListData(response) : setIsError(true);
     })();
   }, []);
   const [isActiveNavigation, setIsActiveNavigation] = useState(false);
@@ -36,18 +41,38 @@ export const Home = () => {
   const handleClickTag = () => {
     setIsTag(!isTag);
   };
+  useEffect(() => {
+    list.length > 0 && setIsTag(list[tab].tag);
+  }, [tab]);
   return (
     <div className={"Home"}>
-      <TopBar
-        onClickHamburger={handleClickNavigation}
-        onClickTag={handleClickTag}
-        onClickOption={handleClickMenu}
-      />
-      <Swiper
-        pages={list.map((memo, index) => (
-          <MemoCard key={index} id={memo.id} />
-        ))}
-      />
+      {!isError ? (
+        list.length > 0 ? (
+          <>
+            <TopBar
+              onClickHamburger={handleClickNavigation}
+              isTag={isTag}
+              onClickTag={handleClickTag}
+              onClickOption={handleClickMenu}
+            />
+            <Swiper
+              pages={list.map((memo, index) => (
+                <MemoCard key={index} id={memo.id} />
+              ))}
+            />
+          </>
+        ) : (
+          <ExceptionDisplay
+            value="登録されているメモがありません"
+            icon={ExceptionIcons.null}
+          />
+        )
+      ) : (
+        <ExceptionDisplay
+          value="データの取得に失敗しました"
+          icon={ExceptionIcons.fail}
+        />
+      )}
       <PlusButton />
       <Navigation
         list={list}

@@ -1,12 +1,4 @@
 {
-  "participants-required-line": ["900001", "900004"],
-  "generate-line-token": {
-    "id": "900001",
-    "carte": "04582734",
-    "tokenCode": "7364",
-    "sysURL": "https://linq.ibd.ai/linq-api-dev",
-    "clientId": "10349"
-  },
   "list-summary": [
     { "id": 1, "name": "タスクリスト", "tag": true, "length": 6 },
     { "id": 2, "name": "買うものリスト", "tag": false, "length": 3 },
