@@ -2,7 +2,8 @@
   "memo-summary": [
     { "id": 1, "name": "タスクリスト", "tag": true, "length": 6 },
     { "id": 2, "name": "買うものリスト", "tag": false, "length": 3 },
-    { "id": 3, "name": "勉強リスト", "tag": false, "length": 5 }
+    { "id": 3, "name": "勉強リスト", "tag": false, "length": 5 },
+    { "id": 4, "name": "タスクリスト2", "tag": true, "length": 6 }
   ],
   "memo-detail": {
     "id": 1,
@@ -40,5 +41,9 @@
         "complete": true
       }
     ]
+  },
+  "restatus-tag": {
+    "id": 1,
+    "tag": true
   }
 }

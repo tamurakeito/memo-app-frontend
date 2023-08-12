@@ -1,12 +1,12 @@
 import { client } from "data/axios";
-import { ListDetailType } from "types/types";
+import { MemoDetailType } from "types/types";
 
-export async function getListDetail(
+export async function getMemoDetail(
   id: number
-): Promise<ListDetailType | undefined> {
+): Promise<MemoDetailType | undefined> {
   try {
     const url = `/memo-detail/${id}`;
-    const response = await client.get<ListDetailType>(url);
+    const response = await client.get<MemoDetailType>(url);
     return response.data;
   } catch (error) {
     console.error(error);

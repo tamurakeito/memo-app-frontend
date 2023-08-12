@@ -9,6 +9,11 @@ import { log } from "console";
 import { useNaviContext } from "providers/navi-provider";
 import { useShadowContext } from "providers/shadow-provider";
 import { useMenuContext } from "providers/menu-provider";
+import { putRestatusTag } from "data/api/putRestatusTag";
+import { MemoDetailType, MemoTagType } from "types/types";
+import { getMemoSummary } from "data/api/getMemoSummary";
+import { useErrorContext } from "providers/error-provider";
+import { setToast } from "ui/molecules/toast";
 
 export const TopBar = () => {
   const setIsActiveNavi = useNaviContext().setIsActive;
@@ -27,8 +32,27 @@ export const TopBar = () => {
   };
 
   const [isTag, setIsTag] = useState(false);
-  const onClickTag = () => {
-    setIsTag(!isTag);
+  const { list, setListData } = useListContext();
+  const { setIsError } = useErrorContext();
+  const { tab } = useTabContext();
+  useEffect(() => {
+    setIsTag(list[tab].tag);
+  }, [tab]);
+  const success = async () => {
+    const response = await getMemoSummary();
+    !!response ? setListData(response) : setIsError(true);
+  };
+  const failure = () => {
+    setToast("ステータスの変更に失敗しました", false);
+  };
+  const onClickTag = async () => {
+    const data: MemoTagType = {
+      id: list[tab].id,
+      tag: list[tab].tag,
+    };
+    const response = await putRestatusTag(data);
+    console.log(response);
+    !!response ? success() : failure();
   };
 
   return (

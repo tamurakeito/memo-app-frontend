@@ -8,12 +8,12 @@ import { Text } from "ui/atoms/text";
 import { TextSizes } from "ui/atoms/text";
 import { Settings } from "react-feather";
 import { useSwipeable } from "react-swipeable";
-import { ListSummaryType } from "types/types";
+import { MemoSummaryType } from "types/types";
 import { useTabContext } from "providers/tab-provider";
 import { useNaviContext } from "providers/navi-provider";
 import { useShadowContext } from "providers/shadow-provider";
 
-export const Navigation = ({ list }: { list: Array<ListSummaryType> }) => {
+export const Navigation = ({ list }: { list: Array<MemoSummaryType> }) => {
   const isActiveNavi = useNaviContext().isActive;
   const setIsActiveNavi = useNaviContext().setIsActive;
   const setIsActiveShadow = useShadowContext().setIsActive;
@@ -94,7 +94,6 @@ const MemoList = ({ children, index }: { children: string; index: number }) => {
   const setIsActiveShadow = useShadowContext().setIsActive;
   const classes = classNames(["MemoList", index === tab && "selected"]);
   const handleClick = () => {
-    console.log(index);
     setTabIndex(index);
     setIsActiveNavi(false);
     setIsActiveShadow(false);

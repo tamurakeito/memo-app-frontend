@@ -20,7 +20,7 @@ function App() {
             <MenuContextProvider>
               <ShadowContextProvider>
                 <RouteSelector />
-                {/* <Toaster /> */}
+                <Toaster />
                 <Menu />
                 <Shadow />
               </ShadowContextProvider>

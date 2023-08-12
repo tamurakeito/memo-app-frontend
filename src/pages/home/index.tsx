@@ -5,36 +5,26 @@ import { TopBar } from "components/top-bar";
 import { Swiper } from "components/swiper";
 import { PlusButton } from "ui/molecules/plus-button";
 import { Navigation } from "components/navigation";
-import { useEffect, useState } from "react";
-import { getListSummary } from "data/api/getListSummary";
+import { useEffect } from "react";
+import { getMemoSummary } from "data/api/getMemoSummary";
 import { useListContext } from "providers/list-provider";
-import { useTabContext } from "providers/tab-provider";
 import {
   ExceptionDisplay,
   ExceptionIcons,
 } from "ui/molecules/exception-display";
-import { useNaviContext } from "providers/navi-provider";
+import { useErrorContext } from "providers/error-provider";
+import { MemoSummaryType } from "types/types";
 
 export const Home = () => {
   const { list, setListData } = useListContext();
-  const { tab } = useTabContext();
-  const [isError, setIsError] = useState(false);
+  const { isError, setIsError } = useErrorContext();
   useEffect(() => {
     (async () => {
-      const response = await getListSummary();
+      const response = await getMemoSummary();
       !!response ? setListData(response) : setIsError(true);
     })();
   }, []);
-  const setIsActiveNavi = useNaviContext().setIsActive;
-  const [isActiveMenu, setIsActiveMenu] = useState(false);
-  const [isActiveShadow, setIsActiveShadow] = useState(false);
-  const [isTag, setIsTag] = useState(false);
-  const handleClickTag = () => {
-    setIsTag(!isTag);
-  };
-  useEffect(() => {
-    list.length > 0 && setIsTag(list[tab].tag);
-  }, [tab]);
+
   return (
     <div className={"Home"}>
       {!isError ? (

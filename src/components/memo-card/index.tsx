@@ -6,14 +6,14 @@ import { Line } from "ui/atoms/line";
 import classNames from "classnames";
 import { IconButton } from "ui/molecules/icon-button";
 import { ScrollArea } from "ui/atoms/scroll-area";
-import { ListDetailType } from "types/types";
-import { getListDetail } from "data/api/getListDetail";
+import { MemoDetailType } from "types/types";
+import { getMemoDetail } from "data/api/getMemoDetail";
 
 export const MemoCard = ({ id }: { id: number }) => {
-  const [memo, setMemo] = useState<ListDetailType>();
+  const [memo, setMemo] = useState<MemoDetailType>();
   useEffect(() => {
     (async () => {
-      const response = await getListDetail(id);
+      const response = await getMemoDetail(id);
       !!response && setMemo(response);
     })();
   }, []);

@@ -1,9 +1,9 @@
 import React, { ReactNode, useContext, useState } from "react";
-import { ListSummaryType } from "types/types";
+import { MemoSummaryType } from "types/types";
 
 export type ListContext = {
-  list: Array<ListSummaryType>;
-  setListData: (List: Array<ListSummaryType>) => void;
+  list: Array<MemoSummaryType>;
+  setListData: (List: Array<MemoSummaryType>) => void;
 };
 
 const ListContext = React.createContext<ListContext>({
@@ -14,8 +14,8 @@ const ListContext = React.createContext<ListContext>({
 });
 
 export const ListContextProvider = ({ children }: { children: ReactNode }) => {
-  const [list, setList] = useState<Array<ListSummaryType>>([]);
-  const setListData = (list: Array<ListSummaryType>) => {
+  const [list, setList] = useState<Array<MemoSummaryType>>([]);
+  const setListData = (list: Array<MemoSummaryType>) => {
     setList(list);
   };
   return (

@@ -1,11 +1,11 @@
-export type ListSummaryType = {
+export type MemoSummaryType = {
   id: number;
   name: string;
   tag: boolean;
   length: number;
 };
 
-export type ListDetailType = {
+export type MemoDetailType = {
   id: number;
   name: string;
   tag: boolean;
@@ -17,3 +17,5 @@ export type TaskType = {
   name: string;
   complete: boolean;
 };
+
+export type MemoTagType = { id: number; tag: boolean };
