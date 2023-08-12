@@ -10,21 +10,19 @@ import { Settings } from "react-feather";
 import { useSwipeable } from "react-swipeable";
 import { ListSummaryType } from "types/types";
 import { useTabContext } from "providers/tab-provider";
+import { useNaviContext } from "providers/navi-provider";
+import { useShadowContext } from "providers/shadow-provider";
 
-export const Navigation = ({
-  list,
-  active,
-  swipeHandler,
-}: {
-  list: Array<ListSummaryType>;
-  active: boolean;
-  swipeHandler: () => void;
-}) => {
-  const classes = classNames(["Navigation", active && "active"]);
+export const Navigation = ({ list }: { list: Array<ListSummaryType> }) => {
+  const isActiveNavi = useNaviContext().isActive;
+  const setIsActiveNavi = useNaviContext().setIsActive;
+  const setIsActiveShadow = useShadowContext().setIsActive;
+  const classes = classNames(["Navigation", isActiveNavi && "active"]);
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
       if (event.dir === "Left") {
-        swipeHandler();
+        setIsActiveNavi(false);
+        setIsActiveShadow(false);
       }
     },
     trackMouse: true,
@@ -91,10 +89,18 @@ const MemoListBox = ({
 };
 
 const MemoList = ({ children, index }: { children: string; index: number }) => {
-  const { tab } = useTabContext();
+  const { tab, setTabIndex } = useTabContext();
+  const setIsActiveNavi = useNaviContext().setIsActive;
+  const setIsActiveShadow = useShadowContext().setIsActive;
   const classes = classNames(["MemoList", index === tab && "selected"]);
+  const handleClick = () => {
+    console.log(index);
+    setTabIndex(index);
+    setIsActiveNavi(false);
+    setIsActiveShadow(false);
+  };
   return (
-    <div className={classes}>
+    <div className={classes} onClick={handleClick}>
       <Circle className={"memo-point"} size={12} />
       <Text className={"content-text"} size={TextSizes.text1}>
         {children}

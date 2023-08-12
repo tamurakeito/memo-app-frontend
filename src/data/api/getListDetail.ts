@@ -5,7 +5,7 @@ export async function getListDetail(
   id: number
 ): Promise<ListDetailType | undefined> {
   try {
-    const url = `/list-detail/${id}`;
+    const url = `/memo-detail/${id}`;
     const response = await client.get<ListDetailType>(url);
     return response.data;
   } catch (error) {

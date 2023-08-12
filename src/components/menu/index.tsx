@@ -4,9 +4,11 @@ import { Text, TextSizes } from "ui/atoms/text";
 import { Line } from "ui/atoms/line";
 import { ReactNode } from "react";
 import { CheckCircle, Circle, Edit2, Trash2, XCircle } from "react-feather";
+import { useMenuContext } from "providers/menu-provider";
 
-export const Menu = ({ active }: { active: boolean }) => {
-  const classes = classNames(["Menu", active && "active"]);
+export const Menu = () => {
+  const { isActive } = useMenuContext();
+  const classes = classNames(["Menu", isActive && "active"]);
   return (
     <div className={classes}>
       <div className={"menu-container"}>

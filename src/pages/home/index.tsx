@@ -6,8 +6,6 @@ import { Swiper } from "components/swiper";
 import { PlusButton } from "ui/molecules/plus-button";
 import { Navigation } from "components/navigation";
 import { useEffect, useState } from "react";
-import { Shadow } from "ui/atoms/shadow";
-import { Menu } from "components/menu";
 import { getListSummary } from "data/api/getListSummary";
 import { useListContext } from "providers/list-provider";
 import { useTabContext } from "providers/tab-provider";
@@ -15,6 +13,7 @@ import {
   ExceptionDisplay,
   ExceptionIcons,
 } from "ui/molecules/exception-display";
+import { useNaviContext } from "providers/navi-provider";
 
 export const Home = () => {
   const { list, setListData } = useListContext();
@@ -26,17 +25,9 @@ export const Home = () => {
       !!response ? setListData(response) : setIsError(true);
     })();
   }, []);
-  const [isActiveNavigation, setIsActiveNavigation] = useState(false);
+  const setIsActiveNavi = useNaviContext().setIsActive;
   const [isActiveMenu, setIsActiveMenu] = useState(false);
   const [isActiveShadow, setIsActiveShadow] = useState(false);
-  const handleClickNavigation = () => {
-    setIsActiveNavigation(!isActiveNavigation);
-    setIsActiveShadow(!isActiveShadow);
-  };
-  const handleClickMenu = () => {
-    setIsActiveMenu(!isActiveMenu);
-    setIsActiveShadow(!isActiveShadow);
-  };
   const [isTag, setIsTag] = useState(false);
   const handleClickTag = () => {
     setIsTag(!isTag);
@@ -49,12 +40,7 @@ export const Home = () => {
       {!isError ? (
         list.length > 0 ? (
           <>
-            <TopBar
-              onClickHamburger={handleClickNavigation}
-              isTag={isTag}
-              onClickTag={handleClickTag}
-              onClickOption={handleClickMenu}
-            />
+            <TopBar />
             <Swiper
               pages={list.map((memo, index) => (
                 <MemoCard key={index} id={memo.id} />
@@ -74,17 +60,7 @@ export const Home = () => {
         />
       )}
       <PlusButton />
-      <Navigation
-        list={list}
-        active={isActiveNavigation}
-        swipeHandler={handleClickNavigation}
-      />
-      <Menu active={isActiveMenu} />
-      <Shadow
-        isActive={isActiveShadow}
-        onClick={isActiveNavigation ? handleClickNavigation : handleClickMenu}
-        swipeHandler={isActiveNavigation ? handleClickNavigation : () => {}}
-      />
+      <Navigation list={list} />
     </div>
   );
 };

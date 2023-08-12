@@ -5,7 +5,7 @@ export async function getListSummary(): Promise<
   Array<ListSummaryType> | undefined
 > {
   try {
-    const url = `/list-summary`;
+    const url = `/memo-summary`;
     const response = await client.get<Array<ListSummaryType>>(url);
     return response.data;
   } catch (error) {

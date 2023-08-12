@@ -1,24 +1,16 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import "./index.scss";
 import classNames from "classnames";
 import { useSwipeable } from "react-swipeable";
 import { useTabContext } from "providers/tab-provider";
 
 export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
-  const [pageIndex, setPageIndex] = useState<number>(0);
-  const { setTabIndex } = useTabContext();
-  useEffect(() => {
-    setTabIndex(0);
-  }, []);
-  const handleIndex = (index: number) => {
-    setTabIndex(index);
-    setPageIndex(index);
-  };
+  const { tab, setTabIndex } = useTabContext();
   const handleSwipeLeft = () => {
-    pageIndex > 0 && handleIndex(pageIndex - 1);
+    tab > 0 && setTabIndex(tab - 1);
   };
   const handleSwipeRight = () => {
-    pageIndex < pages.length - 1 && handleIndex(pageIndex + 1);
+    tab < pages.length - 1 && setTabIndex(tab + 1);
   };
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
@@ -34,13 +26,13 @@ export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
   return (
     <div className={"Swiper"} {...swipeHandlers}>
       {pages.map((page, index) => {
-        if (index === pageIndex - 1) {
+        if (index < tab) {
           return (
             <SwipeCard key={index} position={swipeAreaPositions.left}>
               {page}
             </SwipeCard>
           );
-        } else if (index === pageIndex) {
+        } else if (index === tab) {
           return (
             <SwipeCard
               key={index}
@@ -51,7 +43,7 @@ export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
               {page}
             </SwipeCard>
           );
-        } else if (index === pageIndex + 1) {
+        } else if (index > tab) {
           return (
             <SwipeCard key={index} position={swipeAreaPositions.right}>
               {page}
@@ -59,7 +51,7 @@ export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
           );
         }
       })}
-      <SwipeIndexDisplay pageIndex={pageIndex} length={pages.length} />
+      <SwipeIndexDisplay pageIndex={tab} length={pages.length} />
     </div>
   );
 };
