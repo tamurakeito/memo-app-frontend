@@ -41,5 +41,6 @@
       }
     ]
   },
-  "restatus-task": {}
+  "restatus-task": {},
+  "delete-task": {}
 }

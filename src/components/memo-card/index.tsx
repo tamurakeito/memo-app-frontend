@@ -11,6 +11,7 @@ import { getListDetail } from "data/api/getListDetail";
 import { putRestatusTask } from "data/api/putRestatusTask";
 import { useListContext } from "providers/list-provider";
 import { getListSummary } from "data/api/getListSummary";
+import { deleteTask } from "data/api/deleteTask";
 
 export const MemoCard = ({ id }: { id: number }) => {
   const [memo, setMemo] = useState<ListDetailType>();
@@ -115,7 +116,7 @@ const ListBlock = ({
   name: string;
   complete: boolean;
 }) => {
-  const data: TaskType = { id: id, name: name, complete: complete };
+  const data: TaskType = { id: id, name: name, complete: true };
   const { list, setListData } = useListContext();
   const success = async () => {
     const response = await getListSummary();
@@ -125,8 +126,12 @@ const ListBlock = ({
   const failure = () => {
     // setToast("ステータス変更に失敗しました", false);
   };
-  const handleClick = async () => {
+  const handleClickCheck = async () => {
     const response = await putRestatusTask(data);
+    !!response ? success() : failure();
+  };
+  const handleClickDelete = async () => {
+    const response = await deleteTask(id);
     !!response ? success() : failure();
   };
   return (
@@ -146,13 +151,13 @@ const ListBlock = ({
         <IconButton
           className={"complete-icon"}
           defaultIcon={<Check size={18} />}
-          onClick={handleClick}
+          onClick={handleClickCheck}
         />
       ) : (
         <IconButton
           className={"delete-icon"}
           defaultIcon={<X size={18} />}
-          onClick={() => {}}
+          onClick={handleClickDelete}
         />
       )}
     </div>
