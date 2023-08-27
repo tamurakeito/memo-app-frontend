@@ -12,15 +12,19 @@ import { putRestatusTask } from "data/api/putRestatusTask";
 import { useListContext } from "providers/list-provider";
 import { getListSummary } from "data/api/getListSummary";
 import { deleteTask } from "data/api/deleteTask";
+import { log } from "console";
 
 export const MemoCard = ({ id }: { id: number }) => {
   const [memo, setMemo] = useState<ListDetailType>();
   useEffect(() => {
-    (async () => {
-      const response = await getListDetail(id);
-      !!response && setMemo(response);
-    })();
+    handleMemoLoad();
   }, []);
+
+  const handleMemoLoad = async () => {
+    const response = await getListDetail(id);
+    !!response && setMemo(response);
+  };
+
   return (
     <ScrollArea className={"MemoCard"}>
       <Line top={0} />
@@ -36,6 +40,7 @@ export const MemoCard = ({ id }: { id: number }) => {
                     id={task.id}
                     name={task.name}
                     complete={false}
+                    handleReload={handleMemoLoad}
                   />
                 )
             )}
@@ -52,6 +57,7 @@ export const MemoCard = ({ id }: { id: number }) => {
                         id={task.id}
                         name={task.name}
                         complete={true}
+                        handleReload={handleMemoLoad}
                       />
                     )
                 )}
@@ -111,28 +117,28 @@ const ListBlock = ({
   id,
   name,
   complete,
+  handleReload,
 }: {
   id: number;
   name: string;
   complete: boolean;
+  handleReload: () => void;
 }) => {
   const data: TaskType = { id: id, name: name, complete: true };
-  const { list, setListData } = useListContext();
+  // const { list, setListData } = useListContext();
   const success = async () => {
-    const response = await getListSummary();
-    !!response && setListData(response);
-    // : setToast("データの取得に失敗しました", false);
+    console.log("success");
   };
   const failure = () => {
     // setToast("ステータス変更に失敗しました", false);
   };
   const handleClickCheck = async () => {
     const response = await putRestatusTask(data);
-    !!response ? success() : failure();
+    !!response ? handleReload() : failure();
   };
   const handleClickDelete = async () => {
     const response = await deleteTask(id);
-    !!response ? success() : failure();
+    !!response ? handleReload() : failure();
   };
   return (
     <div className={"ListBlock"}>
