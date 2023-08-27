@@ -13,6 +13,10 @@ import { useListContext } from "providers/list-provider";
 import { getListSummary } from "data/api/getListSummary";
 import { deleteTask } from "data/api/deleteTask";
 import { log } from "console";
+import {
+  ExceptionDisplay,
+  ExceptionIcons,
+} from "ui/molecules/exception-display";
 
 export const MemoCard = ({ id }: { id: number }) => {
   const [memo, setMemo] = useState<ListDetailType>();
@@ -23,6 +27,10 @@ export const MemoCard = ({ id }: { id: number }) => {
   const handleMemoLoad = async () => {
     const response = await getListDetail(id);
     !!response && setMemo(response);
+    response?.tasks?.length === 0 &&
+      (() => {
+        // メモを削除する処理を記述
+      })();
   };
 
   return (
@@ -30,43 +38,51 @@ export const MemoCard = ({ id }: { id: number }) => {
       <Line top={0} />
       {!!memo ? (
         <div className={"memo-card"}>
-          <InCompleteContainer>
-            <TitleBlock>{memo.name}</TitleBlock>
-            {memo.tasks.map(
-              (task, index) =>
-                !task.complete && (
-                  <ListBlock
-                    key={index}
-                    id={task.id}
-                    name={task.name}
-                    complete={false}
-                    handleReload={handleMemoLoad}
-                  />
-                )
-            )}
-          </InCompleteContainer>
-          {memo.tasks.filter((task) => task.complete === true).length > 0 && (
+          <TitleBlock>{memo.name}</TitleBlock>
+          {!!memo.tasks && (
             <>
-              <Line />
-              <CompleteContainer>
+              <InCompleteContainer>
                 {memo.tasks.map(
                   (task, index) =>
-                    task.complete && (
+                    !task.complete && (
                       <ListBlock
                         key={index}
                         id={task.id}
                         name={task.name}
-                        complete={true}
+                        complete={false}
                         handleReload={handleMemoLoad}
                       />
                     )
                 )}
-              </CompleteContainer>
+              </InCompleteContainer>
+              {memo.tasks.filter((task) => task.complete === true).length >
+                0 && (
+                <>
+                  <Line />
+                  <CompleteContainer>
+                    {memo.tasks.map(
+                      (task, index) =>
+                        task.complete && (
+                          <ListBlock
+                            key={index}
+                            id={task.id}
+                            name={task.name}
+                            complete={true}
+                            handleReload={handleMemoLoad}
+                          />
+                        )
+                    )}
+                  </CompleteContainer>
+                </>
+              )}
             </>
           )}
         </div>
       ) : (
-        <div>エラー</div>
+        <ExceptionDisplay
+          value="データの取得に失敗しました"
+          icon={ExceptionIcons.fail}
+        />
       )}
     </ScrollArea>
   );

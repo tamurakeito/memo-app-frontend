@@ -18,7 +18,7 @@
       background: var.$WHITE000;
       z-index: 10;
       margin: {
-        top: 25px;
+        // top: 25px;
         left: 16px;
         right: 16px;
         bottom: 22px;
@@ -78,6 +78,9 @@
       height: 24px;
       position: relative;
       margin: {
+        top: 25px;
+        left: 16px;
+        right: 16px;
         bottom: 15px;
       }
       svg {

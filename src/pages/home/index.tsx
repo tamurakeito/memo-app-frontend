@@ -13,7 +13,6 @@ import {
   ExceptionDisplay,
   ExceptionIcons,
 } from "ui/molecules/exception-display";
-import { useNaviContext } from "providers/navi-provider";
 
 export const Home = () => {
   const { list, setListData } = useListContext();
@@ -25,16 +24,6 @@ export const Home = () => {
       !!response ? setListData(response) : setIsError(true);
     })();
   }, []);
-  const setIsActiveNavi = useNaviContext().setIsActive;
-  const [isActiveMenu, setIsActiveMenu] = useState(false);
-  const [isActiveShadow, setIsActiveShadow] = useState(false);
-  const [isTag, setIsTag] = useState(false);
-  const handleClickTag = () => {
-    setIsTag(!isTag);
-  };
-  useEffect(() => {
-    list.length > 0 && setIsTag(list[tab].tag);
-  }, [tab]);
   return (
     <div className={"Home"}>
       {!isError ? (
@@ -60,7 +49,7 @@ export const Home = () => {
         />
       )}
       <PlusButton />
-      <Navigation list={list} />
+      <Navigation />
     </div>
   );
 };
