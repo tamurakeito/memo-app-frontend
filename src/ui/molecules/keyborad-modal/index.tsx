@@ -55,7 +55,7 @@ export const KeyboardModal = ({
     <>
       {isActive && (
         <div
-          className="Modal"
+          className="KeyboardModal"
           onTouchStart={handleStart}
           onTouchMove={handleMove}
           onTouchEnd={handleEnd}

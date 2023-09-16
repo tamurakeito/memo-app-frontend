@@ -18,7 +18,7 @@
       background: var.$WHITE000;
       z-index: 10;
       margin: {
-        top: 25px;
+        // top: 25px;
         left: 16px;
         right: 16px;
         bottom: 22px;
@@ -80,7 +80,10 @@
       height: 24px;
       position: relative;
       margin: {
-        bottom: 8px;
+        top: 25px;
+        left: 16px;
+        right: 16px;
+        bottom: 15px;
       }
       svg {
         position: absolute;
@@ -115,6 +118,12 @@
         position: absolute;
         top: 7px;
         left: 36px;
+      }
+      .complete-icon {
+        position: absolute;
+        top: 0;
+        right: 3px;
+        color: var.$GRAY400;
       }
       .delete-icon {
         position: absolute;

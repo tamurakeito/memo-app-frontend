@@ -45,5 +45,7 @@
   "restatus-tag": {
     "id": 1,
     "tag": true
-  }
+  },
+  "restatus-task": {},
+  "delete-task": {}
 }

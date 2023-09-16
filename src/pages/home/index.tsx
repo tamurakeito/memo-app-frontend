@@ -13,9 +13,7 @@ import {
   ExceptionIcons,
 } from "ui/molecules/exception-display";
 import { useErrorContext } from "providers/error-provider";
-import { MemoSummaryType } from "types/types";
 import { Menu } from "components/menu";
-import { Modal } from "ui/molecules/modal";
 import { AddModal } from "components/add-modal";
 
 export const Home = () => {
@@ -54,7 +52,7 @@ export const Home = () => {
         />
       )}
       <PlusButton onClick={() => setIsCreate(true)} />
-      <Navigation list={list} />
+      <Navigation />
       <Menu />
       <AddModal isActive={isCreate} setIsActive={setIsCreate} />
     </div>

@@ -7,52 +7,81 @@ import classNames from "classnames";
 import { IconButton } from "ui/molecules/icon-button";
 import { ScrollArea } from "ui/atoms/scroll-area";
 import { MemoDetailType } from "types/types";
-import { getMemoDetail } from "data/api/getMemoDetail";
 import { Input } from "ui/atoms/input";
+import { TaskType } from "types/types";
+import { putRestatusTask } from "data/api/putRestatusTask";
+import { deleteTask } from "data/api/deleteTask";
+import {
+  ExceptionDisplay,
+  ExceptionIcons,
+} from "ui/molecules/exception-display";
+import { getMemoDetail } from "data/api/getMemoDetail";
 
 export const MemoCard = ({ id }: { id: number }) => {
   const [memo, setMemo] = useState<MemoDetailType>();
   useEffect(() => {
-    (async () => {
-      const response = await getMemoDetail(id);
-      !!response && setMemo(response);
-    })();
+    handleMemoLoad();
   }, []);
+
+  const handleMemoLoad = async () => {
+    const response = await getMemoDetail(id);
+    !!response && setMemo(response);
+    response?.tasks?.length === 0 &&
+      (() => {
+        // メモを削除する処理を記述
+      })();
+  };
+
   return (
     <ScrollArea className={"MemoCard"}>
       <Line top={0} />
       {!!memo ? (
         <div className={"memo-card"}>
-          <InCompleteContainer>
-            <TitleBlock>{memo.name}</TitleBlock>
-            {/* {isCreate && <ListBlockCreated />} */}
-            {memo.tasks.map(
-              (task, index) =>
-                !task.complete && (
-                  <ListBlock key={index} isComplete={false}>
-                    {task.name}
-                  </ListBlock>
-                )
-            )}
-          </InCompleteContainer>
-          {memo.tasks.filter((task) => task.complete === true).length > 0 && (
+          <TitleBlock>{memo.name}</TitleBlock>
+          {!!memo.tasks && (
             <>
-              <Line />
-              <CompleteContainer>
+              <InCompleteContainer>
                 {memo.tasks.map(
                   (task, index) =>
-                    task.complete && (
-                      <ListBlock key={index} isComplete={true}>
-                        {task.name}
-                      </ListBlock>
+                    !task.complete && (
+                      <ListBlock
+                        key={index}
+                        id={task.id}
+                        name={task.name}
+                        complete={false}
+                        handleReload={handleMemoLoad}
+                      />
                     )
                 )}
-              </CompleteContainer>
+              </InCompleteContainer>
+              {memo.tasks.filter((task) => task.complete === true).length >
+                0 && (
+                <>
+                  <Line />
+                  <CompleteContainer>
+                    {memo.tasks.map(
+                      (task, index) =>
+                        task.complete && (
+                          <ListBlock
+                            key={index}
+                            id={task.id}
+                            name={task.name}
+                            complete={true}
+                            handleReload={handleMemoLoad}
+                          />
+                        )
+                    )}
+                  </CompleteContainer>
+                </>
+              )}
             </>
           )}
         </div>
       ) : (
-        <div>エラー</div>
+        <ExceptionDisplay
+          value="データの取得に失敗しました"
+          icon={ExceptionIcons.fail}
+        />
       )}
     </ScrollArea>
   );
@@ -100,30 +129,56 @@ const TitleBlock = ({ children }: { children: ReactNode }) => {
 };
 
 const ListBlock = ({
-  children,
-  isComplete,
+  id,
+  name,
+  complete,
+  handleReload,
 }: {
-  children: ReactNode;
-  isComplete: boolean;
+  id: number;
+  name: string;
+  complete: boolean;
+  handleReload: () => void;
 }) => {
+  const data: TaskType = { id: id, name: name, complete: true };
+  // const { list, setListData } = useListContext();
+  const success = async () => {
+    console.log("success");
+  };
+  const failure = () => {
+    // setToast("ステータス変更に失敗しました", false);
+  };
+  const handleClickCheck = async () => {
+    const response = await putRestatusTask(data);
+    !!response ? handleReload() : failure();
+  };
+  const handleClickDelete = async () => {
+    const response = await deleteTask(id);
+    !!response ? handleReload() : failure();
+  };
   return (
     <div className={"ListBlock"}>
-      {!isComplete ? (
+      {!complete ? (
         <Circle className={"point-icon"} size={16} />
       ) : (
         <Check className={"point-icon complete"} size={16} />
       )}
       <Text
-        size={!isComplete ? TextSizes.text1 : TextSizes.text2}
+        size={!complete ? TextSizes.text1 : TextSizes.text2}
         className={"block-content"}
       >
-        {children}
+        {name}
       </Text>
-      {isComplete && (
+      {!complete ? (
+        <IconButton
+          className={"complete-icon"}
+          defaultIcon={<Check size={18} />}
+          onClick={handleClickCheck}
+        />
+      ) : (
         <IconButton
           className={"delete-icon"}
           defaultIcon={<X size={18} />}
-          onClick={() => {}}
+          onClick={handleClickDelete}
         />
       )}
     </div>

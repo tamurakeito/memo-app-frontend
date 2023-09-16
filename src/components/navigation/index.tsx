@@ -1,6 +1,6 @@
 import "./index.scss";
 import classNames from "classnames";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Circle, Plus, Tag } from "react-feather";
 import { Line } from "ui/atoms/line";
 import { ScrollArea } from "ui/atoms/scroll-area";
@@ -8,14 +8,17 @@ import { Text } from "ui/atoms/text";
 import { TextSizes } from "ui/atoms/text";
 import { Settings } from "react-feather";
 import { useSwipeable } from "react-swipeable";
-import { MemoSummaryType } from "types/types";
 import { useTabContext } from "providers/tab-provider";
 import { useNaviContext } from "providers/navi-provider";
 import { Shadow } from "ui/atoms/shadow";
+import { useListContext } from "providers/list-provider";
+import { getMemoSummary } from "data/api/getMemoSummary";
 
-export const Navigation = ({ list }: { list: Array<MemoSummaryType> }) => {
+export const Navigation = () => {
   const { isActive, setIsActive } = useNaviContext();
   const classes = classNames(["Navigation", isActive && "active"]);
+  const { list, setListData } = useListContext();
+  const isActiveNavi = useNaviContext().isActive;
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
       if (event.dir === "Left") {
@@ -23,6 +26,18 @@ export const Navigation = ({ list }: { list: Array<MemoSummaryType> }) => {
       }
     },
     trackMouse: true,
+  });
+
+  useEffect(() => {
+    isActiveNavi &&
+      (async () => {
+        const response = await getMemoSummary();
+        !!response
+          ? setListData(response)
+          : (() => {
+              // setToast("ステータス変更に失敗しました", false);
+            })();
+      })();
   });
   return (
     <>
@@ -33,7 +48,7 @@ export const Navigation = ({ list }: { list: Array<MemoSummaryType> }) => {
             {list.map(
               (memo, index) =>
                 memo.tag && (
-                  <MemoList key={index} index={index}>
+                  <MemoList key={index} index={index} length={memo.length}>
                     {memo.name}
                   </MemoList>
                 )
@@ -43,7 +58,7 @@ export const Navigation = ({ list }: { list: Array<MemoSummaryType> }) => {
             {list.map(
               (memo, index) =>
                 !memo.tag && (
-                  <MemoList key={index} index={index}>
+                  <MemoList key={index} index={index} length={memo.length}>
                     {memo.name}
                   </MemoList>
                 )
@@ -94,7 +109,15 @@ const MemoListBox = ({
   );
 };
 
-const MemoList = ({ children, index }: { children: string; index: number }) => {
+const MemoList = ({
+  children,
+  index,
+  length,
+}: {
+  children: string;
+  index: number;
+  length: number;
+}) => {
   const { tab, setTabIndex } = useTabContext();
   const setIsActiveNavi = useNaviContext().setIsActive;
   const classes = classNames(["MemoList", index === tab && "selected"]);
@@ -109,7 +132,7 @@ const MemoList = ({ children, index }: { children: string; index: number }) => {
         {children}
       </Text>
       <Text className={"memo-size"} size={TextSizes.text2}>
-        {index}
+        {length}
       </Text>
     </div>
   );
