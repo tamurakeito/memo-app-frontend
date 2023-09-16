@@ -1,7 +1,7 @@
 import { Button } from "ui/atoms/button";
 import "./index.scss";
 
-export const PlusButton = () => {
+export const PlusButton = ({ onClick }: { onClick: () => void }) => {
   const PlusMark = () => {
     return (
       <div className="PlusMark">
@@ -11,7 +11,7 @@ export const PlusButton = () => {
     );
   };
   return (
-    <Button className={"PlusButton"} onClick={() => {}}>
+    <Button className={"PlusButton"} onClick={onClick}>
       <PlusMark />
     </Button>
   );

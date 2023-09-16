@@ -8,6 +8,7 @@ import { IconButton } from "ui/molecules/icon-button";
 import { ScrollArea } from "ui/atoms/scroll-area";
 import { MemoDetailType } from "types/types";
 import { getMemoDetail } from "data/api/getMemoDetail";
+import { Input } from "ui/atoms/input";
 
 export const MemoCard = ({ id }: { id: number }) => {
   const [memo, setMemo] = useState<MemoDetailType>();
@@ -24,6 +25,7 @@ export const MemoCard = ({ id }: { id: number }) => {
         <div className={"memo-card"}>
           <InCompleteContainer>
             <TitleBlock>{memo.name}</TitleBlock>
+            {/* {isCreate && <ListBlockCreated />} */}
             {memo.tasks.map(
               (task, index) =>
                 !task.complete && (
@@ -124,6 +126,25 @@ const ListBlock = ({
           onClick={() => {}}
         />
       )}
+    </div>
+  );
+};
+
+const ListBlockCreated = () => {
+  const [content, setContent] = useState("");
+  return (
+    <div className={"ListBlock created"}>
+      <Circle className={"point-icon"} size={16} />
+      {/* <Text size={TextSizes.text1} className={"block-content"}>
+        新規ブロック
+      </Text> */}
+      <Input
+        className={["input-area", "block-content"]}
+        type={"text"}
+        value={content}
+        placeholder={"新規メモ"}
+        onChange={setContent}
+      />
     </div>
   );
 };

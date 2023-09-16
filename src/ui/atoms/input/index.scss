@@ -1,0 +1,8 @@
+@use "assets/scss/config/variables" as var;
+
+input {
+  outline: none;
+  &::placeholder {
+    color: var.$GRAY400;
+  }
+}

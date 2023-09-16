@@ -5,36 +5,46 @@ import { Line } from "ui/atoms/line";
 import { ReactNode } from "react";
 import { CheckCircle, Circle, Edit2, Trash2, XCircle } from "react-feather";
 import { useMenuContext } from "providers/menu-provider";
+import { Shadow } from "ui/atoms/shadow";
 
 export const Menu = () => {
-  const { isActive } = useMenuContext();
+  const { isActive, setIsActive } = useMenuContext();
   const classes = classNames(["Menu", isActive && "active"]);
   return (
-    <div className={classes}>
-      <div className={"menu-container"}>
-        <Text className={"title"} size={TextSizes.text3}>
-          リスト
-        </Text>
-        <MenuList icon={<Edit2 className={"menu-icon"} size={14} />}>
-          リストを編集
-        </MenuList>
-        <MenuList icon={<Trash2 className={"menu-icon"} size={14} />}>
-          リストを削除
-        </MenuList>
-        <div className={"menu-line"}>
-          <Line />
+    <>
+      <div className={classes}>
+        <div className={"menu-container"}>
+          <Text className={"title"} size={TextSizes.text3}>
+            リスト
+          </Text>
+          <MenuList icon={<Edit2 className={"menu-icon"} size={14} />}>
+            リストを編集
+          </MenuList>
+          <MenuList icon={<Trash2 className={"menu-icon"} size={14} />}>
+            リストを削除
+          </MenuList>
+          <div className={"menu-line"}>
+            <Line />
+          </div>
+          <MenuList icon={<Circle className={"menu-icon"} size={14} />}>
+            全てを未完了に
+          </MenuList>
+          <MenuList icon={<CheckCircle className={"menu-icon"} size={14} />}>
+            全てを完了済に
+          </MenuList>
+          <MenuList icon={<XCircle className={"menu-icon"} size={14} />}>
+            完了済を削除
+          </MenuList>
         </div>
-        <MenuList icon={<Circle className={"menu-icon"} size={14} />}>
-          全てを未完了に
-        </MenuList>
-        <MenuList icon={<CheckCircle className={"menu-icon"} size={14} />}>
-          全てを完了済に
-        </MenuList>
-        <MenuList icon={<XCircle className={"menu-icon"} size={14} />}>
-          完了済を削除
-        </MenuList>
       </div>
-    </div>
+      <Shadow
+        isActive={isActive}
+        handleClick={() => {
+          setIsActive(false);
+        }}
+        isSwipe={false}
+      />
+    </>
   );
 };
 

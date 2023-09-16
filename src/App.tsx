@@ -6,10 +6,8 @@ import "assets/scss/index.scss";
 import { TabContextProvider } from "providers/tab-provider";
 import { ListContextProvider } from "providers/list-provider";
 import { NaviContextProvider } from "providers/navi-provider";
-import { ShadowContextProvider } from "providers/shadow-provider";
 import { MenuContextProvider } from "providers/menu-provider";
 import { Menu } from "components/menu";
-import { Shadow } from "ui/atoms/shadow";
 
 function App() {
   return (
@@ -18,12 +16,8 @@ function App() {
         <TabContextProvider>
           <NaviContextProvider>
             <MenuContextProvider>
-              <ShadowContextProvider>
-                <RouteSelector />
-                <Toaster />
-                <Menu />
-                <Shadow />
-              </ShadowContextProvider>
+              <RouteSelector />
+              <Toaster />
             </MenuContextProvider>
           </NaviContextProvider>
         </TabContextProvider>

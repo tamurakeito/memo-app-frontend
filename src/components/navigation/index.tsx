@@ -11,50 +11,56 @@ import { useSwipeable } from "react-swipeable";
 import { MemoSummaryType } from "types/types";
 import { useTabContext } from "providers/tab-provider";
 import { useNaviContext } from "providers/navi-provider";
-import { useShadowContext } from "providers/shadow-provider";
+import { Shadow } from "ui/atoms/shadow";
 
 export const Navigation = ({ list }: { list: Array<MemoSummaryType> }) => {
-  const isActiveNavi = useNaviContext().isActive;
-  const setIsActiveNavi = useNaviContext().setIsActive;
-  const setIsActiveShadow = useShadowContext().setIsActive;
-  const classes = classNames(["Navigation", isActiveNavi && "active"]);
+  const { isActive, setIsActive } = useNaviContext();
+  const classes = classNames(["Navigation", isActive && "active"]);
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
       if (event.dir === "Left") {
-        setIsActiveNavi(false);
-        setIsActiveShadow(false);
+        setIsActive(false);
       }
     },
     trackMouse: true,
   });
   return (
-    <div className={classes} {...swipeHandlers}>
-      <Line top={88} />
-      <ScrollArea className={"memo-box-container"}>
-        <MemoListBox isTagged={true}>
-          {list.map(
-            (memo, index) =>
-              memo.tag && (
-                <MemoList key={index} index={index}>
-                  {memo.name}
-                </MemoList>
-              )
-          )}
-        </MemoListBox>
-        <MemoListBox isTagged={false}>
-          {list.map(
-            (memo, index) =>
-              !memo.tag && (
-                <MemoList key={index} index={index}>
-                  {memo.name}
-                </MemoList>
-              )
-          )}
-        </MemoListBox>
-      </ScrollArea>
-      <Line bottom={137} />
-      <Settings className={"icon-setting"} size={16} />
-    </div>
+    <>
+      <div className={classes} {...swipeHandlers}>
+        <Line top={88} />
+        <ScrollArea className={"memo-box-container"}>
+          <MemoListBox isTagged={true}>
+            {list.map(
+              (memo, index) =>
+                memo.tag && (
+                  <MemoList key={index} index={index}>
+                    {memo.name}
+                  </MemoList>
+                )
+            )}
+          </MemoListBox>
+          <MemoListBox isTagged={false}>
+            {list.map(
+              (memo, index) =>
+                !memo.tag && (
+                  <MemoList key={index} index={index}>
+                    {memo.name}
+                  </MemoList>
+                )
+            )}
+          </MemoListBox>
+        </ScrollArea>
+        <Line bottom={137} />
+        <Settings className={"icon-setting"} size={16} />
+      </div>
+      <Shadow
+        isActive={isActive}
+        handleClick={() => {
+          setIsActive(false);
+        }}
+        isSwipe={true}
+      />
+    </>
   );
 };
 
@@ -91,12 +97,10 @@ const MemoListBox = ({
 const MemoList = ({ children, index }: { children: string; index: number }) => {
   const { tab, setTabIndex } = useTabContext();
   const setIsActiveNavi = useNaviContext().setIsActive;
-  const setIsActiveShadow = useShadowContext().setIsActive;
   const classes = classNames(["MemoList", index === tab && "selected"]);
   const handleClick = () => {
     setTabIndex(index);
     setIsActiveNavi(false);
-    setIsActiveShadow(false);
   };
   return (
     <div className={classes} onClick={handleClick}>

@@ -5,7 +5,7 @@ import { TopBar } from "components/top-bar";
 import { Swiper } from "components/swiper";
 import { PlusButton } from "ui/molecules/plus-button";
 import { Navigation } from "components/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getMemoSummary } from "data/api/getMemoSummary";
 import { useListContext } from "providers/list-provider";
 import {
@@ -14,10 +14,14 @@ import {
 } from "ui/molecules/exception-display";
 import { useErrorContext } from "providers/error-provider";
 import { MemoSummaryType } from "types/types";
+import { Menu } from "components/menu";
+import { Modal } from "ui/molecules/modal";
+import { AddModal } from "components/add-modal";
 
 export const Home = () => {
   const { list, setListData } = useListContext();
   const { isError, setIsError } = useErrorContext();
+  const [isCreate, setIsCreate] = useState(false);
   useEffect(() => {
     (async () => {
       const response = await getMemoSummary();
@@ -49,8 +53,10 @@ export const Home = () => {
           icon={ExceptionIcons.fail}
         />
       )}
-      <PlusButton />
+      <PlusButton onClick={() => setIsCreate(true)} />
       <Navigation list={list} />
+      <Menu />
+      <AddModal isActive={isCreate} setIsActive={setIsCreate} />
     </div>
   );
 };

@@ -7,7 +7,6 @@ import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { log } from "console";
 import { useNaviContext } from "providers/navi-provider";
-import { useShadowContext } from "providers/shadow-provider";
 import { useMenuContext } from "providers/menu-provider";
 import { putRestatusTag } from "data/api/putRestatusTag";
 import { MemoDetailType, MemoTagType } from "types/types";
@@ -18,17 +17,15 @@ import { setToast } from "ui/molecules/toast";
 export const TopBar = () => {
   const setIsActiveNavi = useNaviContext().setIsActive;
   const setIsActiveMenu = useMenuContext().setIsActive;
-  const setIsActiveShadow = useShadowContext().setIsActive;
-  const { setIsSwipe } = useShadowContext();
   const onClickHamburger = () => {
     setIsActiveNavi(true);
-    setIsActiveShadow(true);
-    setIsSwipe(true);
+    // setIsActiveShadow(true);
+    // setIsSwipe(true);
   };
   const onClickOption = () => {
     setIsActiveMenu(true);
-    setIsActiveShadow(true);
-    setIsSwipe(true);
+    // setIsActiveShadow(true);
+    // setIsSwipe(true);
   };
 
   const [isTag, setIsTag] = useState(false);
