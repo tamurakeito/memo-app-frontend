@@ -73,7 +73,7 @@ export const HeaderModal = ({
               transition: `${transition}s`,
             }}
           >
-            {children}
+            <div className="header-modal-content">{children}</div>
           </div>
         </div>
       )}

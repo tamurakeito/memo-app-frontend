@@ -6,7 +6,10 @@
   z-index: 100;
   width: 100%;
   .modal-scroll {
-    height: 50px;
+    padding: {
+      top: calc(15px + env(safe-area-inset-top));
+      bottom: 15px;
+    }
     background: var.$WHITE000;
     border-radius: 0 0 10px 10px;
   }

@@ -42,7 +42,7 @@ export const Navigation = () => {
   return (
     <>
       <div className={classes} {...swipeHandlers}>
-        <Line top={88} />
+        {/* <Line top={88} /> */}
         <ScrollArea className={"memo-box-container"}>
           <MemoListBox isTagged={true}>
             {list.map(

@@ -2,7 +2,7 @@
 
 .Swiper {
   position: fixed;
-  top: 95px;
+  top: calc(47px + env(safe-area-inset-top));
   width: 100vw;
   height: calc(100vh - 95px);
   .SwipeCard {
@@ -54,7 +54,7 @@
   }
   .SwipeIndexDisplay {
     position: absolute;
-    bottom: 30px;
+    bottom: env(safe-area-inset-bottom);
     width: 100%;
     display: flex;
     justify-content: center;

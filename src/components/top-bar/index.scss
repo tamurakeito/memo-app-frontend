@@ -5,11 +5,9 @@
   top: 0;
   left: 0;
   width: 100vw;
-  height: 95px;
-  // border-bottom: 0.5px solid var.$GRAY300;
   .IconButton {
     position: absolute;
-    top: 65px;
+    top: calc(17px + env(safe-area-inset-top));
     &.HamburgerIconButton {
       left: 16px;
     }

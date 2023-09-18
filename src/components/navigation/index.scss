@@ -14,7 +14,7 @@
   }
   .memo-box-container {
     position: absolute;
-    top: 88px;
+    top: calc(20px + env(safe-area-inset-top));
     height: calc(100vh - 225px);
   }
   .icon-setting {
