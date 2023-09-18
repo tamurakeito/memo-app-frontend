@@ -1,14 +1,13 @@
 @use "assets/scss/config/variables" as var;
 
-.KeyboardModal {
+.HeaderModal {
   position: fixed;
-  bottom: 0;
+  top: 0;
   z-index: 100;
   width: 100%;
   .modal-scroll {
-    height: 100vh;
+    height: 50px;
     background: var.$WHITE000;
-    border-radius: 10px 10px 0 0;
-    box-shadow: 0px 0px 10px var.$GRAY300;
+    border-radius: 0 0 10px 10px;
   }
 }

@@ -15,17 +15,20 @@ export const KeyboardModal = ({
 }) => {
   const [isShadowActive, setIsShadowActive] = useState(isActive);
   const classes = classNames(["modal-scroll", isActive && "active"]);
-  const modalHeight = window.innerHeight - 20;
+  const windowHeight = window.innerHeight;
+  const modalHeight = visualViewport
+    ? windowHeight - visualViewport.height + 50
+    : 50;
 
   const [initialPosition, setInitialPosition] = useState(0);
-  const [bottomPosition, setBottomPosition] = useState(modalHeight);
+  const [bottomPosition, setBottomPosition] = useState(windowHeight);
   const [transition, setTransition] = useState(0.2);
 
   useEffect(() => {
     isActive &&
       (() => {
         setIsShadowActive(true);
-        setBottomPosition(0);
+        setBottomPosition(windowHeight - modalHeight);
       })();
   }, [isActive]);
 
@@ -35,37 +38,41 @@ export const KeyboardModal = ({
   };
   const handleMove = (event: React.TouchEvent<HTMLDivElement>) => {
     initialPosition < event.changedTouches[0].clientY &&
-      setBottomPosition(event.changedTouches[0].clientY - initialPosition);
+      setBottomPosition(
+        windowHeight -
+          modalHeight +
+          event.changedTouches[0].clientY -
+          initialPosition
+      );
+  };
+  const modalSlideOut = async () => {
+    setBottomPosition(windowHeight);
+    setIsShadowActive(false);
+    setTimeout(() => {
+      setIsActive(false);
+    }, 200);
   };
   const handleEnd = () => {
     setTransition(0.2);
     setInitialPosition(0);
-    (modalHeight - 20) / 3 > bottomPosition
-      ? setBottomPosition(0)
-      : (async () => {
-          setBottomPosition(modalHeight);
-          setIsShadowActive(false);
-          setTimeout(() => {
-            setIsActive(false);
-          }, 200);
-        })();
+    modalHeight / 3 > bottomPosition - windowHeight + modalHeight
+      ? setBottomPosition(windowHeight - modalHeight)
+      : modalSlideOut();
   };
 
   return (
     <>
       {isActive && (
-        <div
-          className="KeyboardModal"
-          onTouchStart={handleStart}
-          onTouchMove={handleMove}
-          onTouchEnd={handleEnd}
-        >
+        <div className="KeyboardModal" onClick={modalSlideOut}>
           <div
             className={classes}
             style={{
               transform: `translateY(${bottomPosition}px)`,
               transition: `${transition}s`,
             }}
+            onTouchStart={handleStart}
+            onTouchMove={handleMove}
+            onTouchEnd={handleEnd}
           >
             {children}
           </div>

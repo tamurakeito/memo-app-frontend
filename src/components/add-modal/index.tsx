@@ -1,5 +1,5 @@
+import { HeaderModal } from "ui/molecules/header-modal";
 import "./index.scss";
-import { KeyboardModal } from "ui/molecules/keyborad-modal";
 
 export const AddModal = ({
   isActive,
@@ -9,8 +9,10 @@ export const AddModal = ({
   setIsActive: (isActive: boolean) => void;
 }) => {
   return (
-    <KeyboardModal isActive={isActive} setIsActive={setIsActive}>
-      <div className={"AddModal"}></div>
-    </KeyboardModal>
+    <HeaderModal isActive={isActive} setIsActive={setIsActive}>
+      <div className={"AddModal"}>
+        <input type="text" autoFocus={true} onBlur={() => setIsActive(false)} />
+      </div>
+    </HeaderModal>
   );
 };
