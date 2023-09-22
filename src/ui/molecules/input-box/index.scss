@@ -1,0 +1,35 @@
+@use "assets/scss/config/variables" as var;
+
+.InputBox {
+  display: flex;
+  .input-icon {
+    width: 20px;
+    height: 20px;
+    margin: {
+      right: 10px;
+    }
+    padding: {
+      top: 1px;
+    }
+    svg {
+      color: var.$GRAY600;
+    }
+  }
+  .input-input {
+    font-size: 15px;
+    width: 100%;
+  }
+  .input-button {
+    width: 20px;
+    height: 20px;
+    margin: {
+      right: 10px;
+    }
+    padding: {
+      top: 1px;
+    }
+    svg {
+      color: var.$GRAY600;
+    }
+  }
+}
