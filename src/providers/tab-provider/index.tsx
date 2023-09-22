@@ -1,8 +1,8 @@
 import React, { ReactNode, useContext, useState } from "react";
 
 export type TabContext = {
-  tab: number;
-  setTabIndex: (tab: number) => void;
+  tab: number | undefined;
+  setTabIndex: (tab: number | undefined) => void;
 };
 
 const TabContext = React.createContext<TabContext>({
@@ -13,8 +13,8 @@ const TabContext = React.createContext<TabContext>({
 });
 
 export const TabContextProvider = ({ children }: { children: ReactNode }) => {
-  const [tab, setTab] = useState(0);
-  const setTabIndex = (tabIndex: number) => {
+  const [tab, setTab] = useState<number | undefined>(0);
+  const setTabIndex = (tabIndex: number | undefined) => {
     setTab(tabIndex);
   };
   return (

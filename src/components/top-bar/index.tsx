@@ -3,13 +3,11 @@ import "./index.scss";
 import { Tag, Menu, MoreVertical } from "react-feather";
 import { useTabContext } from "providers/tab-provider";
 import { useListContext } from "providers/list-provider";
-import classNames from "classnames";
 import { useEffect, useState } from "react";
-import { log } from "console";
 import { useNaviContext } from "providers/navi-provider";
 import { useMenuContext } from "providers/menu-provider";
 import { putRestatusTag } from "data/api/putRestatusTag";
-import { MemoDetailType, MemoTagType } from "types/types";
+import { MemoTagType } from "types/types";
 import { getMemoSummary } from "data/api/getMemoSummary";
 import { useErrorContext } from "providers/error-provider";
 import { setToast } from "ui/molecules/toast";
@@ -33,7 +31,7 @@ export const TopBar = () => {
   const { setIsError } = useErrorContext();
   const { tab } = useTabContext();
   useEffect(() => {
-    setIsTag(list[tab].tag);
+    tab !== undefined && setIsTag(list[tab].tag);
   }, [tab]);
   const success = async () => {
     const response = await getMemoSummary();
@@ -43,13 +41,15 @@ export const TopBar = () => {
     setToast("ステータスの変更に失敗しました", false);
   };
   const onClickTag = async () => {
-    const data: MemoTagType = {
-      id: list[tab].id,
-      tag: list[tab].tag,
-    };
-    const response = await putRestatusTag(data);
-    console.log(response);
-    !!response ? success() : failure();
+    if (tab !== undefined) {
+      const data: MemoTagType = {
+        id: list[tab].id,
+        tag: list[tab].tag,
+      };
+      const response = await putRestatusTag(data);
+      console.log(response);
+      !!response ? success() : failure();
+    }
   };
 
   return (

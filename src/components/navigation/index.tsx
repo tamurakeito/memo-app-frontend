@@ -38,7 +38,14 @@ export const Navigation = () => {
               // setToast("ステータス変更に失敗しました", false);
             })();
       })();
-  });
+  }, []);
+
+  const [isAddMemo, setIsAddMemo] = useState(false);
+  const { setTabIndex } = useTabContext();
+  const handleOnPlus = () => {
+    setIsAddMemo(true);
+    setTabIndex(undefined);
+  };
   return (
     <>
       <div className={classes} {...swipeHandlers}>
@@ -54,7 +61,8 @@ export const Navigation = () => {
                 )
             )}
           </MemoListBox>
-          <MemoListBox isTagged={false}>
+          <MemoListBox isTagged={false} handleOnPlus={handleOnPlus}>
+            {isAddMemo && <AddMemoList />}
             {list.map(
               (memo, index) =>
                 !memo.tag && (
@@ -82,9 +90,11 @@ export const Navigation = () => {
 const MemoListBox = ({
   children,
   isTagged,
+  handleOnPlus,
 }: {
   children: ReactNode;
   isTagged: boolean;
+  handleOnPlus?: () => void;
 }) => {
   const classes = classNames(["MemoListBox"]);
   return (
@@ -99,7 +109,7 @@ const MemoListBox = ({
           {isTagged ? "固定" : "リスト"}
         </Text>
         {!isTagged && (
-          <div className={"memo-add"} onClick={() => {}}>
+          <div className={"memo-add"} onClick={handleOnPlus}>
             <Plus size={16} />
           </div>
         )}
@@ -134,6 +144,24 @@ const MemoList = ({
       <Text className={"memo-size"} size={TextSizes.text2}>
         {length}
       </Text>
+    </div>
+  );
+};
+
+const AddMemoList = () => {
+  const [value, setValue] = useState("");
+  return (
+    <div className={"MemoList"} onClick={() => {}}>
+      <Circle className={"memo-point"} size={12} />
+      {/* <Text className={"content-text"} size={TextSizes.text1}>
+        新しいタスク
+      </Text> */}
+      <input
+        type="text"
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+        autoFocus={true}
+      />
     </div>
   );
 };

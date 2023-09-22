@@ -23,6 +23,7 @@ export const AddModal = ({
           handleOnEnter={() => {
             setIsActive(false);
             console.log(value);
+            setValue("");
           }}
         />
       </div>

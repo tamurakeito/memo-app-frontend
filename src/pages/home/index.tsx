@@ -1,5 +1,4 @@
 import "./index.scss";
-
 import { MemoCard } from "components/memo-card";
 import { TopBar } from "components/top-bar";
 import { Swiper } from "components/swiper";

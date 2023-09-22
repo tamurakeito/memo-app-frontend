@@ -7,10 +7,10 @@ import { useTabContext } from "providers/tab-provider";
 export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
   const { tab, setTabIndex } = useTabContext();
   const handleSwipeLeft = () => {
-    tab > 0 && setTabIndex(tab - 1);
+    tab !== undefined && tab > 0 && setTabIndex(tab - 1);
   };
   const handleSwipeRight = () => {
-    tab < pages.length - 1 && setTabIndex(tab + 1);
+    tab !== undefined && tab < pages.length - 1 && setTabIndex(tab + 1);
   };
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
@@ -26,7 +26,7 @@ export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
   return (
     <div className={"Swiper"} {...swipeHandlers}>
       {pages.map((page, index) => {
-        if (index < tab) {
+        if (tab !== undefined && index < tab) {
           return (
             <SwipeCard key={index} position={swipeAreaPositions.left}>
               {page}
@@ -43,7 +43,7 @@ export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
               {page}
             </SwipeCard>
           );
-        } else if (index > tab) {
+        } else if (tab !== undefined && index > tab) {
           return (
             <SwipeCard key={index} position={swipeAreaPositions.right}>
               {page}
@@ -116,7 +116,7 @@ const SwipeIndexDisplay = ({
   pageIndex,
   length,
 }: {
-  pageIndex: number;
+  pageIndex: number | undefined;
   length: number;
 }) => {
   const circles: Array<ReactNode> = [];
