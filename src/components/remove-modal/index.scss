@@ -1,0 +1,40 @@
+@use "assets/scss/config/variables" as var;
+
+.RemoveModal {
+  padding: 50px 10px;
+  .modal-content {
+    display: block;
+    text-align: center;
+  }
+  .modal-icon {
+    text-align: center;
+    margin: 30px auto;
+    div {
+      margin: 10px;
+      svg {
+        color: var.$GRAY600;
+      }
+    }
+    .chevrons-up {
+      height: 50px;
+      animation: scroll-up 1s infinite;
+    }
+  }
+}
+
+@keyframes scroll-up {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}

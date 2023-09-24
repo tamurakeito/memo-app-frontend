@@ -1,5 +1,5 @@
 import { BrowserRouter as Router } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import { Toaster } from "components/toast";
 import { RouteSelector } from "routes";
 import "the-new-css-reset/css/reset.css";
 import "assets/scss/index.scss";

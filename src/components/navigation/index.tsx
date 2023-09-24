@@ -81,7 +81,7 @@ export const Navigation = () => {
         handleClick={() => {
           setIsActive(false);
         }}
-        isSwipe={true}
+        isSwipe={"left"}
       />
     </>
   );
@@ -106,7 +106,7 @@ const MemoListBox = ({
           <Circle className={"memo-point"} size={14} />
         )}
         <Text className={"tag-text"} size={TextSizes.text2}>
-          {isTagged ? "固定" : "リスト"}
+          {isTagged ? "固定" : "メモ"}
         </Text>
         {!isTagged && (
           <div className={"memo-add"} onClick={handleOnPlus}>

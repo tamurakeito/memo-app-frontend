@@ -10,7 +10,7 @@ import { putRestatusTag } from "data/api/putRestatusTag";
 import { MemoTagType } from "types/types";
 import { getMemoSummary } from "data/api/getMemoSummary";
 import { useErrorContext } from "providers/error-provider";
-import { setToast } from "ui/molecules/toast";
+import { setToast } from "components/toast";
 
 export const TopBar = () => {
   const setIsActiveNavi = useNaviContext().setIsActive;

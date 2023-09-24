@@ -27,6 +27,7 @@ export const HeaderModal = ({
     setIsShadowActive(false);
     setTimeout(() => {
       setIsModalActive(false);
+      setIsActive(false);
     }, 200);
   };
 
@@ -77,7 +78,11 @@ export const HeaderModal = ({
           </div>
         </div>
       )}
-      <Shadow isActive={isShadowActive} handleClick={modalSlideOut} />
+      <Shadow
+        isActive={isShadowActive}
+        handleClick={modalSlideOut}
+        isSwipe={"up"}
+      />
     </>
   );
 };

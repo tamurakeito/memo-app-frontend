@@ -1,0 +1,13 @@
+@use "assets/scss/config/variables" as var;
+
+.Toast {
+  position: fixed;
+  top: 15px;
+  left: 5vw;
+  z-index: 1000;
+  background: rgba(210, 210, 210, 0.6);
+  // box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.05);
+  width: 90vw;
+  height: 50px;
+  display: none;
+}

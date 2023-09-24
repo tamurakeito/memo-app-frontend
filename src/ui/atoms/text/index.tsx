@@ -22,6 +22,7 @@ export const TextSizes = {
   text1: "t1",
   text2: "t2",
   text3: "t3",
+  text4: "t4",
 };
 type TextSize = (typeof TextSizes)[keyof typeof TextSizes];
 
