@@ -42,10 +42,28 @@
       }
     ]
   },
-  "restatus-tag": {
-    "id": 1,
+  "add-memo": {
+    "id": 0,
+    "name": "added memo",
+    "tag": false
+  },
+  "add-task": {
+    "id": 0,
+    "name": "added task",
+    "memo_id": 0,
+    "complete": false
+  },
+  "restatus-memo": {
+    "id": 0,
+    "name": "restatused memo",
     "tag": true
   },
-  "restatus-task": {},
-  "delete-task": {}
+  "restatus-task": {
+    "id": 0,
+    "name": "added task",
+    "memo_id": 0,
+    "complete": true
+  },
+  "delete-memo": 0,
+  "delete-task": 0
 }
