@@ -112,7 +112,7 @@ const swipeAreaPositions = {
 type swipeAreaPosition =
   (typeof swipeAreaPositions)[keyof typeof swipeAreaPositions];
 
-const SwipeIndexDisplay = ({
+export const SwipeIndexDisplay = ({
   pageIndex,
   length,
 }: {

@@ -7,7 +7,6 @@ import { TabContextProvider } from "providers/tab-provider";
 import { ListContextProvider } from "providers/list-provider";
 import { NaviContextProvider } from "providers/navi-provider";
 import { MenuContextProvider } from "providers/menu-provider";
-import { Menu } from "components/menu";
 
 function App() {
   return (

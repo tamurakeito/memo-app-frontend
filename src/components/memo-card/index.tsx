@@ -117,7 +117,7 @@ const CompleteContainer = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const TitleBlock = ({ children }: { children: ReactNode }) => {
+export const TitleBlock = ({ children }: { children: ReactNode }) => {
   return (
     <div className={"TitleBlock"}>
       <Circle size={16} />
@@ -128,16 +128,16 @@ const TitleBlock = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const ListBlock = ({
+export const ListBlock = ({
   id,
   name,
   complete,
-  handleReload,
+  handleReload = () => {},
 }: {
   id: number;
   name: string;
   complete: boolean;
-  handleReload: () => void;
+  handleReload?: () => void;
 }) => {
   const data: TaskType = { id: id, name: name, complete: true };
   // const { list, setListData } = useListContext();
@@ -181,25 +181,6 @@ const ListBlock = ({
           onClick={handleClickDelete}
         />
       )}
-    </div>
-  );
-};
-
-const ListBlockCreated = () => {
-  const [content, setContent] = useState("");
-  return (
-    <div className={"ListBlock created"}>
-      <Circle className={"point-icon"} size={16} />
-      {/* <Text size={TextSizes.text1} className={"block-content"}>
-        新規ブロック
-      </Text> */}
-      <Input
-        className={["input-area", "block-content"]}
-        type={"text"}
-        value={content}
-        placeholder={"新規メモ"}
-        onChange={setContent}
-      />
     </div>
   );
 };

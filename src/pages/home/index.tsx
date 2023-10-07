@@ -4,7 +4,7 @@ import { TopBar } from "components/top-bar";
 import { Swiper } from "components/swiper";
 import { PlusButton } from "ui/molecules/plus-button";
 import { Navigation } from "components/navigation";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { getMemoSummary } from "data/api/getMemoSummary";
 import { useListContext } from "providers/list-provider";
 import {
@@ -18,6 +18,14 @@ import { RemoveModal } from "components/remove-modal";
 import { useSwipeable } from "react-swipeable";
 import { useNaviContext } from "providers/navi-provider";
 import { useMenuContext } from "providers/menu-provider";
+import { Skeleton } from "components/skeleton";
+
+export const LoadStateContext = createContext({
+  isLoading: false,
+  setIsLoading: (_: boolean) => {
+    console.log("load state provider unimplement.");
+  },
+});
 
 export const Home = () => {
   const { list, setListData } = useListContext();
@@ -45,35 +53,40 @@ export const Home = () => {
     trackMouse: true,
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
-    <div className={"Home"} {...swipeHandlers}>
-      {!isError ? (
-        list.length > 0 ? (
-          <>
-            <TopBar />
-            <Swiper
-              pages={list.map((memo, index) => (
-                <MemoCard key={index} id={memo.id} />
-              ))}
+    <LoadStateContext.Provider value={{ isLoading, setIsLoading }}>
+      <div className={"Home"} {...swipeHandlers}>
+        {!isError ? (
+          list.length > 0 ? (
+            <>
+              <TopBar />
+              <Swiper
+                pages={list.map((memo, index) => (
+                  <MemoCard key={index} id={memo.id} />
+                ))}
+              />
+            </>
+          ) : (
+            <ExceptionDisplay
+              value="登録されているメモがありません"
+              icon={ExceptionIcons.null}
             />
-          </>
+          )
         ) : (
           <ExceptionDisplay
-            value="登録されているメモがありません"
-            icon={ExceptionIcons.null}
+            value="データの取得に失敗しました"
+            icon={ExceptionIcons.fail}
           />
-        )
-      ) : (
-        <ExceptionDisplay
-          value="データの取得に失敗しました"
-          icon={ExceptionIcons.fail}
-        />
-      )}
-      <PlusButton onClick={() => setIsCreate(true)} />
-      <Navigation />
-      <Menu setIsDelete={setIsDelete} />
-      <AddModal isActive={isCreate} setIsActive={setIsCreate} />
-      <RemoveModal isActive={isDelete} setIsActive={setIsDelete} />
-    </div>
+        )}
+        <PlusButton onClick={() => setIsCreate(true)} />
+        <Navigation />
+        <Menu setIsDelete={setIsDelete} />
+        <AddModal isActive={isCreate} setIsActive={setIsCreate} />
+        <RemoveModal isActive={isDelete} setIsActive={setIsDelete} />
+      </div>
+      {isLoading && <Skeleton />}
+    </LoadStateContext.Provider>
   );
 };

@@ -1,7 +1,8 @@
 import { HeaderModal } from "ui/molecules/header-modal";
 import "./index.scss";
 import { InputBox, InputButton, InputIcon } from "ui/molecules/input-box";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { LoadStateContext } from "pages/home";
 
 export const AddModal = ({
   isActive,
@@ -11,6 +12,16 @@ export const AddModal = ({
   setIsActive: (isActive: boolean) => void;
 }) => {
   const [value, setValue] = useState("");
+  const { setIsLoading } = useContext(LoadStateContext);
+  const handleExec = async () => {
+    setIsActive(false);
+    console.log(value);
+    setValue("");
+    setIsLoading(true);
+    await setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  };
   return (
     <HeaderModal isActive={isActive} setIsActive={setIsActive}>
       <div className={"AddModal"}>
@@ -20,11 +31,7 @@ export const AddModal = ({
           icon={InputIcon.penTool}
           button={InputButton.plus}
           handleOnBlur={() => setIsActive(false)}
-          handleOnEnter={() => {
-            setIsActive(false);
-            console.log(value);
-            setValue("");
-          }}
+          handleOnEnter={handleExec}
         />
       </div>
     </HeaderModal>
