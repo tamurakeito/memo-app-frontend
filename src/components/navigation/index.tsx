@@ -41,10 +41,9 @@ export const Navigation = () => {
   }, []);
 
   const [isAddMemo, setIsAddMemo] = useState(false);
-  const { setTabIndex } = useTabContext();
   const handleOnPlus = () => {
     setIsAddMemo(true);
-    setTabIndex(undefined);
+    // setTabIndex(undefined);
   };
   return (
     <>
@@ -55,18 +54,28 @@ export const Navigation = () => {
             {list.map(
               (memo, index) =>
                 memo.tag && (
-                  <MemoList key={index} index={index} length={memo.length}>
+                  <MemoList
+                    key={index}
+                    index={index}
+                    length={memo.length}
+                    isAddMemo={isAddMemo}
+                  >
                     {memo.name}
                   </MemoList>
                 )
             )}
           </MemoListBox>
           <MemoListBox isTagged={false} handleOnPlus={handleOnPlus}>
-            {isAddMemo && <AddMemoList />}
+            {isAddMemo && <AddMemoList setIsActive={setIsAddMemo} />}
             {list.map(
               (memo, index) =>
                 !memo.tag && (
-                  <MemoList key={index} index={index} length={memo.length}>
+                  <MemoList
+                    key={index}
+                    index={index}
+                    length={memo.length}
+                    isAddMemo={isAddMemo}
+                  >
                     {memo.name}
                   </MemoList>
                 )
@@ -123,14 +132,19 @@ const MemoList = ({
   children,
   index,
   length,
+  isAddMemo,
 }: {
   children: string;
   index: number;
   length: number;
+  isAddMemo: boolean;
 }) => {
   const { tab, setTabIndex } = useTabContext();
   const setIsActiveNavi = useNaviContext().setIsActive;
-  const classes = classNames(["MemoList", index === tab && "selected"]);
+  const classes = classNames([
+    "MemoList",
+    index === tab && !isAddMemo && "selected",
+  ]);
   const handleClick = () => {
     setTabIndex(index);
     setIsActiveNavi(false);
@@ -148,19 +162,33 @@ const MemoList = ({
   );
 };
 
-const AddMemoList = () => {
+const AddMemoList = ({
+  setIsActive,
+}: {
+  setIsActive: (value: boolean) => void;
+}) => {
   const [value, setValue] = useState("");
+  const { setTabIndex } = useTabContext();
+  const setIsActiveNavi = useNaviContext().setIsActive;
+  const handleOnBlur = (value: string) => {
+    value ? handleOnEnter() : setIsActive(false);
+  };
+  const handleOnEnter = () => {
+    setIsActiveNavi(false);
+  };
   return (
-    <div className={"MemoList"} onClick={() => {}}>
+    <div className={"MemoList AddMemoList"} onClick={() => {}}>
       <Circle className={"memo-point"} size={12} />
-      {/* <Text className={"content-text"} size={TextSizes.text1}>
-        新しいタスク
-      </Text> */}
       <input
+        className={"content-text"}
         type="text"
         value={value}
         onChange={(event) => setValue(event.target.value)}
         autoFocus={true}
+        onBlur={() => handleOnBlur(value)}
+        onKeyDown={(event) => {
+          event.key === "Enter" && handleOnEnter();
+        }}
       />
     </div>
   );

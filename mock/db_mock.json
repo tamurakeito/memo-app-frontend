@@ -64,6 +64,6 @@
     "memo_id": 0,
     "complete": true
   },
-  "delete-memo": 0,
-  "delete-task": 0
+  "delete-memo": {},
+  "delete-task": {}
 }
