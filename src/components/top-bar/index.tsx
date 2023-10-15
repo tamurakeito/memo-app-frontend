@@ -6,11 +6,12 @@ import { useListContext } from "providers/list-provider";
 import { useEffect, useState } from "react";
 import { useNaviContext } from "providers/navi-provider";
 import { useMenuContext } from "providers/menu-provider";
-import { putRestatusTag } from "data/api/putRestatusTag";
-import { MemoTagType } from "types/types";
+import { MemoDetailType } from "types/types";
 import { getMemoSummary } from "data/api/getMemoSummary";
 import { useErrorContext } from "providers/error-provider";
 import { setToast } from "components/toast";
+import { putRestatusMemo } from "data/api/putRestatusMemo";
+import { getMemoDetail } from "data/api/getMemoDetail";
 
 export const TopBar = () => {
   const setIsActiveNavi = useNaviContext().setIsActive;
@@ -42,12 +43,15 @@ export const TopBar = () => {
   };
   const onClickTag = async () => {
     if (tab !== undefined) {
-      const data: MemoTagType = {
-        id: list[tab].id,
-        tag: list[tab].tag,
+      const id = list[tab].id;
+      const detail = await getMemoDetail(id);
+      const data: MemoDetailType = {
+        id: id,
+        name: detail ? detail.name : list[tab].name,
+        tag: !list[tab].tag,
+        tasks: detail ? detail.tasks : [],
       };
-      const response = await putRestatusTag(data);
-      console.log(response);
+      const response = await putRestatusMemo(data);
       !!response ? success() : failure();
     }
   };

@@ -19,6 +19,7 @@ import { useSwipeable } from "react-swipeable";
 import { useNaviContext } from "providers/navi-provider";
 import { useMenuContext } from "providers/menu-provider";
 import { Skeleton } from "components/skeleton";
+import { EditModal } from "components/edit-modal";
 
 export const LoadStateContext = createContext({
   isLoading: false,
@@ -31,6 +32,7 @@ export const Home = () => {
   const { list, setListData } = useListContext();
   const { isError, setIsError } = useErrorContext();
   const [isCreate, setIsCreate] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const isNavigation = useNaviContext().isActive;
   const isMenu = useMenuContext().isActive;
@@ -82,8 +84,9 @@ export const Home = () => {
         )}
         <PlusButton onClick={() => setIsCreate(true)} />
         <Navigation />
-        <Menu setIsDelete={setIsDelete} />
+        <Menu setIsEdit={setIsEdit} setIsDelete={setIsDelete} />
         <AddModal isActive={isCreate} setIsActive={setIsCreate} />
+        <EditModal isActive={isEdit} setIsActive={setIsEdit} />
         <RemoveModal isActive={isDelete} setIsActive={setIsDelete} />
       </div>
       {isLoading && <Skeleton />}

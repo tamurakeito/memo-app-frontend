@@ -17,5 +17,3 @@ export type TaskType = {
   name: string;
   complete: boolean;
 };
-
-export type MemoTagType = { id: number; tag: boolean };

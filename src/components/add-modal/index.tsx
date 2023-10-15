@@ -32,6 +32,7 @@ export const AddModal = ({
           button={InputButton.plus}
           handleOnBlur={() => setIsActive(false)}
           handleOnEnter={handleExec}
+          placeholder={"新しいタスク"}
         />
       </div>
     </HeaderModal>

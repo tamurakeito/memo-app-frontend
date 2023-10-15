@@ -8,8 +8,10 @@ import { useMenuContext } from "providers/menu-provider";
 import { Shadow } from "ui/atoms/shadow";
 
 export const Menu = ({
+  setIsEdit,
   setIsDelete,
 }: {
+  setIsEdit: (value: boolean) => void;
   setIsDelete: (value: boolean) => void;
 }) => {
   const { isActive, setIsActive } = useMenuContext();
@@ -40,7 +42,10 @@ export const Menu = ({
             </Text>
             <MenuList
               icon={<Edit2 className={"menu-icon"} size={14} />}
-              onClick={() => {}}
+              onClick={() => {
+                setIsEdit(true);
+                setIsActive(false);
+              }}
             >
               メモを編集
             </MenuList>

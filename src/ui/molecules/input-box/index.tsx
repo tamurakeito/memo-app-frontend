@@ -1,4 +1,4 @@
-import { PenTool, Plus } from "react-feather";
+import { Check, Edit3, PenTool, Plus } from "react-feather";
 import "./index.scss";
 
 export const InputBox = ({
@@ -8,6 +8,7 @@ export const InputBox = ({
   button,
   handleOnBlur,
   handleOnEnter,
+  placeholder,
 }: {
   value: string;
   onChange: (value: string) => void;
@@ -15,6 +16,7 @@ export const InputBox = ({
   button?: InputButtonType;
   handleOnBlur: () => void;
   handleOnEnter: () => void;
+  placeholder?: string;
 }) => {
   return (
     <div className="InputBox">
@@ -26,7 +28,7 @@ export const InputBox = ({
         onChange={(event) => onChange(event.target.value)}
         autoFocus={true}
         onBlur={handleOnBlur}
-        placeholder={"新しいタスク"}
+        placeholder={placeholder ? placeholder : ""}
         onKeyDown={(event) => {
           event.key === "Enter" && handleOnEnter();
         }}
@@ -43,9 +45,11 @@ export const InputBox = ({
 export type InputIconType = (typeof InputIcon)[keyof typeof InputIcon];
 export const InputIcon = {
   penTool: <PenTool size={20} />,
+  edit3: <Edit3 size={20} />,
 };
 
 export type InputButtonType = (typeof InputButton)[keyof typeof InputButton];
 export const InputButton = {
   plus: <Plus size={20} />,
+  check: <Check size={20} />,
 };
