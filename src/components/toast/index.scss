@@ -2,12 +2,18 @@
 
 .Toast {
   position: fixed;
-  top: 15px;
+  bottom: 50px;
   left: 5vw;
   z-index: 1000;
-  background: rgba(210, 210, 210, 0.6);
-  // box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.55);
   width: 90vw;
-  height: 50px;
-  display: none;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  padding: 8px;
+  opacity: 0;
+  transition: 0.1s;
+  &.active {
+    opacity: 1;
+  }
 }

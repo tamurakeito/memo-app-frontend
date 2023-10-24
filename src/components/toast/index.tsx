@@ -1,15 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./index.scss";
+import { useToastContext } from "providers/toast-provider";
+import classNames from "classnames";
 
-export const Toaster = () => {
-  const [content, setContent] = useState("");
-  return <div className="Toast">{content}</div>;
+export type Toast = {
+  content: string;
+  isSuccess: boolean;
+  duration?: number;
 };
 
-export const setToast = (
-  content: string,
-  isSuccess?: boolean,
-  duration?: number
-) => {
-  console.log();
+export const Toast = () => {
+  const { toast } = useToastContext();
+  const [isActive, setIsActive] = useState(false);
+  const [isAppear, setIsAppear] = useState(false);
+  const classes = classNames(["Toast", isAppear && "active"]);
+  const duration = toast?.duration === undefined ? 1000 : toast.duration;
+  useEffect(() => {
+    toast && setIsActive(true);
+    setTimeout(() => {
+      setIsAppear(true);
+    }, 1);
+    setTimeout(() => {
+      setIsAppear(false);
+    }, duration);
+    setTimeout(() => {
+      setIsActive(false);
+      console.log("end.");
+    }, duration + 100);
+  }, [toast]);
+  return toast && isActive ? (
+    <div className={classes}>{toast.content}</div>
+  ) : (
+    <></>
+  );
 };

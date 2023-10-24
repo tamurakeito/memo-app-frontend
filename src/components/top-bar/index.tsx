@@ -9,7 +9,7 @@ import { useMenuContext } from "providers/menu-provider";
 import { MemoDetailType } from "types/types";
 import { getMemoSummary } from "data/api/getMemoSummary";
 import { useErrorContext } from "providers/error-provider";
-import { setToast } from "components/toast";
+import { useToastContext } from "providers/toast-provider";
 import { putRestatusMemo } from "data/api/putRestatusMemo";
 import { getMemoDetail } from "data/api/getMemoDetail";
 
@@ -31,6 +31,7 @@ export const TopBar = () => {
   const { list, setListData } = useListContext();
   const { setIsError } = useErrorContext();
   const { tab } = useTabContext();
+  const { setToast } = useToastContext();
   useEffect(() => {
     tab !== undefined && setIsTag(list[tab].tag);
   }, [tab]);
@@ -39,7 +40,11 @@ export const TopBar = () => {
     !!response ? setListData(response) : setIsError(true);
   };
   const failure = () => {
-    setToast("ステータスの変更に失敗しました", false);
+    setToast({
+      content: "ステータスの変更に失敗しました",
+      isSuccess: false,
+      // duration: ,
+    });
   };
   const onClickTag = async () => {
     if (tab !== undefined) {
@@ -52,7 +57,8 @@ export const TopBar = () => {
         tasks: detail ? detail.tasks : [],
       };
       const response = await putRestatusMemo(data);
-      !!response ? success() : failure();
+      // !!response ? success() : failure();
+      failure();
     }
   };
 
