@@ -10,6 +10,7 @@ import { useTabContext } from "providers/tab-provider";
 import { getMemoDetail } from "data/api/getMemoDetail";
 import { useErrorContext } from "providers/error-provider";
 import { getMemoSummary } from "data/api/getMemoSummary";
+import { useToastContext } from "providers/toast-provider";
 
 export const EditModal = ({
   isActive,
@@ -23,11 +24,12 @@ export const EditModal = ({
   const { list, setListData } = useListContext();
   const { tab } = useTabContext();
   const { setIsError } = useErrorContext();
+  const { setToast } = useToastContext();
   const handleExec = async () => {
+    setIsLoading(true);
     if (tab !== undefined) {
       setIsActive(false);
       console.log(value);
-      setValue("");
       setIsLoading(true);
       const id = list[tab].id;
       const detail = await getMemoDetail(id);
@@ -41,14 +43,24 @@ export const EditModal = ({
       !!response
         ? (async () => {
             const response = await getMemoSummary();
-            !!response ? setListData(response) : setIsError(true);
+            !!response
+              ? (() => {
+                  setListData(response);
+                })()
+              : (() => {
+                  setIsError(true);
+                })();
             setIsLoading(false);
           })()
         : (() => {
+            setToast({
+              content: "メモの編集に失敗しました",
+              isSuccess: false,
+            });
             setIsLoading(false);
-            // トーストで失敗エラー表示
           })();
     }
+    setValue("");
   };
   return (
     <HeaderModal isActive={isActive} setIsActive={setIsActive}>

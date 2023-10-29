@@ -17,6 +17,7 @@ import { postAddMemo } from "data/api/postAddMemo";
 import { useToastContext } from "providers/toast-provider";
 import { log } from "console";
 import { LoadStateContext } from "pages/home";
+import { useErrorContext } from "providers/error-provider";
 
 export const Navigation = () => {
   const { isActive, setIsActive } = useNaviContext();
@@ -175,17 +176,18 @@ const AddMemoList = ({
   const setIsActiveNavi = useNaviContext().setIsActive;
   const { setIsLoading } = useContext(LoadStateContext);
   const { setToast } = useToastContext();
-  const { list, setListData } = useListContext();
-  const { tab, setTabIndex } = useTabContext();
+  const { setIsError } = useErrorContext();
+  const { setListData } = useListContext();
+  const { setTabIndex } = useTabContext();
   const handleOnBlur = (value: string) => {
     value ? handleOnEnter() : setIsActive(false);
   };
   const handleOnEnter = async () => {
     setIsActiveNavi(false);
+    setIsLoading(true);
     const response = await postAddMemo(value, false);
     response
       ? (async () => {
-          setIsLoading(true);
           const response = await getMemoSummary();
           !!response
             ? (() => {
@@ -194,10 +196,8 @@ const AddMemoList = ({
                 setIsLoading(false);
               })()
             : (() => {
-                setToast({
-                  content: "データの取得に失敗しました",
-                  isSuccess: false,
-                });
+                setIsError(true);
+                setIsLoading(false);
               })();
         })()
       : (() => {
@@ -205,6 +205,7 @@ const AddMemoList = ({
             content: "メモの追加に失敗しました",
             isSuccess: false,
           });
+          setIsLoading(false);
         })();
     setIsActive(false);
   };
