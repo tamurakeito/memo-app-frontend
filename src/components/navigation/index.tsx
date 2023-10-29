@@ -1,6 +1,6 @@
 import "./index.scss";
 import classNames from "classnames";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import { Circle, Plus, Tag } from "react-feather";
 import { Line } from "ui/atoms/line";
 import { ScrollArea } from "ui/atoms/scroll-area";
@@ -13,6 +13,10 @@ import { useNaviContext } from "providers/navi-provider";
 import { Shadow } from "ui/atoms/shadow";
 import { useListContext } from "providers/list-provider";
 import { getMemoSummary } from "data/api/getMemoSummary";
+import { postAddMemo } from "data/api/postAddMemo";
+import { useToastContext } from "providers/toast-provider";
+import { log } from "console";
+import { LoadStateContext } from "pages/home";
 
 export const Navigation = () => {
   const { isActive, setIsActive } = useNaviContext();
@@ -66,7 +70,6 @@ export const Navigation = () => {
             )}
           </MemoListBox>
           <MemoListBox isTagged={false} handleOnPlus={handleOnPlus}>
-            {isAddMemo && <AddMemoList setIsActive={setIsAddMemo} />}
             {list.map(
               (memo, index) =>
                 !memo.tag && (
@@ -80,6 +83,7 @@ export const Navigation = () => {
                   </MemoList>
                 )
             )}
+            {isAddMemo && <AddMemoList setIsActive={setIsAddMemo} />}
           </MemoListBox>
         </ScrollArea>
         <Line bottom={137} />
@@ -168,16 +172,44 @@ const AddMemoList = ({
   setIsActive: (value: boolean) => void;
 }) => {
   const [value, setValue] = useState("");
-  const { setTabIndex } = useTabContext();
   const setIsActiveNavi = useNaviContext().setIsActive;
+  const { setIsLoading } = useContext(LoadStateContext);
+  const { setToast } = useToastContext();
+  const { list, setListData } = useListContext();
+  const { tab, setTabIndex } = useTabContext();
   const handleOnBlur = (value: string) => {
     value ? handleOnEnter() : setIsActive(false);
   };
-  const handleOnEnter = () => {
+  const handleOnEnter = async () => {
     setIsActiveNavi(false);
+    const response = await postAddMemo(value, false);
+    response
+      ? (async () => {
+          setIsLoading(true);
+          const response = await getMemoSummary();
+          !!response
+            ? (() => {
+                setListData(response);
+                setTabIndex(response.length - 1);
+                setIsLoading(false);
+              })()
+            : (() => {
+                setToast({
+                  content: "データの取得に失敗しました",
+                  isSuccess: false,
+                });
+              })();
+        })()
+      : (() => {
+          setToast({
+            content: "メモの追加に失敗しました",
+            isSuccess: false,
+          });
+        })();
+    setIsActive(false);
   };
   return (
-    <div className={"MemoList AddMemoList"} onClick={() => {}}>
+    <div className={"MemoList AddMemoList"}>
       <Circle className={"memo-point"} size={12} />
       <input
         className={"content-text"}

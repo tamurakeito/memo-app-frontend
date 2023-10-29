@@ -57,8 +57,7 @@ export const TopBar = () => {
         tasks: detail ? detail.tasks : [],
       };
       const response = await putRestatusMemo(data);
-      // !!response ? success() : failure();
-      failure();
+      !!response ? success() : failure();
     }
   };
 

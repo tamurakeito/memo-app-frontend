@@ -25,7 +25,6 @@ export const Toast = () => {
     }, duration);
     setTimeout(() => {
       setIsActive(false);
-      console.log("end.");
     }, duration + 100);
   }, [toast]);
   return toast && isActive ? (
