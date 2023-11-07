@@ -38,7 +38,7 @@ export const MemoCard = ({ id }: { id: number }) => {
       {!!memo ? (
         <div className={"memo-card"}>
           <TitleBlock>{memo.name}</TitleBlock>
-          {!!memo.tasks && (
+          {!!memo.tasks && memo.tasks.length > 0 ? (
             <>
               <InCompleteContainer>
                 {memo.tasks.map(
@@ -75,6 +75,13 @@ export const MemoCard = ({ id }: { id: number }) => {
                 </>
               )}
             </>
+          ) : (
+            <div className={"exception-display"}>
+              <ExceptionDisplay
+                value="登録されているタスクがありません"
+                icon={ExceptionIcons.null}
+              />
+            </div>
           )}
         </div>
       ) : (

@@ -138,5 +138,11 @@
         // background: skyblue;
       }
     }
+
+    .exception-display {
+      position: fixed;
+      width: 100%;
+      height: calc(100vh - 188px);
+    }
   }
 }
