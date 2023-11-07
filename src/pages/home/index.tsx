@@ -36,11 +36,25 @@ export const Home = () => {
   const [isDelete, setIsDelete] = useState(false);
   const isNavigation = useNaviContext().isActive;
   const isMenu = useMenuContext().isActive;
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleGetMemoSummary = async () => {
+    setIsLoading(true);
+    const response = await getMemoSummary();
+    !!response
+      ? (() => {
+          setListData(response);
+          setIsLoading(false);
+        })()
+      : (() => {
+          setIsError(true);
+          setIsLoading(false);
+        })();
+  };
+
   useEffect(() => {
-    (async () => {
-      const response = await getMemoSummary();
-      !!response ? setListData(response) : setIsError(true);
-    })();
+    handleGetMemoSummary();
   }, []);
 
   const swipeHandlers = useSwipeable({
@@ -54,8 +68,6 @@ export const Home = () => {
     },
     trackMouse: true,
   });
-
-  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <LoadStateContext.Provider value={{ isLoading, setIsLoading }}>
@@ -85,9 +97,17 @@ export const Home = () => {
         <PlusButton onClick={() => setIsCreate(true)} />
         <Navigation />
         <Menu setIsEdit={setIsEdit} setIsDelete={setIsDelete} />
-        <AddModal isActive={isCreate} setIsActive={setIsCreate} />
+        <AddModal
+          isActive={isCreate}
+          setIsActive={setIsCreate}
+          handleReload={handleGetMemoSummary}
+        />
         <EditModal isActive={isEdit} setIsActive={setIsEdit} />
-        <RemoveModal isActive={isDelete} setIsActive={setIsDelete} />
+        <RemoveModal
+          isActive={isDelete}
+          setIsActive={setIsDelete}
+          handleReload={handleGetMemoSummary}
+        />
       </div>
       {isLoading && <Skeleton />}
     </LoadStateContext.Provider>

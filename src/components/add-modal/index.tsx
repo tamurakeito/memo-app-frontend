@@ -3,24 +3,47 @@ import "./index.scss";
 import { InputBox, InputButton, InputIcon } from "ui/molecules/input-box";
 import { useContext, useState } from "react";
 import { LoadStateContext } from "pages/home";
+import { postAddMemo } from "data/api/postAddMemo";
+import { postAddTask } from "data/api/postAddTask";
+import { TaskType } from "types/types";
+import { useErrorContext } from "providers/error-provider";
 
 export const AddModal = ({
   isActive,
   setIsActive,
+  handleReload,
 }: {
   isActive: boolean;
   setIsActive: (isActive: boolean) => void;
+  handleReload: () => void;
 }) => {
   const [value, setValue] = useState("");
   const { setIsLoading } = useContext(LoadStateContext);
-  const handleExec = async () => {
-    setIsActive(false);
-    console.log(value);
-    setValue("");
-    setIsLoading(true);
-    await setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+  const { setIsError } = useErrorContext();
+
+  const handleExec = () => {
+    value
+      ? (async () => {
+          const data: TaskType = {
+            id: 0, // ここは何を設定してもbackend側で処理されない
+            name: value,
+            complete: false,
+          };
+          setIsActive(false);
+          setValue("");
+          setIsLoading(true);
+          const response = await postAddTask(data);
+          !!response
+            ? handleReload()
+            : (() => {
+                setIsError(true);
+                setIsLoading(false);
+              })();
+        })()
+      : (() => {
+          setIsActive(false);
+          setValue("");
+        })();
   };
   return (
     <HeaderModal isActive={isActive} setIsActive={setIsActive}>

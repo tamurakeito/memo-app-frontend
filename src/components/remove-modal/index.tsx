@@ -1,20 +1,50 @@
 import { Modal } from "ui/molecules/modal";
 import "./index.scss";
-import { useState } from "react";
+import { useContext } from "react";
 import { Text, TextSizes } from "ui/atoms/text";
-import { ChevronsUp, Trash, Trash2, XCircle } from "react-feather";
+import { ChevronsUp, Trash2, XCircle } from "react-feather";
 import { useListContext } from "providers/list-provider";
 import { useTabContext } from "providers/tab-provider";
+import { deleteMemo } from "data/api/deleteMemo";
+import { useToastContext } from "providers/toast-provider";
+import { LoadStateContext } from "pages/home";
+import { useErrorContext } from "providers/error-provider";
 
 export const RemoveModal = ({
   isActive,
   setIsActive,
+  handleReload,
 }: {
   isActive: boolean;
   setIsActive: (isActive: boolean) => void;
+  handleReload: () => void;
 }) => {
   const { list } = useListContext();
   const { tab } = useTabContext();
+  const { setToast } = useToastContext();
+  const { setIsLoading } = useContext(LoadStateContext);
+  const { setIsError } = useErrorContext();
+
+  const handleDelete = () => {
+    setIsLoading(true);
+    tab !== undefined
+      ? (async () => {
+          const response = await deleteMemo(tab);
+          !!response
+            ? handleReload()
+            : (() => {
+                setIsError(true);
+                setIsLoading(false);
+              })();
+        })()
+      : (() => {
+          setToast({
+            content: "メモの削除に失敗しました",
+            isSuccess: false,
+          });
+          setIsLoading(false);
+        })();
+  };
 
   const DefaultView = () => {
     return (
@@ -71,7 +101,7 @@ export const RemoveModal = ({
       modalHeight={(1 / 2) * window.innerHeight}
       isActive={isActive}
       setIsActive={setIsActive}
-      handleSlideUp={() => {}}
+      handleSlideUp={handleDelete}
       UpView={UpView()}
       DownView={DownView()}
     >

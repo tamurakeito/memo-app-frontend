@@ -17,7 +17,7 @@ export const Modal = ({
   modalHeight: number;
   isActive: boolean;
   setIsActive: (isActive: boolean) => void;
-  handleSlideUp?: () => void;
+  handleSlideUp: () => void;
   UpView?: ReactNode;
   DownView?: ReactNode;
 }) => {
@@ -77,6 +77,7 @@ export const Modal = ({
       modalSlideDown();
     } else if (modalHeight / 3 < -1 * bottomPosition) {
       modalSlideUp();
+      handleSlideUp();
     } else {
       setBottomPosition(0);
     }
