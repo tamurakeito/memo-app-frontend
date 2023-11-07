@@ -19,11 +19,10 @@ import { log } from "console";
 import { LoadStateContext } from "pages/home";
 import { useErrorContext } from "providers/error-provider";
 
-export const Navigation = () => {
+export const Navigation = ({ handleReload }: { handleReload: () => void }) => {
   const { isActive, setIsActive } = useNaviContext();
   const classes = classNames(["Navigation", isActive && "active"]);
   const { list, setListData } = useMemoContext();
-  const isActiveNavi = useNaviContext().isActive;
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
       if (event.dir === "Left") {
@@ -34,16 +33,20 @@ export const Navigation = () => {
   });
 
   useEffect(() => {
-    isActiveNavi &&
-      (async () => {
-        const response = await getMemoSummary();
-        !!response
-          ? setListData(response)
-          : (() => {
-              // setToast("ステータス変更に失敗しました", false);
-            })();
+    // isActiveNavi &&
+    //   (async () => {
+    //     const response = await getMemoSummary();
+    //     !!response
+    //       ? setListData(response)
+    //       : (() => {
+    //           // setToast("ステータス変更に失敗しました", false);
+    //         })();
+    //   })();
+    !isActive &&
+      (() => {
+        handleReload();
       })();
-  }, []);
+  }, [isActive]);
 
   const [isAddMemo, setIsAddMemo] = useState(false);
   const handleOnPlus = () => {
@@ -54,39 +57,47 @@ export const Navigation = () => {
     <>
       <div className={classes} {...swipeHandlers}>
         {/* <Line top={88} /> */}
-        <ScrollArea className={"memo-box-container"}>
-          <MemoListBox isTagged={true}>
-            {list.map(
-              (memo, index) =>
-                memo.tag && (
-                  <MemoList
-                    key={index}
-                    index={index}
-                    length={memo.length}
-                    isAddMemo={isAddMemo}
-                  >
-                    {memo.name}
-                  </MemoList>
-                )
-            )}
-          </MemoListBox>
-          <MemoListBox isTagged={false} handleOnPlus={handleOnPlus}>
-            {list.map(
-              (memo, index) =>
-                !memo.tag && (
-                  <MemoList
-                    key={index}
-                    index={index}
-                    length={memo.length}
-                    isAddMemo={isAddMemo}
-                  >
-                    {memo.name}
-                  </MemoList>
-                )
-            )}
-            {isAddMemo && <AddMemoList setIsActive={setIsAddMemo} />}
-          </MemoListBox>
-        </ScrollArea>
+        {list.length > 0 ? (
+          <ScrollArea className={"memo-box-container"}>
+            <MemoListBox isTagged={true}>
+              {list.map(
+                (memo, index) =>
+                  memo.tag && (
+                    <MemoList
+                      key={index}
+                      index={index}
+                      length={memo.length}
+                      isAddMemo={isAddMemo}
+                    >
+                      {memo.name}
+                    </MemoList>
+                  )
+              )}
+            </MemoListBox>
+            <MemoListBox isTagged={false} handleOnPlus={handleOnPlus}>
+              {list.map(
+                (memo, index) =>
+                  !memo.tag && (
+                    <MemoList
+                      key={index}
+                      index={index}
+                      length={memo.length}
+                      isAddMemo={isAddMemo}
+                    >
+                      {memo.name}
+                    </MemoList>
+                  )
+              )}
+              {isAddMemo && <AddMemoList setIsActive={setIsAddMemo} />}
+            </MemoListBox>
+          </ScrollArea>
+        ) : (
+          <ScrollArea className={"memo-box-container"}>
+            <MemoListBox isTagged={false} handleOnPlus={handleOnPlus}>
+              {isActive && <AddMemoList setIsActive={setIsActive} />}
+            </MemoListBox>
+          </ScrollArea>
+        )}
         <Line bottom={137} />
         {/* <Settings className={"icon-setting"} size={16} /> */}
       </div>
@@ -216,6 +227,7 @@ const AddMemoList = ({
         className={"content-text"}
         type="text"
         value={value}
+        placeholder="新規メモ"
         onChange={(event) => setValue(event.target.value)}
         autoFocus={true}
         onBlur={() => handleOnBlur(value)}

@@ -5,6 +5,7 @@
   z-index: 10;
   width: 275px;
   height: 100vh;
+  top: 0;
   transform: translateX(-100vw);
   background: var.$WHITE000;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
@@ -87,6 +88,9 @@
     top: 6px;
     left: 53px;
     font-size: 12px;
+    &::placeholder {
+      color: var.$GRAY400;
+    }
   }
   .memo-size {
     position: absolute;

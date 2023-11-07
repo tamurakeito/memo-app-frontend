@@ -33,7 +33,7 @@ export const TopBar = () => {
   const { tab } = useTabContext();
   const { setToast } = useToastContext();
   useEffect(() => {
-    tab !== undefined && setIsTag(list[tab].tag);
+    tab !== undefined && list.length > 0 && setIsTag(list[tab].tag);
   }, [tab]);
   const success = async () => {
     const response = await getMemoSummary();
@@ -68,16 +68,20 @@ export const TopBar = () => {
         defaultIcon={<Menu size={17} />}
         onClick={onClickHamburger}
       />
-      <IconButton
-        className={`TagIconButton ${isTag && "tagged"}`}
-        defaultIcon={<Tag size={17} />}
-        onClick={onClickTag}
-      />
-      <IconButton
-        className={"OptionIconButton"}
-        defaultIcon={<MoreVertical size={17} />}
-        onClick={onClickOption}
-      />
+      {list.length > 0 && (
+        <>
+          <IconButton
+            className={`TagIconButton ${isTag && "tagged"}`}
+            defaultIcon={<Tag size={17} />}
+            onClick={onClickTag}
+          />
+          <IconButton
+            className={"OptionIconButton"}
+            defaultIcon={<MoreVertical size={17} />}
+            onClick={onClickOption}
+          />
+        </>
+      )}
     </div>
   );
 };

@@ -72,15 +72,16 @@ export const Home = () => {
   return (
     <LoadStateContext.Provider value={{ isLoading, setIsLoading }}>
       <div className={"Home"} {...swipeHandlers}>
+        <TopBar />
         {!isError ? (
           list.length > 0 ? (
             <>
-              <TopBar />
               <Swiper
                 pages={list.map((memo, index) => (
                   <MemoCard key={index} id={memo.id} />
                 ))}
               />
+              <PlusButton onClick={() => setIsCreate(true)} />
             </>
           ) : (
             <ExceptionDisplay
@@ -94,8 +95,7 @@ export const Home = () => {
             icon={ExceptionIcons.fail}
           />
         )}
-        <PlusButton onClick={() => setIsCreate(true)} />
-        <Navigation />
+        <Navigation handleReload={handleGetMemoSummary} />
         <Menu
           setIsEdit={setIsEdit}
           setIsDelete={setIsDelete}
