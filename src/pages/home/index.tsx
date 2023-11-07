@@ -6,7 +6,7 @@ import { PlusButton } from "ui/molecules/plus-button";
 import { Navigation } from "components/navigation";
 import { createContext, useEffect, useState } from "react";
 import { getMemoSummary } from "data/api/getMemoSummary";
-import { useListContext } from "providers/list-provider";
+import { useMemoContext } from "providers/memo-provider";
 import {
   ExceptionDisplay,
   ExceptionIcons,
@@ -29,7 +29,7 @@ export const LoadStateContext = createContext({
 });
 
 export const Home = () => {
-  const { list, setListData } = useListContext();
+  const { list, setListData } = useMemoContext();
   const { isError, setIsError } = useErrorContext();
   const [isCreate, setIsCreate] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -96,7 +96,11 @@ export const Home = () => {
         )}
         <PlusButton onClick={() => setIsCreate(true)} />
         <Navigation />
-        <Menu setIsEdit={setIsEdit} setIsDelete={setIsDelete} />
+        <Menu
+          setIsEdit={setIsEdit}
+          setIsDelete={setIsDelete}
+          handleReload={handleGetMemoSummary}
+        />
         <AddModal
           isActive={isCreate}
           setIsActive={setIsCreate}

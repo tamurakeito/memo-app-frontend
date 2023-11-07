@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import { LoadStateContext } from "pages/home";
 import { putRestatusMemo } from "data/api/putRestatusMemo";
 import { MemoDetailType } from "types/types";
-import { useListContext } from "providers/list-provider";
+import { useMemoContext } from "providers/memo-provider";
 import { useTabContext } from "providers/tab-provider";
 import { getMemoDetail } from "data/api/getMemoDetail";
 import { useErrorContext } from "providers/error-provider";
@@ -21,7 +21,7 @@ export const EditModal = ({
 }) => {
   const [value, setValue] = useState("");
   const { setIsLoading } = useContext(LoadStateContext);
-  const { list, setListData } = useListContext();
+  const { list, setListData } = useMemoContext();
   const { tab } = useTabContext();
   const { setIsError } = useErrorContext();
   const { setToast } = useToastContext();

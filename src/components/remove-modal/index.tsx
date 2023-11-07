@@ -3,7 +3,7 @@ import "./index.scss";
 import { useContext } from "react";
 import { Text, TextSizes } from "ui/atoms/text";
 import { ChevronsUp, Trash2, XCircle } from "react-feather";
-import { useListContext } from "providers/list-provider";
+import { useMemoContext } from "providers/memo-provider";
 import { useTabContext } from "providers/tab-provider";
 import { deleteMemo } from "data/api/deleteMemo";
 import { useToastContext } from "providers/toast-provider";
@@ -19,7 +19,7 @@ export const RemoveModal = ({
   setIsActive: (isActive: boolean) => void;
   handleReload: () => void;
 }) => {
-  const { list } = useListContext();
+  const { list } = useMemoContext();
   const { tab } = useTabContext();
   const { setToast } = useToastContext();
   const { setIsLoading } = useContext(LoadStateContext);

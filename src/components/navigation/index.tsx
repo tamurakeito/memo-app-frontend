@@ -11,7 +11,7 @@ import { useSwipeable } from "react-swipeable";
 import { useTabContext } from "providers/tab-provider";
 import { useNaviContext } from "providers/navi-provider";
 import { Shadow } from "ui/atoms/shadow";
-import { useListContext } from "providers/list-provider";
+import { useMemoContext } from "providers/memo-provider";
 import { getMemoSummary } from "data/api/getMemoSummary";
 import { postAddMemo } from "data/api/postAddMemo";
 import { useToastContext } from "providers/toast-provider";
@@ -22,7 +22,7 @@ import { useErrorContext } from "providers/error-provider";
 export const Navigation = () => {
   const { isActive, setIsActive } = useNaviContext();
   const classes = classNames(["Navigation", isActive && "active"]);
-  const { list, setListData } = useListContext();
+  const { list, setListData } = useMemoContext();
   const isActiveNavi = useNaviContext().isActive;
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
@@ -88,7 +88,7 @@ export const Navigation = () => {
           </MemoListBox>
         </ScrollArea>
         <Line bottom={137} />
-        <Settings className={"icon-setting"} size={16} />
+        {/* <Settings className={"icon-setting"} size={16} /> */}
       </div>
       <Shadow
         isActive={isActive}
@@ -177,7 +177,7 @@ const AddMemoList = ({
   const { setIsLoading } = useContext(LoadStateContext);
   const { setToast } = useToastContext();
   const { setIsError } = useErrorContext();
-  const { setListData } = useListContext();
+  const { setListData } = useMemoContext();
   const { setTabIndex } = useTabContext();
   const handleOnBlur = (value: string) => {
     value ? handleOnEnter() : setIsActive(false);

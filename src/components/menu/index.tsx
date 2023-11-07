@@ -6,18 +6,28 @@ import { ReactNode, useEffect, useState } from "react";
 import { CheckCircle, Circle, Edit2, Trash2, XCircle } from "react-feather";
 import { useMenuContext } from "providers/menu-provider";
 import { Shadow } from "ui/atoms/shadow";
+import { useMemoContext } from "providers/memo-provider";
+import { useTabContext } from "providers/tab-provider";
+import { getMemoDetail } from "data/api/getMemoDetail";
+import { putRestatusTask } from "data/api/putRestatusTask";
+import { TaskType } from "types/types";
+import { useToastContext } from "providers/toast-provider";
+import { deleteTask } from "data/api/deleteTask";
 
 export const Menu = ({
   setIsEdit,
   setIsDelete,
+  handleReload,
 }: {
   setIsEdit: (value: boolean) => void;
   setIsDelete: (value: boolean) => void;
+  handleReload: () => void;
 }) => {
   const { isActive, setIsActive } = useMenuContext();
   const [isMenuActive, setIsMenuActive] = useState(isActive);
   const [isShadowActive, setIsShadowActive] = useState(isActive);
   const classes = classNames(["Menu", isActive && "active"]);
+  const { setToast } = useToastContext();
 
   useEffect(() => {
     isActive
@@ -32,6 +42,104 @@ export const Menu = ({
           }, 200);
         })();
   }, [isActive]);
+
+  const { list } = useMemoContext();
+  const { tab } = useTabContext();
+  const { memo, setMemo } = useMemoContext();
+
+  const handleTaskBulkOperate = (handleOperation: (task: TaskType) => void) => {
+    tab !== undefined &&
+      (async () => {
+        // そのメモの全てのタスクを取得
+        const memoId = list[tab].id;
+        const response = await getMemoDetail(memoId);
+        !!response
+          ? (() => {
+              // 取得したタスクリストをfor文で回してそれぞれの操作を行う
+              response.tasks.forEach((task) => {
+                handleOperation(task);
+              });
+            })()
+          : (() => {})();
+      })();
+  };
+
+  const handleTaskBulkUnCompleted = () => {
+    handleTaskBulkOperate((task: TaskType) => {
+      task.complete === true &&
+        (async () => {
+          const data: TaskType = {
+            id: task.id,
+            name: task.name,
+            complete: false,
+          };
+          const res = await putRestatusTask(data);
+          !!res
+            ? (() => {
+                handleReload();
+                setIsActive(false);
+              })()
+            : (() => {
+                setIsActive(false);
+                setToast({
+                  content: "ステータスの変更に失敗しました",
+                  isSuccess: false,
+                  // duration: ,
+                });
+              })();
+        })();
+    });
+  };
+
+  const handleTaskBulkCompleted = () => {
+    handleTaskBulkOperate((task: TaskType) => {
+      task.complete === false &&
+        (async () => {
+          const data: TaskType = {
+            id: task.id,
+            name: task.name,
+            complete: true,
+          };
+          const res = await putRestatusTask(data);
+          !!res
+            ? (() => {
+                handleReload();
+                setIsActive(false);
+              })()
+            : (() => {
+                setIsActive(false);
+                setToast({
+                  content: "ステータスの変更に失敗しました",
+                  isSuccess: false,
+                  // duration: ,
+                });
+              })();
+        })();
+    });
+  };
+
+  const handleTaskBulkDelete = () => {
+    handleTaskBulkOperate((task: TaskType) => {
+      task.complete === true &&
+        (async () => {
+          const res = await deleteTask(task.id);
+          !!res
+            ? (() => {
+                handleReload();
+                setIsActive(false);
+              })()
+            : (() => {
+                setIsActive(false);
+                setToast({
+                  content: "タスクの削除に失敗しました",
+                  isSuccess: false,
+                  // duration: ,
+                });
+              })();
+        })();
+    });
+  };
+
   return (
     <>
       {isMenuActive && (
@@ -63,19 +171,19 @@ export const Menu = ({
             </div>
             <MenuList
               icon={<Circle className={"menu-icon"} size={14} />}
-              onClick={() => {}}
+              onClick={handleTaskBulkUnCompleted}
             >
               全てを未完了に
             </MenuList>
             <MenuList
               icon={<CheckCircle className={"menu-icon"} size={14} />}
-              onClick={() => {}}
+              onClick={handleTaskBulkCompleted}
             >
               全てを完了済に
             </MenuList>
             <MenuList
               icon={<XCircle className={"menu-icon"} size={14} />}
-              onClick={() => {}}
+              onClick={handleTaskBulkDelete}
             >
               完了済を削除
             </MenuList>
