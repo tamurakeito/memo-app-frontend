@@ -9,21 +9,27 @@ import { TaskType } from "types/types";
 import { useErrorContext } from "providers/error-provider";
 import { useMemoContext } from "providers/memo-provider";
 import { useTabContext } from "providers/tab-provider";
+import { getMemoDetail } from "data/api/getMemoDetail";
 
 export const AddModal = ({
   isActive,
   setIsActive,
-  handleReload,
 }: {
   isActive: boolean;
   setIsActive: (isActive: boolean) => void;
-  handleReload: () => void;
 }) => {
   const [value, setValue] = useState("");
-  const { list } = useMemoContext();
+  const { list, setMemo } = useMemoContext();
   const { tab } = useTabContext();
   const { setIsLoading } = useContext(LoadStateContext);
   const { setIsError } = useErrorContext();
+
+  const handleReload = async () => {
+    if (tab !== undefined) {
+      const response = await getMemoDetail(tab);
+      !!response && setMemo(response);
+    }
+  };
 
   const handleExec = () => {
     value && tab !== undefined
@@ -39,7 +45,10 @@ export const AddModal = ({
           setIsLoading(true);
           const response = await postAddTask(data);
           !!response
-            ? handleReload()
+            ? (async () => {
+                await handleReload();
+                setIsLoading(false);
+              })()
             : (() => {
                 setIsError(true);
                 setIsLoading(false);

@@ -102,11 +102,7 @@ export const Home = () => {
           setIsDelete={setIsDelete}
           handleReload={handleGetMemoSummary}
         />
-        <AddModal
-          isActive={isCreate}
-          setIsActive={setIsCreate}
-          handleReload={() => {}}
-        />
+        <AddModal isActive={isCreate} setIsActive={setIsCreate} />
         <EditModal isActive={isEdit} setIsActive={setIsEdit} />
         <RemoveModal
           isActive={isDelete}

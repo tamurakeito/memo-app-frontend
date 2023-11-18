@@ -19,6 +19,7 @@ import { getMemoDetail } from "data/api/getMemoDetail";
 import { memoryUsage } from "process";
 import { AddModal } from "components/add-modal";
 import { useTabContext } from "providers/tab-provider";
+import { useMemoContext } from "providers/memo-provider";
 
 export const MemoCard = ({
   id,
@@ -31,19 +32,30 @@ export const MemoCard = ({
   // スワイプしたらメモを読み込む　メモはcontextで一括管理とする
   // そうすればメモリロードをhomeで管理できる様になる
 
+  // ↓
+  // 前後のメモカードを読み込む
+  // 表示されているカードだけcontextに入れる
+  // contextが更新されたら表示されているカードだけそれを読み取って更新するようとする
+
   const { tab } = useTabContext();
   const [memo, setMemo] = useState<MemoDetailType>();
+  const displayMemo = useMemoContext().memo;
+
+  // 表示されている前後１枚ずつを毎度読み込む
   useEffect(() => {
-    tab === tabIndex && handleMemoLoad();
+    tab !== undefined &&
+      [tabIndex - 1, tabIndex, tabIndex + 1].includes(tab) &&
+      handleMemoLoad();
   }, [tab]);
+
+  // contextで格納されているやつが変更された場合のみそれを入れる
+  useEffect(() => {
+    tab === tabIndex && setMemo(displayMemo);
+  }, [displayMemo]);
 
   const handleMemoLoad = async () => {
     const response = await getMemoDetail(id);
     !!response && setMemo(response);
-    response?.tasks?.length === 0 &&
-      (() => {
-        // メモを削除する処理を記述
-      })();
   };
 
   return (
@@ -52,7 +64,10 @@ export const MemoCard = ({
       {!!memo ? (
         <div className={"memo-card"}>
           <TitleBlock>{memo.name}</TitleBlock>
-          {!!memo.tasks && memo.tasks.length > 0 ? (
+          {tab !== undefined &&
+          [tabIndex - 1, tabIndex, tabIndex + 1].includes(tab) &&
+          !!memo.tasks &&
+          memo.tasks.length > 0 ? (
             <>
               <InCompleteContainer>
                 {memo.tasks.map(

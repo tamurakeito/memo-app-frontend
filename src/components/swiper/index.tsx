@@ -26,7 +26,7 @@ export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
   return (
     <div className={"Swiper"} {...swipeHandlers}>
       {pages.map((page, index) => {
-        if (tab !== undefined && index < tab) {
+        if (tab !== undefined && index === tab - 1) {
           return (
             <SwipeCard key={index} position={swipeAreaPositions.left}>
               {page}
@@ -43,7 +43,7 @@ export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
               {page}
             </SwipeCard>
           );
-        } else if (tab !== undefined && index > tab) {
+        } else if (tab !== undefined && index === tab + 1) {
           return (
             <SwipeCard key={index} position={swipeAreaPositions.right}>
               {page}
