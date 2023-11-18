@@ -1,5 +1,6 @@
 import { Check, Edit3, PenTool, Plus } from "react-feather";
 import "./index.scss";
+import { useState } from "react";
 
 export const InputBox = ({
   value,
@@ -18,6 +19,8 @@ export const InputBox = ({
   handleOnEnter: () => void;
   placeholder?: string;
 }) => {
+  // IME入力時に確定させない
+  const [isTyping, setIsTyping] = useState(false);
   return (
     <div className="InputBox">
       {!!icon && <div className="input-icon">{icon}</div>}
@@ -29,8 +32,10 @@ export const InputBox = ({
         autoFocus={true}
         onBlur={handleOnBlur}
         placeholder={placeholder ? placeholder : ""}
+        onCompositionStart={() => setIsTyping(true)}
+        onCompositionEnd={() => setIsTyping(false)}
         onKeyDown={(event) => {
-          event.key === "Enter" && handleOnEnter();
+          event.key === "Enter" && !isTyping && handleOnEnter();
         }}
       />
       {!!button && (
