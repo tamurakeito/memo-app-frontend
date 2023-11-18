@@ -28,23 +28,15 @@ export const MemoCard = ({
   id: number;
   tabIndex: number;
 }) => {
-  // 表示されているメモを主軸に表示する
-  // スワイプしたらメモを読み込む　メモはcontextで一括管理とする
-  // そうすればメモリロードをhomeで管理できる様になる
-
-  // ↓
-  // 前後のメモカードを読み込む
-  // 表示されているカードだけcontextに入れる
-  // contextが更新されたら表示されているカードだけそれを読み取って更新するようとする
-
   const { tab } = useTabContext();
   const [memo, setMemo] = useState<MemoDetailType>();
   const displayMemo = useMemoContext().memo;
 
   // 表示されている前後１枚ずつを毎度読み込む
   useEffect(() => {
-    tab !== undefined &&
-      [tabIndex - 1, tabIndex, tabIndex + 1].includes(tab) &&
+    tab === tabIndex && handleMemoLoad();
+    (tab === tabIndex - 1 || tab === tabIndex + 1) &&
+      memo === undefined &&
       handleMemoLoad();
   }, [tab]);
 
