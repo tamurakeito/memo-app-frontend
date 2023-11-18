@@ -26,7 +26,7 @@ export const AddModal = ({
 
   const handleReload = async () => {
     if (tab !== undefined) {
-      const response = await getMemoDetail(tab);
+      const response = await getMemoDetail(list[tab].id);
       !!response && setMemo(response);
     }
   };
