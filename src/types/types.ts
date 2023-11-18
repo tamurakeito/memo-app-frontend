@@ -15,5 +15,6 @@ export type MemoDetailType = {
 export type TaskType = {
   id: number;
   name: string;
+  memo_id: number;
   complete: boolean;
 };

@@ -7,6 +7,8 @@ import { postAddMemo } from "data/api/postAddMemo";
 import { postAddTask } from "data/api/postAddTask";
 import { TaskType } from "types/types";
 import { useErrorContext } from "providers/error-provider";
+import { useMemoContext } from "providers/memo-provider";
+import { useTabContext } from "providers/tab-provider";
 
 export const AddModal = ({
   isActive,
@@ -18,15 +20,18 @@ export const AddModal = ({
   handleReload: () => void;
 }) => {
   const [value, setValue] = useState("");
+  const { list } = useMemoContext();
+  const { tab } = useTabContext();
   const { setIsLoading } = useContext(LoadStateContext);
   const { setIsError } = useErrorContext();
 
   const handleExec = () => {
-    value
+    value && tab !== undefined
       ? (async () => {
           const data: TaskType = {
             id: 0, // ここは何を設定してもbackend側で処理されない
             name: value,
+            memo_id: list[tab].id,
             complete: false,
           };
           setIsActive(false);

@@ -20,6 +20,7 @@ import { useNaviContext } from "providers/navi-provider";
 import { useMenuContext } from "providers/menu-provider";
 import { Skeleton } from "components/skeleton";
 import { EditModal } from "components/edit-modal";
+import { getMemoDetail } from "data/api/getMemoDetail";
 
 export const LoadStateContext = createContext({
   isLoading: false,
@@ -78,7 +79,7 @@ export const Home = () => {
             <>
               <Swiper
                 pages={list.map((memo, index) => (
-                  <MemoCard key={index} id={memo.id} />
+                  <MemoCard key={index} id={memo.id} tabIndex={index} />
                 ))}
               />
               <PlusButton onClick={() => setIsCreate(true)} />
@@ -104,7 +105,7 @@ export const Home = () => {
         <AddModal
           isActive={isCreate}
           setIsActive={setIsCreate}
-          handleReload={handleGetMemoSummary}
+          handleReload={() => {}}
         />
         <EditModal isActive={isEdit} setIsActive={setIsEdit} />
         <RemoveModal

@@ -18,6 +18,7 @@ import { useToastContext } from "providers/toast-provider";
 import { log } from "console";
 import { LoadStateContext } from "pages/home";
 import { useErrorContext } from "providers/error-provider";
+import { MemoDetailType } from "types/types";
 
 export const Navigation = ({ handleReload }: { handleReload: () => void }) => {
   const { isActive, setIsActive } = useNaviContext();
@@ -196,7 +197,13 @@ const AddMemoList = ({
   const handleOnEnter = async () => {
     setIsActiveNavi(false);
     setIsLoading(true);
-    const response = await postAddMemo(value, false);
+    const data: MemoDetailType = {
+      id: 0, // バックエンドで処理されないid
+      name: value,
+      tag: false,
+      tasks: [],
+    };
+    const response = await postAddMemo(data);
     response
       ? (async () => {
           const response = await getMemoSummary();

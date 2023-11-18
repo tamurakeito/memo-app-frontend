@@ -16,12 +16,26 @@ import {
   ExceptionIcons,
 } from "ui/molecules/exception-display";
 import { getMemoDetail } from "data/api/getMemoDetail";
+import { memoryUsage } from "process";
+import { AddModal } from "components/add-modal";
+import { useTabContext } from "providers/tab-provider";
 
-export const MemoCard = ({ id }: { id: number }) => {
+export const MemoCard = ({
+  id,
+  tabIndex,
+}: {
+  id: number;
+  tabIndex: number;
+}) => {
+  // 表示されているメモを主軸に表示する
+  // スワイプしたらメモを読み込む　メモはcontextで一括管理とする
+  // そうすればメモリロードをhomeで管理できる様になる
+
+  const { tab } = useTabContext();
   const [memo, setMemo] = useState<MemoDetailType>();
   useEffect(() => {
-    handleMemoLoad();
-  }, []);
+    tab === tabIndex && handleMemoLoad();
+  }, [tab]);
 
   const handleMemoLoad = async () => {
     const response = await getMemoDetail(id);
@@ -48,6 +62,7 @@ export const MemoCard = ({ id }: { id: number }) => {
                         key={index}
                         id={task.id}
                         name={task.name}
+                        memoId={memo.id}
                         complete={false}
                         handleReload={handleMemoLoad}
                       />
@@ -66,6 +81,7 @@ export const MemoCard = ({ id }: { id: number }) => {
                             key={index}
                             id={task.id}
                             name={task.name}
+                            memoId={memo.id}
                             complete={true}
                             handleReload={handleMemoLoad}
                           />
@@ -138,15 +154,22 @@ export const TitleBlock = ({ children }: { children: ReactNode }) => {
 export const ListBlock = ({
   id,
   name,
+  memoId,
   complete,
   handleReload = () => {},
 }: {
   id: number;
   name: string;
+  memoId: number;
   complete: boolean;
   handleReload?: () => void;
 }) => {
-  const data: TaskType = { id: id, name: name, complete: true };
+  const data: TaskType = {
+    id: id,
+    name: name,
+    memo_id: memoId,
+    complete: true,
+  };
   // const { list, setListData } = useMemoContext();
   const success = async () => {
     console.log("success");

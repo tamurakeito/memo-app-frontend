@@ -45,9 +45,10 @@ export const Menu = ({
 
   const { list } = useMemoContext();
   const { tab } = useTabContext();
-  const { memo, setMemo } = useMemoContext();
 
-  const handleTaskBulkOperate = (handleOperation: (task: TaskType) => void) => {
+  const handleTaskBulkOperate = (
+    handleOperation: (task: TaskType, memoId: number) => void
+  ) => {
     tab !== undefined &&
       (async () => {
         // そのメモの全てのタスクを取得
@@ -57,7 +58,7 @@ export const Menu = ({
           ? (() => {
               // 取得したタスクリストをfor文で回してそれぞれの操作を行う
               response.tasks.forEach((task) => {
-                handleOperation(task);
+                handleOperation(task, memoId);
               });
             })()
           : (() => {})();
@@ -65,12 +66,13 @@ export const Menu = ({
   };
 
   const handleTaskBulkUnCompleted = () => {
-    handleTaskBulkOperate((task: TaskType) => {
+    handleTaskBulkOperate((task: TaskType, memoId: number) => {
       task.complete === true &&
         (async () => {
           const data: TaskType = {
             id: task.id,
             name: task.name,
+            memo_id: memoId,
             complete: false,
           };
           const res = await putRestatusTask(data);
@@ -92,12 +94,13 @@ export const Menu = ({
   };
 
   const handleTaskBulkCompleted = () => {
-    handleTaskBulkOperate((task: TaskType) => {
+    handleTaskBulkOperate((task: TaskType, memoId: number) => {
       task.complete === false &&
         (async () => {
           const data: TaskType = {
             id: task.id,
             name: task.name,
+            memo_id: memoId,
             complete: true,
           };
           const res = await putRestatusTask(data);
