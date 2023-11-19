@@ -60,8 +60,13 @@ export const Menu = ({
               response.tasks.forEach((task) => {
                 handleOperation(task, memoId);
               });
+              handleReload();
             })()
-          : (() => {})();
+          : setToast({
+              content: "ステータスの変更に失敗しました",
+              isSuccess: false,
+            });
+        setIsActive(false);
       })();
   };
 
@@ -76,19 +81,12 @@ export const Menu = ({
             complete: false,
           };
           const res = await putRestatusTask(data);
-          !!res
-            ? (() => {
-                handleReload();
-                setIsActive(false);
-              })()
-            : (() => {
-                setIsActive(false);
-                setToast({
-                  content: "ステータスの変更に失敗しました",
-                  isSuccess: false,
-                  // duration: ,
-                });
-              })();
+          res === undefined &&
+            setToast({
+              content: "ステータスの変更に失敗しました",
+              isSuccess: false,
+              // duration: ,
+            });
         })();
     });
   };
@@ -104,19 +102,12 @@ export const Menu = ({
             complete: true,
           };
           const res = await putRestatusTask(data);
-          !!res
-            ? (() => {
-                handleReload();
-                setIsActive(false);
-              })()
-            : (() => {
-                setIsActive(false);
-                setToast({
-                  content: "ステータスの変更に失敗しました",
-                  isSuccess: false,
-                  // duration: ,
-                });
-              })();
+          res === undefined &&
+            setToast({
+              content: "ステータスの変更に失敗しました",
+              isSuccess: false,
+              // duration: ,
+            });
         })();
     });
   };
@@ -126,19 +117,12 @@ export const Menu = ({
       task.complete === true &&
         (async () => {
           const res = await deleteTask(task.id);
-          !!res
-            ? (() => {
-                handleReload();
-                setIsActive(false);
-              })()
-            : (() => {
-                setIsActive(false);
-                setToast({
-                  content: "タスクの削除に失敗しました",
-                  isSuccess: false,
-                  // duration: ,
-                });
-              })();
+          res === undefined &&
+            setToast({
+              content: "タスクの削除に失敗しました",
+              isSuccess: false,
+              // duration: ,
+            });
         })();
     });
   };

@@ -34,7 +34,6 @@ export const TopBar = () => {
   const { setToast } = useToastContext();
   useEffect(() => {
     tab !== undefined && list.length > 0 && setIsTag(list[tab].tag);
-    console.log(tab, list);
   }, [tab, list]);
   const onClickTag = async () => {
     if (tab !== undefined) {
