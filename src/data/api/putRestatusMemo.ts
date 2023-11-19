@@ -1,12 +1,12 @@
 import { client } from "data/axios";
-import { MemoDetailType } from "types/types";
+import { MemoSummaryType } from "types/types";
 
 export async function putRestatusMemo(
-  data: MemoDetailType
-): Promise<MemoDetailType | undefined> {
+  data: MemoSummaryType
+): Promise<MemoSummaryType | undefined> {
   try {
     const url = `/restatus-memo`;
-    const response = await client.put<MemoDetailType>(url, data);
+    const response = await client.put<MemoSummaryType>(url, data);
     return response.data;
   } catch (error) {
     console.error(error);

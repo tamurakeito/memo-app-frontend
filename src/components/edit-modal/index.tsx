@@ -1,10 +1,10 @@
 import { HeaderModal } from "ui/molecules/header-modal";
 import "./index.scss";
 import { InputBox, InputButton, InputIcon } from "ui/molecules/input-box";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { LoadStateContext } from "pages/home";
 import { putRestatusMemo } from "data/api/putRestatusMemo";
-import { MemoDetailType } from "types/types";
+import { MemoDetailType, MemoSummaryType } from "types/types";
 import { useMemoContext } from "providers/memo-provider";
 import { useTabContext } from "providers/tab-provider";
 import { getMemoDetail } from "data/api/getMemoDetail";
@@ -32,12 +32,11 @@ export const EditModal = ({
       console.log(value);
       setIsLoading(true);
       const id = list[tab].id;
-      const detail = await getMemoDetail(id);
-      const data: MemoDetailType = {
-        id: tab,
+      const data: MemoSummaryType = {
+        id: id,
         name: value,
         tag: list[tab].tag,
-        tasks: detail ? detail.tasks : [],
+        length: 0,
       };
       const response = await putRestatusMemo(data);
       !!response
@@ -62,6 +61,9 @@ export const EditModal = ({
     }
     setValue("");
   };
+  useEffect(() => {
+    isActive && tab !== undefined && setValue(list[tab].name);
+  }, [isActive]);
   return (
     <HeaderModal isActive={isActive} setIsActive={setIsActive}>
       <div className={"EditModal"}>

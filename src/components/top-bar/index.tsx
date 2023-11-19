@@ -6,7 +6,7 @@ import { useMemoContext } from "providers/memo-provider";
 import { useEffect, useState } from "react";
 import { useNaviContext } from "providers/navi-provider";
 import { useMenuContext } from "providers/menu-provider";
-import { MemoDetailType } from "types/types";
+import { MemoDetailType, MemoSummaryType } from "types/types";
 import { getMemoSummary } from "data/api/getMemoSummary";
 import { useErrorContext } from "providers/error-provider";
 import { useToastContext } from "providers/toast-provider";
@@ -30,34 +30,42 @@ export const TopBar = () => {
   const [isTag, setIsTag] = useState(false);
   const { list, setListData } = useMemoContext();
   const { setIsError } = useErrorContext();
-  const { tab } = useTabContext();
+  const { tab, setTabIndex } = useTabContext();
   const { setToast } = useToastContext();
   useEffect(() => {
     tab !== undefined && list.length > 0 && setIsTag(list[tab].tag);
-  }, [tab]);
-  const success = async () => {
-    const response = await getMemoSummary();
-    !!response ? setListData(response) : setIsError(true);
-  };
-  const failure = () => {
-    setToast({
-      content: "ステータスの変更に失敗しました",
-      isSuccess: false,
-      // duration: ,
-    });
-  };
+    console.log(tab, list);
+  }, [tab, list]);
   const onClickTag = async () => {
     if (tab !== undefined) {
       const id = list[tab].id;
-      const detail = await getMemoDetail(id);
-      const data: MemoDetailType = {
+      const data: MemoSummaryType = {
         id: id,
-        name: detail ? detail.name : list[tab].name,
+        name: list[tab].name,
         tag: !list[tab].tag,
-        tasks: detail ? detail.tasks : [],
+        length: 0,
       };
       const response = await putRestatusMemo(data);
-      !!response ? success() : failure();
+      !!response
+        ? (async () => {
+            const response = await getMemoSummary();
+            !!response
+              ? (() => {
+                  setListData(response);
+                  // そのメモのtabに変更する
+                  setTabIndex(
+                    response.findIndex((element) => element.id === id)
+                  );
+                })()
+              : setIsError(true);
+          })()
+        : (() => {
+            setToast({
+              content: "ステータスの変更に失敗しました",
+              isSuccess: false,
+              // duration: ,
+            });
+          })();
     }
   };
 
