@@ -227,6 +227,8 @@ const AddMemoList = ({
         })();
     setIsActive(false);
   };
+  // IME入力時に確定させない
+  const [isTyping, setIsTyping] = useState(false);
   return (
     <div className={"MemoList AddMemoList"}>
       <Circle className={"memo-point"} size={12} />
@@ -238,8 +240,10 @@ const AddMemoList = ({
         onChange={(event) => setValue(event.target.value)}
         autoFocus={true}
         onBlur={() => handleOnBlur(value)}
+        onCompositionStart={() => setIsTyping(true)}
+        onCompositionEnd={() => setIsTyping(false)}
         onKeyDown={(event) => {
-          event.key === "Enter" && handleOnEnter();
+          event.key === "Enter" && !isTyping && handleOnEnter();
         }}
       />
     </div>

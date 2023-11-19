@@ -9,6 +9,7 @@ import { deleteMemo } from "data/api/deleteMemo";
 import { useToastContext } from "providers/toast-provider";
 import { LoadStateContext } from "pages/home";
 import { useErrorContext } from "providers/error-provider";
+import { getMemoDetail } from "data/api/getMemoDetail";
 
 export const RemoveModal = ({
   isActive,
@@ -19,8 +20,8 @@ export const RemoveModal = ({
   setIsActive: (isActive: boolean) => void;
   handleReload: () => void;
 }) => {
-  const { list } = useMemoContext();
-  const { tab } = useTabContext();
+  const { list, setListData } = useMemoContext();
+  const { tab, setTabIndex } = useTabContext();
   const { setToast } = useToastContext();
   const { setIsLoading } = useContext(LoadStateContext);
   const { setIsError } = useErrorContext();
@@ -29,7 +30,8 @@ export const RemoveModal = ({
     setIsLoading(true);
     tab !== undefined
       ? (async () => {
-          const response = await deleteMemo(tab);
+          const response = await deleteMemo(list[tab].id);
+          tab > 0 && setTabIndex(tab - 1);
           !!response
             ? handleReload()
             : (() => {

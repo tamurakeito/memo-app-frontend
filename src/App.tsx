@@ -8,6 +8,7 @@ import { MemoContextProvider } from "providers/memo-provider";
 import { NaviContextProvider } from "providers/navi-provider";
 import { MenuContextProvider } from "providers/menu-provider";
 import { ToastContextProvider } from "providers/toast-provider";
+import { ErrorContextProvider } from "providers/error-provider";
 
 function App() {
   return (
@@ -17,8 +18,10 @@ function App() {
           <NaviContextProvider>
             <MenuContextProvider>
               <ToastContextProvider>
-                <RouteSelector />
-                <Toast />
+                <ErrorContextProvider>
+                  <RouteSelector />
+                  <Toast />
+                </ErrorContextProvider>
               </ToastContextProvider>
             </MenuContextProvider>
           </NaviContextProvider>

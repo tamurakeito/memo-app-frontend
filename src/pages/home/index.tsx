@@ -43,7 +43,7 @@ export const Home = () => {
   const handleGetMemoSummary = async () => {
     setIsLoading(true);
     const response = await getMemoSummary();
-    !!response
+    response !== undefined
       ? (() => {
           setListData(response);
           setIsLoading(false);

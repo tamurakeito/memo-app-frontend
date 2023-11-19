@@ -30,6 +30,7 @@ export const MemoCard = ({
 }) => {
   const { tab } = useTabContext();
   const [memo, setMemo] = useState<MemoDetailType>();
+  const { list } = useMemoContext();
   const displayMemo = useMemoContext().memo;
 
   // 表示されている前後１枚ずつを毎度読み込む
@@ -44,6 +45,10 @@ export const MemoCard = ({
   useEffect(() => {
     tab === tabIndex && setMemo(displayMemo);
   }, [displayMemo]);
+
+  useEffect(() => {
+    tab === tabIndex && handleMemoLoad();
+  }, [list]);
 
   const handleMemoLoad = async () => {
     const response = await getMemoDetail(id);
