@@ -23,6 +23,7 @@
   "scripts": {
     "start": "react-scripts start & yarn mock_server",
     "start:local": "dotenv -e .env.localdev react-scripts start",
+    "start:prd": "dotenv -e .env.prd react-scripts start",
     "build": "react-scripts build",
     "push": "chmod 755 .gitpush.sh &&./.gitpush.sh",
     "ini": "chmod 755 .init.sh && ./.init.sh",
