@@ -28,7 +28,8 @@
     "push": "chmod 755 .gitpush.sh &&./.gitpush.sh",
     "ini": "chmod 755 .init.sh && ./.init.sh",
     "mock_server": "./node_modules/.bin/json-server --watch mock/db_mock.json --routes mock/routes.json --middlewares mock/middleware.js  --port 3004",
-    "deploy": "yarn build && mv build firebase/public && cd firebase && firebase deploy "
+    "deploy:firebase": "yarn build && mv build firebase/public && cd firebase && firebase deploy ",
+    "deploy:gcp": "yarn build && mv build docker/"
   },
   "eslintConfig": {
     "extends": [
