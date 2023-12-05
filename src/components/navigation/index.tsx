@@ -33,21 +33,12 @@ export const Navigation = ({ handleReload }: { handleReload: () => void }) => {
     trackMouse: true,
   });
 
-  useEffect(() => {
-    // isActiveNavi &&
-    //   (async () => {
-    //     const response = await getMemoSummary();
-    //     !!response
-    //       ? setListData(response)
-    //       : (() => {
-    //           // setToast("ステータス変更に失敗しました", false);
-    //         })();
-    //   })();
-    !isActive &&
-      (() => {
-        handleReload();
-      })();
-  }, [isActive]);
+  // useEffect(() => {
+  //   !isActive &&
+  //     (() => {
+  //       handleReload(); // →handleGetMemoSummary();
+  //     })();
+  // }, [isActive]);
 
   const [isAddMemo, setIsAddMemo] = useState(false);
   const handleOnPlus = () => {
