@@ -76,7 +76,11 @@ export const EditModal = ({
     isActive && tab !== undefined && setValue(list[tab].name);
   }, [isActive]);
   return (
-    <HeaderModal isActive={isActive} setIsActive={setIsActive}>
+    <HeaderModal
+      isActive={isActive}
+      setIsActive={setIsActive}
+      handleExec={handleExec}
+    >
       <div className={"EditModal"}>
         <InputBox
           value={value}

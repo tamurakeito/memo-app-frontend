@@ -73,7 +73,11 @@ export const AddModal = ({
         })();
   };
   return (
-    <HeaderModal isActive={isActive} setIsActive={setIsActive}>
+    <HeaderModal
+      isActive={isActive}
+      setIsActive={setIsActive}
+      handleExec={handleExec}
+    >
       <div className={"AddModal"}>
         <InputBox
           value={value}

@@ -98,7 +98,9 @@ export const Navigation = ({ handleReload }: { handleReload: () => void }) => {
         handleClick={() => {
           setIsActive(false);
         }}
-        isSwipe={"left"}
+        handleSwipeLeft={() => {
+          setIsActive(false);
+        }}
       />
     </>
   );
