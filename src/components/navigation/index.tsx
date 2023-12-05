@@ -99,7 +99,7 @@ export const Navigation = ({ handleReload }: { handleReload: () => void }) => {
             </MemoListBox>
           </ScrollArea>
         )}
-        <Line bottom={137} />
+        {/* <Line bottom={137} /> */}
         {/* <Settings className={"icon-setting"} size={16} /> */}
       </div>
       <Shadow

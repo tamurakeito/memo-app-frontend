@@ -3,7 +3,7 @@
 .Swiper {
   position: fixed;
   top: calc(47px + env(safe-area-inset-top));
-  width: 100vw;
+  width: 100%;
   height: calc(100vh - 95px);
   .SwipeCard {
     position: absolute;
@@ -26,8 +26,8 @@
     position: absolute;
     z-index: 0;
     top: 0;
-    width: 50vw;
-    max-width: 150px;
+    width: 30vw;
+    // max-width: 150px;
     height: calc(100vh - 95px);
     &.left {
       left: 0;

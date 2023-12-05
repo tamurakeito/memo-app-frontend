@@ -12,6 +12,7 @@ import { useErrorContext } from "providers/error-provider";
 import { useToastContext } from "providers/toast-provider";
 import { putRestatusMemo } from "data/api/putRestatusMemo";
 import { getMemoDetail } from "data/api/getMemoDetail";
+import { Line } from "ui/atoms/line";
 
 export const TopBar = () => {
   const setIsActiveNavi = useNaviContext().setIsActive;
@@ -89,6 +90,7 @@ export const TopBar = () => {
           />
         </>
       )}
+      <Line top={47} />
     </div>
   );
 };

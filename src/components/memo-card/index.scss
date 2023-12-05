@@ -1,7 +1,9 @@
 @use "assets/scss/config/variables" as var;
 
 .MemoCard {
-  // position: relative;
+  width: 100vw;
+  max-width: 100vh;
+  margin: 0 auto;
   height: calc(100vh - 140px);
   .Line {
     z-index: 100;
