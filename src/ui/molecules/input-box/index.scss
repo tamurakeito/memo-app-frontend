@@ -18,6 +18,9 @@
   .input-input {
     font-size: 15px;
     width: 100%;
+    &::placeholder {
+      color: var.$GRAY400;
+    }
   }
   .input-button {
     width: 20px;
