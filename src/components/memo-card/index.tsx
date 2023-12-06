@@ -57,7 +57,6 @@ export const MemoCard = ({
 
   return (
     <ScrollArea className={"MemoCard"}>
-      <Line top={0} />
       {!!memo ? (
         <div className={"memo-card"}>
           <TitleBlock>{memo.name}</TitleBlock>

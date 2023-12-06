@@ -33,21 +33,12 @@ export const Navigation = ({ handleReload }: { handleReload: () => void }) => {
     trackMouse: true,
   });
 
-  useEffect(() => {
-    // isActiveNavi &&
-    //   (async () => {
-    //     const response = await getMemoSummary();
-    //     !!response
-    //       ? setListData(response)
-    //       : (() => {
-    //           // setToast("ステータス変更に失敗しました", false);
-    //         })();
-    //   })();
-    !isActive &&
-      (() => {
-        handleReload();
-      })();
-  }, [isActive]);
+  // useEffect(() => {
+  //   !isActive &&
+  //     (() => {
+  //       handleReload(); // →handleGetMemoSummary();
+  //     })();
+  // }, [isActive]);
 
   const [isAddMemo, setIsAddMemo] = useState(false);
   const handleOnPlus = () => {
@@ -99,7 +90,7 @@ export const Navigation = ({ handleReload }: { handleReload: () => void }) => {
             </MemoListBox>
           </ScrollArea>
         )}
-        <Line bottom={137} />
+        {/* <Line bottom={137} /> */}
         {/* <Settings className={"icon-setting"} size={16} /> */}
       </div>
       <Shadow
@@ -107,7 +98,9 @@ export const Navigation = ({ handleReload }: { handleReload: () => void }) => {
         handleClick={() => {
           setIsActive(false);
         }}
-        isSwipe={"left"}
+        handleSwipeLeft={() => {
+          setIsActive(false);
+        }}
       />
     </>
   );

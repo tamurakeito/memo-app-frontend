@@ -6,19 +6,21 @@ import { useEffect, useState } from "react";
 export const Shadow = ({
   isActive,
   handleClick = () => {},
-  isSwipe,
+  handleSwipeUp = () => {},
+  handleSwipeLeft = () => {},
 }: {
   isActive: boolean;
   handleClick?: () => void;
-  isSwipe?: "left" | "up" | undefined;
+  handleSwipeUp?: () => void;
+  handleSwipeLeft?: () => void;
 }) => {
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
       if (event.dir === "Up") {
-        isSwipe === "up" && handleClick();
+        handleSwipeUp();
       }
       if (event.dir === "Left") {
-        isSwipe === "left" && handleClick();
+        handleSwipeLeft();
       }
     },
     trackMouse: true,

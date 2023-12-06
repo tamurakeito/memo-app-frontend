@@ -4,15 +4,16 @@ import "./index.scss";
 import React from "react";
 import classNames from "classnames";
 
-// 今回のメモアプリではmodalを使わなかったがいずれ何かで使えそうなので取っておく
 export const HeaderModal = ({
   children,
   isActive,
   setIsActive,
+  handleExec,
 }: {
   children: ReactNode;
   isActive: boolean;
   setIsActive: (isActive: boolean) => void;
+  handleExec?: () => void;
 }) => {
   const [isModalActive, setIsModalActive] = useState(isActive);
   const [isShadowActive, setIsShadowActive] = useState(isActive);
@@ -80,8 +81,8 @@ export const HeaderModal = ({
       )}
       <Shadow
         isActive={isShadowActive}
-        handleClick={modalSlideOut}
-        isSwipe={"up"}
+        handleClick={handleExec}
+        handleSwipeUp={modalSlideOut}
       />
     </>
   );

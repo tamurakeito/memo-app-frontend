@@ -10,6 +10,7 @@ import { useErrorContext } from "providers/error-provider";
 import { useMemoContext } from "providers/memo-provider";
 import { useTabContext } from "providers/tab-provider";
 import { getMemoDetail } from "data/api/getMemoDetail";
+import { useToastContext } from "providers/toast-provider";
 
 export const AddModal = ({
   isActive,
@@ -23,6 +24,7 @@ export const AddModal = ({
   const { tab } = useTabContext();
   const { setIsLoading } = useContext(LoadStateContext);
   const { setIsError } = useErrorContext();
+  const { setToast } = useToastContext();
 
   const handleReload = async () => {
     if (tab !== undefined) {
@@ -31,7 +33,18 @@ export const AddModal = ({
     }
   };
 
+  const chaLimit = 24;
+  const onChange = (value: string) => {
+    value.length > chaLimit
+      ? setToast({
+          content: "24文字以内で登録してください",
+          isSuccess: false,
+        })
+      : setValue(value);
+  };
+
   const handleExec = () => {
+    // 24文字制限
     value && tab !== undefined
       ? (async () => {
           const data: TaskType = {
@@ -60,11 +73,15 @@ export const AddModal = ({
         })();
   };
   return (
-    <HeaderModal isActive={isActive} setIsActive={setIsActive}>
+    <HeaderModal
+      isActive={isActive}
+      setIsActive={setIsActive}
+      handleExec={handleExec}
+    >
       <div className={"AddModal"}>
         <InputBox
           value={value}
-          onChange={setValue}
+          onChange={onChange}
           icon={InputIcon.penTool}
           button={InputButton.plus}
           handleOnBlur={() => setIsActive(false)}

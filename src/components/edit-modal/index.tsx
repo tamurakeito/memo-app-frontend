@@ -25,6 +25,17 @@ export const EditModal = ({
   const { tab } = useTabContext();
   const { setIsError } = useErrorContext();
   const { setToast } = useToastContext();
+
+  const chaLimit = 20;
+  const onChange = (value: string) => {
+    value.length > chaLimit
+      ? setToast({
+          content: "20文字以内で登録してください",
+          isSuccess: false,
+        })
+      : setValue(value);
+  };
+
   const handleExec = async () => {
     setIsLoading(true);
     if (tab !== undefined) {
@@ -65,11 +76,15 @@ export const EditModal = ({
     isActive && tab !== undefined && setValue(list[tab].name);
   }, [isActive]);
   return (
-    <HeaderModal isActive={isActive} setIsActive={setIsActive}>
+    <HeaderModal
+      isActive={isActive}
+      setIsActive={setIsActive}
+      handleExec={handleExec}
+    >
       <div className={"EditModal"}>
         <InputBox
           value={value}
-          onChange={setValue}
+          onChange={onChange}
           icon={InputIcon.edit3}
           button={InputButton.check}
           handleOnBlur={() => setIsActive(false)}

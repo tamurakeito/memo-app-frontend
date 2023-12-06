@@ -60,15 +60,30 @@ export const Modal = ({
       })();
   }, [isActive]);
 
+  const [isMouseDown, setIsMouseDown] = useState(false);
+
   const handleStart = (event: React.TouchEvent<HTMLDivElement>) => {
     setInitialPosition(event.changedTouches[0].clientY);
     setTransition(0);
+  };
+  const handleStartPC = (event: React.MouseEvent<HTMLDivElement>) => {
+    setInitialPosition(event.clientY);
+    setTransition(0);
+    setIsMouseDown(true);
   };
   const handleMove = (event: React.TouchEvent<HTMLDivElement>) => {
     initialPosition < event.changedTouches[0].clientY
       ? setBottomPosition(event.changedTouches[0].clientY - initialPosition)
       : handleSlideUp !== undefined &&
         setBottomPosition(event.changedTouches[0].clientY - initialPosition);
+  };
+  const handleMovePC = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (isMouseDown) {
+      initialPosition < event.clientY
+        ? setBottomPosition(event.clientY - initialPosition)
+        : handleSlideUp !== undefined &&
+          setBottomPosition(event.clientY - initialPosition);
+    }
   };
   const handleEnd = () => {
     setTransition(0.2);
@@ -81,6 +96,7 @@ export const Modal = ({
     } else {
       setBottomPosition(0);
     }
+    setIsMouseDown(false);
   };
 
   return (
@@ -89,8 +105,11 @@ export const Modal = ({
         <div
           className="Modal"
           onTouchStart={handleStart}
+          onMouseDown={handleStartPC}
           onTouchMove={handleMove}
+          onMouseMove={handleMovePC}
           onTouchEnd={handleEnd}
+          onMouseUp={handleEnd}
           onClick={modalSlideDown}
         >
           <div
