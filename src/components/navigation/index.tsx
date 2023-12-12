@@ -236,7 +236,9 @@ const AddMemoList = ({
         onCompositionStart={() => setIsTyping(true)}
         onCompositionEnd={() => setIsTyping(false)}
         onKeyDown={(event) => {
-          event.key === "Enter" && !isTyping && handleOnEnter();
+          (event.key === "Enter" || event.key === "Done") &&
+            !isTyping &&
+            handleOnEnter();
         }}
       />
     </div>

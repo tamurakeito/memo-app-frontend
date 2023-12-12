@@ -1,6 +1,6 @@
 import { Check, Edit3, PenTool, Plus } from "react-feather";
 import "./index.scss";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const InputBox = ({
   value,
@@ -21,6 +21,11 @@ export const InputBox = ({
 }) => {
   // IME入力時に確定させない
   const [isTyping, setIsTyping] = useState(false);
+  // コンポーネントがマウントされた後にフォーカスをセットする
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  useEffect(() => {
+    inputRef.current && inputRef.current.focus();
+  }, []);
   return (
     <div className="InputBox">
       {!!icon && <div className="input-icon">{icon}</div>}
@@ -35,8 +40,11 @@ export const InputBox = ({
         onCompositionStart={() => setIsTyping(true)}
         onCompositionEnd={() => setIsTyping(false)}
         onKeyDown={(event) => {
-          event.key === "Enter" && !isTyping && handleOnEnter();
+          (event.key === "Enter" || event.key === "Done") &&
+            !isTyping &&
+            handleOnEnter();
         }}
+        ref={inputRef}
       />
       {!!button && (
         <div className="input-button" onClick={handleOnEnter}>

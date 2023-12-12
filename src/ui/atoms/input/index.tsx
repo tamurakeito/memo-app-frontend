@@ -31,7 +31,9 @@ export const Input = ({
       placeholder={placeholder}
       onChange={(event) => onChange(event.target.value)}
       onKeyDown={(event) => {
-        event.key === "Enter" && !!onKeyDown && onKeyDown();
+        (event.key === "Enter" || event.key === "Done") &&
+          !!onKeyDown &&
+          onKeyDown();
       }}
       autoFocus={true}
     />
@@ -43,7 +45,9 @@ export const Input = ({
       placeholder={placeholder}
       onChange={(event) => onChange(event.target.value)}
       onKeyDown={(event) => {
-        event.key === "Enter" && !!onKeyDown && onKeyDown();
+        (event.key === "Enter" || event.key === "Done") &&
+          !!onKeyDown &&
+          onKeyDown();
       }}
       readOnly
     />
