@@ -51,7 +51,7 @@ export const RemoveModal = ({
   const DefaultView = () => {
     return (
       <div className="RemoveModal">
-        <Text size={TextSizes.text4} className={"modal-content"}>
+        <Text size={TextSizes.text5} className={"modal-content"}>
           {list.length && tab !== undefined
             ? `『${list[tab].name}』を削除します`
             : "error"}
@@ -86,7 +86,7 @@ export const RemoveModal = ({
   const DownView = () => {
     return (
       <div className="RemoveModal">
-        <Text size={TextSizes.text4} className={"modal-content"}>
+        <Text size={TextSizes.text5} className={"modal-content"}>
           キャンセル
         </Text>
         <div className="modal-icon">
