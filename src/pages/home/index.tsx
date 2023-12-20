@@ -21,6 +21,7 @@ import { useMenuContext } from "providers/menu-provider";
 import { Skeleton } from "components/skeleton";
 import { EditModal } from "components/edit-modal";
 import { getMemoDetail } from "data/api/getMemoDetail";
+import { useTabContext } from "providers/tab-provider";
 
 export const LoadStateContext = createContext({
   isLoading: false,

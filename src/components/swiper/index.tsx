@@ -3,11 +3,16 @@ import "./index.scss";
 import classNames from "classnames";
 import { useSwipeable } from "react-swipeable";
 import { useTabContext } from "providers/tab-provider";
+import { useNaviContext } from "providers/navi-provider";
 
 export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
   const { tab, setTabIndex } = useTabContext();
+  const setIsNavigation = useNaviContext().setIsActive;
   const handleSwipeLeft = () => {
-    tab !== undefined && tab > 0 && setTabIndex(tab - 1);
+    if (tab !== undefined) {
+      tab > 0 && setTabIndex(tab - 1);
+      tab <= 0 && setIsNavigation(true);
+    }
   };
   const handleSwipeRight = () => {
     tab !== undefined && tab < pages.length - 1 && setTabIndex(tab + 1);
@@ -37,8 +42,8 @@ export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
             <SwipeCard
               key={index}
               position={swipeAreaPositions.center}
-              handleClickLeft={handleSwipeLeft}
-              handleClickRight={handleSwipeRight}
+              handleClickLeft={handleSwipeRight}
+              handleClickRight={handleSwipeLeft}
             >
               {page}
             </SwipeCard>
