@@ -24,8 +24,8 @@ export const InputBox = ({
   // コンポーネントがマウントされた後にフォーカスをセットする
   const inputRef = useRef<HTMLInputElement | null>(null);
   useEffect(() => {
-    inputRef.current && inputRef.current.focus();
-  }, []);
+    inputRef.current && value && inputRef.current.focus();
+  }, [value]);
   return (
     <div className="InputBox">
       {!!icon && <div className="input-icon">{icon}</div>}
