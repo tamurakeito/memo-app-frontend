@@ -81,7 +81,10 @@ export const HeaderModal = ({
       )}
       <Shadow
         isActive={isShadowActive}
-        handleClick={handleExec}
+        handleClick={() => {
+          handleExec && handleExec();
+          setIsActive(false);
+        }}
         handleSwipeUp={handleExec}
       />
     </>

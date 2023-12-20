@@ -53,7 +53,6 @@ export const AddModal = ({
             memo_id: list[tab].id,
             complete: false,
           };
-          setIsActive(false);
           setValue("");
           setIsLoading(true);
           const response = await postAddTask(data);
@@ -68,7 +67,6 @@ export const AddModal = ({
               })();
         })()
       : (() => {
-          setIsActive(false);
           setValue("");
         })();
   };

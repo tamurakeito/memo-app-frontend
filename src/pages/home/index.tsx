@@ -61,10 +61,12 @@ export const Home = () => {
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
       if (event.dir === "Up") {
-        isCreate || isEdit || isNavigation || isMenu || setIsDelete(true);
+        !isCreate && !isEdit && !isNavigation && !isMenu && setIsDelete(true);
+        isCreate && setIsCreate(false);
+        isEdit && setIsEdit(false);
       }
       if (event.dir === "Down") {
-        isDelete || isEdit || isNavigation || isMenu || setIsCreate(true);
+        !isDelete && !isEdit && !isNavigation && !isMenu && setIsCreate(true);
       }
     },
     trackMouse: true,

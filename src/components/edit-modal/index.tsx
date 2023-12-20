@@ -37,10 +37,7 @@ export const EditModal = ({
   };
 
   const handleExec = async () => {
-    setIsLoading(true);
-    if (tab !== undefined) {
-      setIsActive(false);
-      console.log(value);
+    if (tab !== undefined && value !== "" && value !== list[tab].name) {
       setIsLoading(true);
       const id = list[tab].id;
       const data: MemoSummaryType = {
@@ -70,7 +67,7 @@ export const EditModal = ({
             setIsLoading(false);
           })();
     }
-    setValue("");
+    // setValue("");
   };
   useEffect(() => {
     isActive && tab !== undefined && setValue(list[tab].name);
