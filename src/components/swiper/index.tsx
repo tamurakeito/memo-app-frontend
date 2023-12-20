@@ -9,21 +9,22 @@ export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
   const { tab, setTabIndex } = useTabContext();
   const setIsNavigation = useNaviContext().setIsActive;
   const handleSwipeLeft = () => {
+    tab !== undefined && tab < pages.length - 1 && setTabIndex(tab + 1);
+  };
+  const handleSwipeRight = () => {
     if (tab !== undefined) {
       tab > 0 && setTabIndex(tab - 1);
       tab <= 0 && setIsNavigation(true);
     }
   };
-  const handleSwipeRight = () => {
-    tab !== undefined && tab < pages.length - 1 && setTabIndex(tab + 1);
-  };
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
       if (event.dir === "Left") {
-        handleSwipeRight();
+        console.log("left");
+        handleSwipeLeft();
       }
       if (event.dir === "Right") {
-        handleSwipeLeft();
+        handleSwipeRight();
       }
     },
     trackMouse: true,
