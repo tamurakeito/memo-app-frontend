@@ -104,7 +104,7 @@
     .ListBlock {
       height: 32px;
       position: relative;
-      &.created {
+      &:hover {
         background: var.$GRAY100;
       }
       .point-icon {
@@ -123,7 +123,7 @@
       }
       .complete-icon {
         position: absolute;
-        top: 0;
+        top: 7px;
         right: 3px;
         color: var.$GRAY400;
       }
