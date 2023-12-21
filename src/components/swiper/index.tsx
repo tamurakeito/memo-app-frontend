@@ -20,7 +20,6 @@ export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
       if (event.dir === "Left") {
-        console.log("left");
         handleSwipeLeft();
       }
       if (event.dir === "Right") {

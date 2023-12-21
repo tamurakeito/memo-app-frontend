@@ -23,6 +23,15 @@ export const HeaderModal = ({
   const [topPosition, setTopPosition] = useState(-50);
   const [transition, setTransition] = useState(0.2);
 
+  const modalSlideIn = async () => {
+    await setTopPosition(-50);
+    setIsModalActive(true);
+    setIsShadowActive(true);
+    setTimeout(() => {
+      topPosition === -50 && setTopPosition(0);
+    }, 10);
+  };
+
   const modalSlideOut = async () => {
     setTopPosition(-50);
     setIsShadowActive(false);
@@ -33,17 +42,12 @@ export const HeaderModal = ({
   };
 
   useEffect(() => {
-    isActive
-      ? (() => {
-          setIsModalActive(true);
-          setIsShadowActive(true);
-        })()
-      : modalSlideOut();
+    isActive ? modalSlideIn() : modalSlideOut();
   }, [isActive]);
 
-  useEffect(() => {
-    isModalActive && setTopPosition(0);
-  }, [isModalActive]);
+  // useEffect(() => {
+  //   // isModalActive && setTopPosition(0);
+  // }, [isModalActive]);
 
   const handleStart = (event: React.TouchEvent<HTMLDivElement>) => {
     setInitialPosition(event.changedTouches[0].clientY);

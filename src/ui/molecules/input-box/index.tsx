@@ -24,8 +24,8 @@ export const InputBox = ({
   // コンポーネントがマウントされた後にフォーカスをセットする
   const inputRef = useRef<HTMLInputElement | null>(null);
   useEffect(() => {
-    inputRef.current && value && inputRef.current.focus();
-  }, [value]);
+    inputRef.current && inputRef.current.focus();
+  }, []);
   return (
     <div className="InputBox">
       {!!icon && <div className="input-icon">{icon}</div>}
@@ -34,7 +34,7 @@ export const InputBox = ({
         type="text"
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        autoFocus={true}
+        // autoFocus={true}
         onBlur={handleOnBlur}
         placeholder={placeholder ? placeholder : ""}
         onCompositionStart={() => setIsTyping(true)}
