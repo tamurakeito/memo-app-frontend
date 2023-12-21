@@ -84,8 +84,14 @@ export const EditModal = ({
           onChange={onChange}
           icon={InputIcon.edit3}
           button={InputButton.check}
-          handleOnBlur={handleExec}
-          handleOnEnter={handleExec}
+          handleOnBlur={() => {
+            setIsActive(false);
+            handleExec();
+          }}
+          handleOnEnter={() => {
+            setIsActive(false);
+            handleExec();
+          }}
           placeholder={"新しいタイトルを入力"}
         />
       </div>

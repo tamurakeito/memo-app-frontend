@@ -82,8 +82,14 @@ export const AddModal = ({
           onChange={onChange}
           icon={InputIcon.penTool}
           button={InputButton.plus}
-          handleOnBlur={handleExec}
-          handleOnEnter={handleExec}
+          handleOnBlur={() => {
+            setIsActive(false);
+            handleExec();
+          }}
+          handleOnEnter={() => {
+            setIsActive(false);
+            handleExec();
+          }}
           placeholder={"新しいタスク"}
         />
       </div>
