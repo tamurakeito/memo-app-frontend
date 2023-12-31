@@ -60,6 +60,40 @@ export const Home = () => {
   const windowHeight = window.innerHeight;
 
   const [tapY, setTapY] = useState<number | undefined>();
+
+  const handleSwipeUp = () => {
+    !isCreate &&
+      !isEdit &&
+      !isNavigation &&
+      !isMenu &&
+      tapY !== undefined &&
+      windowHeight - tapY < (1 / 4) * windowHeight &&
+      setIsDelete(true);
+    isCreate && setIsCreate(false);
+    isEdit && setIsEdit(false);
+  };
+  const handleSwipeDown = () => {
+    !isDelete &&
+      !isEdit &&
+      !isNavigation &&
+      !isMenu &&
+      tapY !== undefined &&
+      tapY < (1 / 4) * windowHeight &&
+      setIsCreate(true);
+  };
+
+  const swipeHandlers = useSwipeable({
+    onSwiped: (event) => {
+      if (event.dir === "Up") {
+        handleSwipeUp();
+      }
+      if (event.dir === "Down") {
+        handleSwipeDown();
+      }
+    },
+    trackMouse: true,
+  });
+
   const handleStart = (event: React.TouchEvent<HTMLDivElement>) => {
     setTapY(event.changedTouches[0].clientY);
   };
@@ -69,30 +103,16 @@ export const Home = () => {
   const handleEnd = () => {
     setTapY(undefined);
   };
-
-  const swipeHandlers = useSwipeable({
-    onSwiped: (event) => {
-      if (event.dir === "Up") {
-        !isCreate &&
-          !isEdit &&
-          !isNavigation &&
-          !isMenu &&
-          tapY !== undefined &&
-          windowHeight - tapY < (1 / 4) * windowHeight &&
-          setIsDelete(true);
-        isCreate && setIsCreate(false);
-        isEdit && setIsEdit(false);
+  const handleEndPC = (event: React.MouseEvent<HTMLDivElement>) => {
+    handleEnd();
+    if (tapY !== undefined) {
+      if (event.clientY < tapY) {
+        handleSwipeUp();
+      } else if (event.clientY > tapY) {
+        handleSwipeDown();
       }
-      if (
-        event.dir === "Down" &&
-        tapY !== undefined &&
-        tapY < (1 / 4) * windowHeight
-      ) {
-        !isDelete && !isEdit && !isNavigation && !isMenu && setIsCreate(true);
-      }
-    },
-    trackMouse: true,
-  });
+    }
+  };
 
   return (
     <LoadStateContext.Provider value={{ isLoading, setIsLoading }}>
@@ -102,7 +122,7 @@ export const Home = () => {
         onTouchStart={handleStart}
         onMouseDown={handleStartPC}
         onTouchEnd={handleEnd}
-        onMouseUp={handleEnd}
+        onMouseUp={handleEndPC}
       >
         <TopBar />
         {!isError ? (
