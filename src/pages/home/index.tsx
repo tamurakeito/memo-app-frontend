@@ -59,14 +59,35 @@ export const Home = () => {
     handleGetMemoSummary();
   }, []);
 
+  const windowHeight = window.innerHeight;
+
+  const [tapY, setTapY] = useState<number | undefined>();
+  const handleStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    setTapY(event.changedTouches[0].clientY);
+  };
+  const handleStartPC = (event: React.MouseEvent<HTMLDivElement>) => {
+    setTapY(event.clientY);
+  };
+  const handleEnd = () => {
+    setTapY(undefined);
+  };
+
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
-      if (event.dir === "Up") {
+      if (
+        event.dir === "Up" &&
+        tapY !== undefined &&
+        windowHeight - tapY < (1 / 4) * windowHeight
+      ) {
         !isCreate && !isEdit && !isNavigation && !isMenu && setIsDelete(true);
         isCreate && setIsCreate(false);
         isEdit && setIsEdit(false);
       }
-      if (event.dir === "Down") {
+      if (
+        event.dir === "Down" &&
+        tapY !== undefined &&
+        tapY < (1 / 4) * windowHeight
+      ) {
         !isDelete && !isEdit && !isNavigation && !isMenu && setIsCreate(true);
       }
     },
@@ -75,7 +96,14 @@ export const Home = () => {
 
   return (
     <LoadStateContext.Provider value={{ isLoading, setIsLoading }}>
-      <div className={"Home"} {...swipeHandlers}>
+      <div
+        className={"Home"}
+        {...swipeHandlers}
+        onTouchStart={handleStart}
+        onMouseDown={handleStartPC}
+        onTouchEnd={handleEnd}
+        onMouseUp={handleEnd}
+      >
         <TopBar />
         {!isError ? (
           list.length > 0 ? (

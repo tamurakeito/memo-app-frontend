@@ -29,7 +29,7 @@
     "ini": "chmod 755 .init.sh && ./.init.sh",
     "mock_server": "./node_modules/.bin/json-server --watch mock/db_mock.json --routes mock/routes.json --middlewares mock/middleware.js  --port 3004",
     "deploy:firebase": "yarn build && mv build firebase/public && cd firebase && firebase deploy ",
-    "deploy:gcp": "sudo rm -r docker/build || true && yarn build && mv build docker/ && scp docker/* kit_tamtam@35.197.94.117:/home/kit_tamtam/react-docker || true && scp docker/build/* kit_tamtam@35.197.94.117:/home/kit_tamtam/react-docker/build || true && scp docker/build/static/css/* kit_tamtam@35.197.94.117:/home/kit_tamtam/react-docker/build/static/css || true && scp docker/build/static/js/* kit_tamtam@35.197.94.117:/home/kit_tamtam/react-docker/build/static/js",
+    "deploy:gcp": "sudo rm -r docker/build || true && yarn build && mv build docker/ && eval '$(ssh-agent -s)' && ssh-add ~/.ssh/memo-app-gcp && scp docker/* kit_tamtam@35.197.94.117:/home/kit_tamtam/react-docker || true && scp docker/build/* kit_tamtam@35.197.94.117:/home/kit_tamtam/react-docker/build || true && scp docker/build/static/css/* kit_tamtam@35.197.94.117:/home/kit_tamtam/react-docker/build/static/css || true && scp docker/build/static/js/* kit_tamtam@35.197.94.117:/home/kit_tamtam/react-docker/build/static/js",
     "run:gcp": "ssh kit_tamtam@35.197.94.117 'bash -s' < docker-script.sh",
     "git:push": "./.gitpush.sh",
     "deploy": "yarn git:push && yarn deploy:gcp && yarn run:gcp"
