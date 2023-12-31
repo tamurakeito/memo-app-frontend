@@ -24,7 +24,9 @@ export const InputBox = ({
   // コンポーネントがマウントされた後にフォーカスをセットする
   const inputRef = useRef<HTMLInputElement | null>(null);
   useEffect(() => {
-    inputRef.current && inputRef.current.focus();
+    setTimeout(() => {
+      inputRef.current && inputRef.current.focus();
+    }, 300);
   }, []);
   return (
     <div className="InputBox">
