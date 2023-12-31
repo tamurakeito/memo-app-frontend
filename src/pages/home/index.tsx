@@ -20,8 +20,6 @@ import { useNaviContext } from "providers/navi-provider";
 import { useMenuContext } from "providers/menu-provider";
 import { Skeleton } from "components/skeleton";
 import { EditModal } from "components/edit-modal";
-import { getMemoDetail } from "data/api/getMemoDetail";
-import { useTabContext } from "providers/tab-provider";
 
 export const LoadStateContext = createContext({
   isLoading: false,
@@ -74,12 +72,14 @@ export const Home = () => {
 
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
-      if (
-        event.dir === "Up" &&
-        tapY !== undefined &&
-        windowHeight - tapY < (1 / 4) * windowHeight
-      ) {
-        !isCreate && !isEdit && !isNavigation && !isMenu && setIsDelete(true);
+      if (event.dir === "Up") {
+        !isCreate &&
+          !isEdit &&
+          !isNavigation &&
+          !isMenu &&
+          tapY !== undefined &&
+          windowHeight - tapY < (1 / 4) * windowHeight &&
+          setIsDelete(true);
         isCreate && setIsCreate(false);
         isEdit && setIsEdit(false);
       }
