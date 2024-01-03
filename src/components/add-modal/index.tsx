@@ -1,7 +1,7 @@
 import { HeaderModal } from "ui/molecules/header-modal";
 import "./index.scss";
 import { InputBox, InputButton, InputIcon } from "ui/molecules/input-box";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { LoadStateContext } from "pages/home";
 import { postAddMemo } from "data/api/postAddMemo";
 import { postAddTask } from "data/api/postAddTask";
@@ -42,6 +42,10 @@ export const AddModal = ({
         })
       : setValue(value);
   };
+
+  useEffect(() => {
+    setValue("");
+  }, [isActive]);
 
   const handleExec = () => {
     // 24文字制限

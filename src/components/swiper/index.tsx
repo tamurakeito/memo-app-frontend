@@ -38,7 +38,7 @@ export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!isKeyDown) {
-        console.log("キーが押されました: ", event.key);
+        // console.log("キーが押されました: ", event.key);
         switch (event.key) {
           case "ArrowLeft":
             handleSwipeLeft();
@@ -53,8 +53,7 @@ export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
       }
     };
 
-    const handleKeyUp = (event: KeyboardEvent) => {
-      console.log("キーが離されました: ", event.key);
+    const handleKeyUp = () => {
       setIsKeyDown(false);
     };
 

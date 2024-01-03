@@ -35,6 +35,7 @@ export const Home = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const isNavigation = useNaviContext().isActive;
+  const setIsNavigation = useNaviContext().setIsActive;
   const isMenu = useMenuContext().isActive;
 
   const [isLoading, setIsLoading] = useState(false);
@@ -113,6 +114,37 @@ export const Home = () => {
       }
     }
   };
+
+  const [isKeyDown, setIsKeyDown] = useState(false);
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!isKeyDown) {
+        switch (event.key) {
+          case "n":
+            setIsNavigation(!isNavigation);
+            break;
+          case "Alt":
+            setIsCreate(!isCreate);
+            break;
+          default:
+            break;
+        }
+        setIsKeyDown(true);
+      }
+    };
+
+    const handleKeyUp = () => {
+      setIsKeyDown(false);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, [isKeyDown]);
 
   return (
     <LoadStateContext.Provider value={{ isLoading, setIsLoading }}>
