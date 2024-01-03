@@ -25,10 +25,10 @@ export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
       if (event.dir === "Left") {
-        handleSwipeRight();
+        handleSwipeLeft();
       }
       if (event.dir === "Right") {
-        handleSwipeLeft();
+        handleSwipeRight();
       }
     },
     trackMouse: true,
