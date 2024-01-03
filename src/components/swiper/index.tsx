@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import "./index.scss";
 import classNames from "classnames";
 import { useSwipeable } from "react-swipeable";
@@ -7,9 +7,14 @@ import { useNaviContext } from "providers/navi-provider";
 
 export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
   const { tab, setTabIndex } = useTabContext();
+  const isNavigation = useNaviContext().isActive;
   const setIsNavigation = useNaviContext().setIsActive;
   const handleSwipeLeft = () => {
-    tab !== undefined && tab < pages.length - 1 && setTabIndex(tab + 1);
+    if (tab !== undefined) {
+      !isNavigation
+        ? tab < pages.length - 1 && setTabIndex(tab + 1)
+        : setIsNavigation(false);
+    }
   };
   const handleSwipeRight = () => {
     if (tab !== undefined) {
@@ -20,14 +25,48 @@ export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
       if (event.dir === "Left") {
-        handleSwipeLeft();
+        handleSwipeRight();
       }
       if (event.dir === "Right") {
-        handleSwipeRight();
+        handleSwipeLeft();
       }
     },
     trackMouse: true,
   });
+
+  const [isKeyDown, setIsKeyDown] = useState(false);
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!isKeyDown) {
+        console.log("キーが押されました: ", event.key);
+        switch (event.key) {
+          case "ArrowLeft":
+            handleSwipeLeft();
+            break;
+          case "ArrowRight":
+            handleSwipeRight();
+            break;
+          default:
+            break;
+        }
+        setIsKeyDown(true);
+      }
+    };
+
+    const handleKeyUp = (event: KeyboardEvent) => {
+      console.log("キーが離されました: ", event.key);
+      setIsKeyDown(false);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, [isKeyDown]);
+
   return (
     <div className={"Swiper"} {...swipeHandlers}>
       {pages.map((page, index) => {
