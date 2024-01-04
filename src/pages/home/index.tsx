@@ -121,10 +121,10 @@ export const Home = () => {
       if (!isKeyDown) {
         switch (event.key) {
           case "n":
-            setIsNavigation(!isNavigation);
+            !isCreate && setIsNavigation(!isNavigation);
             break;
           case "Alt":
-            setIsCreate(!isCreate);
+            !isNavigation && setIsCreate(!isCreate);
             break;
           default:
             break;
