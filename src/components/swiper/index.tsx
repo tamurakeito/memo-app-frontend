@@ -41,10 +41,10 @@ export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
         // console.log("キーが押されました: ", event.key);
         switch (event.key) {
           case "ArrowLeft":
-            handleSwipeLeft();
+            handleSwipeRight();
             break;
           case "ArrowRight":
-            handleSwipeRight();
+            handleSwipeLeft();
             break;
           default:
             break;
