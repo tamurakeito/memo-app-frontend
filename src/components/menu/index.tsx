@@ -55,12 +55,12 @@ export const Menu = ({
         const memoId = list[tab].id;
         const response = await getMemoDetail(memoId);
         !!response
-          ? (() => {
+          ? (async () => {
               // 取得したタスクリストをfor文で回してそれぞれの操作を行う
-              response.tasks.forEach((task) => {
+              await response.tasks.forEach((task) => {
                 handleOperation(task, memoId);
               });
-              handleReload();
+              await setTimeout(handleReload, 100 * response.tasks.length);
             })()
           : setToast({
               content: "ステータスの変更に失敗しました",
