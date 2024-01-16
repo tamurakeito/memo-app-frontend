@@ -129,11 +129,12 @@ export const Home = () => {
           default:
             break;
         }
-      } else {
-        event.key === "Alt" && setIsKeyDown(true);
+      } else if (event.key === "Alt") {
+        setIsKeyDown(true);
         setIsCreate(false);
         setIsNavigation(false);
       }
+      console.log(event.key);
     };
 
     const handleKeyUp = (event: KeyboardEvent) => {
