@@ -43,7 +43,7 @@ export const Swiper = ({
   const [isKeyDown, setIsKeyDown] = useState(false);
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!isKeyDown && isCreate) {
+      if (!isKeyDown && !isCreate) {
         // console.log("キーが押されました: ", event.key);
         switch (event.key) {
           case "ArrowLeft":

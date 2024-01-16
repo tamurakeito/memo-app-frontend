@@ -134,7 +134,6 @@ export const Home = () => {
         setIsCreate(false);
         setIsNavigation(false);
       }
-      console.log(event.key);
     };
 
     const handleKeyUp = (event: KeyboardEvent) => {
