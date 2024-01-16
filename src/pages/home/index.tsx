@@ -164,6 +164,7 @@ export const Home = () => {
                 pages={list.map((memo, index) => (
                   <MemoCard key={index} id={memo.id} tabIndex={index} />
                 ))}
+                isCreate={isCreate}
               />
               <PlusButton onClick={() => setIsCreate(true)} />
             </>

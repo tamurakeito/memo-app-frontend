@@ -5,7 +5,13 @@ import { useSwipeable } from "react-swipeable";
 import { useTabContext } from "providers/tab-provider";
 import { useNaviContext } from "providers/navi-provider";
 
-export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
+export const Swiper = ({
+  pages,
+  isCreate,
+}: {
+  pages: Array<ReactNode>;
+  isCreate: boolean;
+}) => {
   const { tab, setTabIndex } = useTabContext();
   const isNavigation = useNaviContext().isActive;
   const setIsNavigation = useNaviContext().setIsActive;
@@ -37,7 +43,7 @@ export const Swiper = ({ pages }: { pages: Array<ReactNode> }) => {
   const [isKeyDown, setIsKeyDown] = useState(false);
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!isKeyDown) {
+      if (!isKeyDown && isCreate) {
         // console.log("キーが押されました: ", event.key);
         switch (event.key) {
           case "ArrowLeft":
