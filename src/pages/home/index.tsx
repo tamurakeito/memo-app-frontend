@@ -118,23 +118,26 @@ export const Home = () => {
   const [isKeyDown, setIsKeyDown] = useState(false);
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!isKeyDown) {
+      if (isKeyDown) {
         switch (event.key) {
-          case "n":
+          case "Dead": // alt + n
             !isCreate && setIsNavigation(!isNavigation);
             break;
-          case "Alt":
+          case "å": // alt + a
             !isNavigation && setIsCreate(!isCreate);
             break;
           default:
             break;
         }
-        setIsKeyDown(true);
+      } else {
+        event.key === "Alt" && setIsKeyDown(true);
+        setIsCreate(false);
+        setIsNavigation(false);
       }
     };
 
-    const handleKeyUp = () => {
-      setIsKeyDown(false);
+    const handleKeyUp = (event: KeyboardEvent) => {
+      event.key === "Alt" && setIsKeyDown(false);
     };
 
     window.addEventListener("keydown", handleKeyDown);
