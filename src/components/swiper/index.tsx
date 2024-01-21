@@ -70,7 +70,7 @@ export const Swiper = ({
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [isKeyDown]);
+  }, [isKeyDown, isCreate]);
 
   return (
     <div className={"Swiper"} {...swipeHandlers}>
