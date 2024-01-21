@@ -41,10 +41,14 @@ export const Swiper = ({
   });
 
   const [isKeyDown, setIsKeyDown] = useState(false);
+  // const [isLongPress, setIsLongPress] = useState(false);
   useEffect(() => {
+    // setIsLongPress(true);
     const handleKeyDown = (event: KeyboardEvent) => {
+      // setIsLongPress(true);
+      // setTimeout(() => setIsKeyDown(false), 1000);
       if (!isKeyDown && !isCreate) {
-        // console.log("キーが押されました: ", event.key);
+        console.log("キーが押されました: ", event.key);
         switch (event.key) {
           case "ArrowLeft":
             handleSwipeRight();
@@ -61,6 +65,7 @@ export const Swiper = ({
 
     const handleKeyUp = () => {
       setIsKeyDown(false);
+      // setIsLongPress(false);
     };
 
     window.addEventListener("keydown", handleKeyDown);
