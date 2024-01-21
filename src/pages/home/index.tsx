@@ -162,16 +162,15 @@ export const Home = () => {
         <TopBar />
         {!isError ? (
           list.length > 0 ? (
-            <>
-              <Swiper
-                pages={list.map((memo, index) => (
-                  <MemoCard key={index} id={memo.id} tabIndex={index} />
-                ))}
-                isCreate={isCreate}
-              />
-              <PlusButton onClick={() => setIsCreate(true)} />
-            </>
+            // <>
+            <Swiper
+              pages={list.map((memo, index) => (
+                <MemoCard key={index} id={memo.id} tabIndex={index} />
+              ))}
+              isCreate={isCreate}
+            />
           ) : (
+            // </>
             <ExceptionDisplay
               value="登録されているメモがありません"
               icon={ExceptionIcons.null}
@@ -183,6 +182,12 @@ export const Home = () => {
             icon={ExceptionIcons.fail}
           />
         )}
+        {/* <PlusButton
+          onClick={() => {
+            setIsCreate(true);
+            console.log("push");
+          }}
+        /> */}
         <Navigation handleReload={handleGetMemoSummary} />
         <Menu
           setIsEdit={setIsEdit}
