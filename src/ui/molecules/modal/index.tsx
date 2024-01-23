@@ -41,7 +41,7 @@ export const Modal = ({
   };
   const modalSlideUp = async () => {
     setTransition(0.5);
-    setBottomPosition(-2 * window.innerHeight + modalHeight);
+    setBottomPosition(-2 * window.outerHeight + modalHeight);
     setIsShadowActive(false);
     setIsTransparent(true);
     setTimeout(() => {
@@ -116,7 +116,7 @@ export const Modal = ({
             className={classes}
             style={{
               transform: `translateY(${
-                2 * window.innerHeight - modalHeight + bottomPosition
+                2 * window.outerHeight - modalHeight + bottomPosition
               }px)`,
               transition: `${transition}s`,
             }}
