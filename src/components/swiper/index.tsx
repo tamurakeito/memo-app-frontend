@@ -28,6 +28,7 @@ export const Swiper = ({
       tab <= 0 && setIsNavigation(true);
     }
   };
+
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
       if (event.dir === "Left") {
@@ -41,20 +42,19 @@ export const Swiper = ({
   });
 
   const [isKeyDown, setIsKeyDown] = useState(false);
-  // const [isLongPress, setIsLongPress] = useState(false);
+  const [timer, setTimer] = useState<NodeJS.Timeout | undefined>();
   useEffect(() => {
-    // setIsLongPress(true);
     const handleKeyDown = (event: KeyboardEvent) => {
-      // setIsLongPress(true);
-      // setTimeout(() => setIsKeyDown(false), 1000);
       if (!isKeyDown && !isCreate) {
-        console.log("キーが押されました: ", event.key);
+        // console.log("キーが押されました: ", event.key);
         switch (event.key) {
           case "ArrowLeft":
             handleSwipeRight();
+            handlePressLeft();
             break;
           case "ArrowRight":
             handleSwipeLeft();
+            handlePressRight();
             break;
           default:
             break;
@@ -65,7 +65,31 @@ export const Swiper = ({
 
     const handleKeyUp = () => {
       setIsKeyDown(false);
-      // setIsLongPress(false);
+      timer && clearInterval(timer);
+    };
+
+    const handlePressLeft = () => {
+      let counter = tab ? tab - 1 : 0;
+      setTimer(
+        setInterval(() => {
+          if (counter >= 0) {
+            setTabIndex(counter);
+            counter--;
+          }
+        }, 100)
+      );
+    };
+
+    const handlePressRight = () => {
+      let counter = tab !== undefined ? tab + 1 : 0;
+      setTimer(
+        setInterval(() => {
+          if (counter < pages.length) {
+            setTabIndex(counter);
+            counter++;
+          }
+        }, 100)
+      );
     };
 
     window.addEventListener("keydown", handleKeyDown);
