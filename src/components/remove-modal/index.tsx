@@ -100,7 +100,8 @@ export const RemoveModal = ({
 
   return (
     <Modal
-      modalHeight={(1 / 2) * window.innerHeight}
+      // modalHeight={(1 / 2) * window.innerHeight}
+      modalHeight={400}
       isActive={isActive}
       setIsActive={setIsActive}
       handleSlideUp={handleDelete}
