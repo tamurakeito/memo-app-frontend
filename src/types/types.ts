@@ -18,3 +18,7 @@ export type TaskType = {
   memo_id: number;
   complete: boolean;
 };
+
+export type ClientData = {
+  currentTab: number;
+};

@@ -65,5 +65,11 @@
     "complete": true
   },
   "delete-memo": {},
-  "delete-task": {}
+  "delete-task": {},
+  "client-data": {
+    "currentTab": 1
+  },
+  "client-data-override": {
+    "currentTab": 2
+  }
 }

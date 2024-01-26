@@ -20,6 +20,8 @@ import { useNaviContext } from "providers/navi-provider";
 import { useMenuContext } from "providers/menu-provider";
 import { Skeleton } from "components/skeleton";
 import { EditModal } from "components/edit-modal";
+import { useTabContext } from "providers/tab-provider";
+import { getClientData } from "data/api/getClientData";
 
 export const LoadStateContext = createContext({
   isLoading: false,
@@ -37,6 +39,7 @@ export const Home = () => {
   const isNavigation = useNaviContext().isActive;
   const setIsNavigation = useNaviContext().setIsActive;
   const isMenu = useMenuContext().isActive;
+  const { setTabIndex } = useTabContext();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -56,6 +59,11 @@ export const Home = () => {
 
   useEffect(() => {
     handleGetMemoSummary();
+    // 前回表示していたページを開く
+    (async () => {
+      const response = await getClientData();
+      setTabIndex(response ? response.currentTab : 0);
+    })();
   }, []);
 
   const windowHeight = window.innerHeight;
