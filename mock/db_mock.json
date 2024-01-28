@@ -67,9 +67,9 @@
   "delete-memo": {},
   "delete-task": {},
   "client-data": {
-    "currentTab": 1
+    "tab": 1
   },
   "client-data-override": {
-    "currentTab": 2
+    "tab": 2
   }
 }

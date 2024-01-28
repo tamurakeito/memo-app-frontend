@@ -4,6 +4,8 @@ import classNames from "classnames";
 import { useSwipeable } from "react-swipeable";
 import { useTabContext } from "providers/tab-provider";
 import { useNaviContext } from "providers/navi-provider";
+import { putClientData } from "data/api/putClientData";
+import { ClientData } from "types/types";
 
 export const Swiper = ({
   pages,
@@ -115,8 +117,9 @@ export const Swiper = ({
     beforeTab === afterTab &&
       sentTab !== afterTab &&
       (async () => {
-        // const response = await putClientData(afterTab);
-        // response !== undefined && setSentTab(response)
+        const data: ClientData = { tab: afterTab ? afterTab : 0 };
+        const response = await putClientData(data);
+        response !== undefined && setSentTab(response.tab);
       })();
   }, [afterTab]);
 

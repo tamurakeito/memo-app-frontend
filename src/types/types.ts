@@ -20,5 +20,5 @@ export type TaskType = {
 };
 
 export type ClientData = {
-  currentTab: number;
+  tab: number;
 };

@@ -62,7 +62,7 @@ export const Home = () => {
     // 前回表示していたページを開く
     (async () => {
       const response = await getClientData();
-      setTabIndex(response ? response.currentTab : 0);
+      setTabIndex(response?.tab ? response.tab : 0);
     })();
   }, []);
 
