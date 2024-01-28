@@ -101,6 +101,25 @@ export const Swiper = ({
     };
   }, [isKeyDown, isCreate]);
 
+  // ページが捲られたときに一定時間そのページにとどまっていた場合そのページをClientDataとしてサーバーへ送信する
+  const [beforeTab, setBeforeTab] = useState(tab);
+  const [afterTab, setAfterTab] = useState(tab);
+  const [sentTab, setSentTab] = useState(tab);
+  useEffect(() => {
+    setBeforeTab(tab);
+    setTimeout(() => {
+      setAfterTab(tab);
+    }, 1000);
+  }, [tab]);
+  useEffect(() => {
+    beforeTab === afterTab &&
+      sentTab !== afterTab &&
+      (async () => {
+        // const response = await putClientData(afterTab);
+        // response !== undefined && setSentTab(response)
+      })();
+  }, [afterTab]);
+
   return (
     <div className={"Swiper"} {...swipeHandlers}>
       {pages.map((page, index) => {
