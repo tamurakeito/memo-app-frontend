@@ -116,7 +116,8 @@ export const Modal = ({
             className={classes}
             style={{
               transform: `translateY(${
-                2 * window.outerHeight - modalHeight + bottomPosition
+                2*window.innerHeight - modalHeight + bottomPosition
+                
               }px)`,
               transition: `${transition}s`,
             }}
