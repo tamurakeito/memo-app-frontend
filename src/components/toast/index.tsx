@@ -7,6 +7,7 @@ export type Toast = {
   content: string;
   isSuccess: boolean;
   duration?: number;
+  onClick?: ()=>void
 };
 
 export const Toast = () => {
@@ -14,7 +15,7 @@ export const Toast = () => {
   const [isActive, setIsActive] = useState(false);
   const [isAppear, setIsAppear] = useState(false);
   const classes = classNames(["Toast", isAppear && "active"]);
-  const duration = toast?.duration === undefined ? 1000 : toast.duration;
+  const duration = toast?.duration === undefined ? 1500 : toast.duration;
   useEffect(() => {
     toast && setIsActive(true);
     setTimeout(() => {
@@ -28,7 +29,7 @@ export const Toast = () => {
     }, duration + 100);
   }, [toast]);
   return toast && isActive ? (
-    <div className={classes}>{toast.content}</div>
+    <div className={classes} onClick={toast.onClick}>{toast.content}</div>
   ) : (
     <></>
   );

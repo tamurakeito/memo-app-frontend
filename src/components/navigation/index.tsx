@@ -191,7 +191,7 @@ const AddMemoList = ({
     setIsActiveNavi(false);
     setIsLoading(true);
     const data: MemoDetailType = {
-      id: 0, // バックエンドで処理されないid
+      id: 0, // バックエンドで無視されるid（errで末尾にデータ挿入される）
       name: value,
       tag: false,
       tasks: [],

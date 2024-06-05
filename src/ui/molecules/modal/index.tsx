@@ -110,7 +110,7 @@ export const Modal = ({
           onMouseMove={handleMovePC}
           onTouchEnd={handleEnd}
           onMouseUp={handleEnd}
-          onClick={modalSlideDown}
+          // onClick={modalSlideDown}
         >
           <div
             className={classes}
