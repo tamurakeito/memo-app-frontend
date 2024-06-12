@@ -1,2 +1,2 @@
-cd react-docker
+cd memo-app-react
 docker-compose up --build -d
