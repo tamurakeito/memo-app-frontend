@@ -7,7 +7,6 @@ import classNames from "classnames";
 import { IconButton } from "ui/molecules/icon-button";
 import { ScrollArea } from "ui/atoms/scroll-area";
 import { MemoDetailType } from "types/types";
-import { Input } from "ui/atoms/input";
 import { TaskType } from "types/types";
 import { putRestatusTask } from "data/api/putRestatusTask";
 import { deleteTask } from "data/api/deleteTask";
@@ -16,10 +15,9 @@ import {
   ExceptionIcons,
 } from "ui/molecules/exception-display";
 import { getMemoDetail } from "data/api/getMemoDetail";
-import { memoryUsage } from "process";
-import { AddModal } from "components/add-modal";
 import { useTabContext } from "providers/tab-provider";
 import { useMemoContext } from "providers/memo-provider";
+import { SkeletonMemoCard } from "components/skeleton";
 
 export const MemoCard = ({
   id,
@@ -32,13 +30,14 @@ export const MemoCard = ({
   const [memo, setMemo] = useState<MemoDetailType>();
   const { list } = useMemoContext();
   const displayMemo = useMemoContext().memo;
+  const [isLoading, setIsLoading] = useState(false);
 
   // 表示されている前後１枚ずつを毎度読み込む
   useEffect(() => {
     tab === tabIndex && handleMemoLoad();
-    (tab === tabIndex - 1 || tab === tabIndex + 1) &&
-      memo === undefined &&
-      handleMemoLoad();
+    // (tab === tabIndex - 1 || tab === tabIndex + 1) &&
+    //   memo === undefined &&
+    //   handleMemoLoad();
   }, [tab]);
 
   // contextで格納されているやつが変更された場合のみそれを入れる
@@ -51,13 +50,19 @@ export const MemoCard = ({
   }, [list]);
 
   const handleMemoLoad = async () => {
+    await setIsLoading(true);
     const response = await getMemoDetail(id);
-    !!response && setMemo(response);
+    if (!!response) {
+      setMemo(response);
+      setIsLoading(false);
+    }
   };
 
   return (
     <ScrollArea className={"MemoCard"}>
-      {!!memo ? (
+      {isLoading ? (
+        <SkeletonMemoCard />
+      ) : !!memo ? (
         <div className={"memo-card"}>
           <TitleBlock>{memo.name}</TitleBlock>
           {tab !== undefined &&

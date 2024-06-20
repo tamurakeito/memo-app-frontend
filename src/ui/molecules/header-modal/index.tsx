@@ -3,7 +3,7 @@ import { Shadow } from "ui/atoms/shadow";
 import "./index.scss";
 import React from "react";
 import classNames from "classnames";
-import { LoadStateContext } from "pages/home";
+import { AppStateContext } from "pages/home";
 
 export const HeaderModal = ({
   children,

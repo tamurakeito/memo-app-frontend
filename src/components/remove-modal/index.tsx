@@ -7,7 +7,7 @@ import { useMemoContext } from "providers/memo-provider";
 import { useTabContext } from "providers/tab-provider";
 import { deleteMemo } from "data/api/deleteMemo";
 import { useToastContext } from "providers/toast-provider";
-import { LoadStateContext } from "pages/home";
+import { AppStateContext } from "pages/home";
 import { useErrorContext } from "providers/error-provider";
 import { getMemoDetail } from "data/api/getMemoDetail";
 
@@ -23,7 +23,7 @@ export const RemoveModal = ({
   const { list, setListData } = useMemoContext();
   const { tab, setTabIndex } = useTabContext();
   const { setToast } = useToastContext();
-  const { setIsLoading } = useContext(LoadStateContext);
+  const { setIsLoading } = useContext(AppStateContext);
   const { setIsError } = useErrorContext();
 
   const handleDelete = () => {

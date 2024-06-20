@@ -16,7 +16,7 @@ import { getMemoSummary } from "data/api/getMemoSummary";
 import { postAddMemo } from "data/api/postAddMemo";
 import { useToastContext } from "providers/toast-provider";
 import { log } from "console";
-import { LoadStateContext } from "pages/home";
+import { AppStateContext } from "pages/home";
 import { useErrorContext } from "providers/error-provider";
 import { MemoDetailType } from "types/types";
 
@@ -179,7 +179,7 @@ const AddMemoList = ({
 }) => {
   const [value, setValue] = useState("");
   const setIsActiveNavi = useNaviContext().setIsActive;
-  const { setIsLoading } = useContext(LoadStateContext);
+  const { setIsLoading } = useContext(AppStateContext);
   const { setToast } = useToastContext();
   const { setIsError } = useErrorContext();
   const { setListData } = useMemoContext();

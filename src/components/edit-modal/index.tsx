@@ -2,7 +2,7 @@ import { HeaderModal } from "ui/molecules/header-modal";
 import "./index.scss";
 import { InputBox, InputButton, InputIcon } from "ui/molecules/input-box";
 import { useContext, useEffect, useState } from "react";
-import { LoadStateContext } from "pages/home";
+import { AppStateContext } from "pages/home";
 import { putRestatusMemo } from "data/api/putRestatusMemo";
 import { MemoDetailType, MemoSummaryType } from "types/types";
 import { useMemoContext } from "providers/memo-provider";
@@ -20,7 +20,7 @@ export const EditModal = ({
   setIsActive: (isActive: boolean) => void;
 }) => {
   const [value, setValue] = useState("");
-  const { setIsLoading } = useContext(LoadStateContext);
+  const { setIsLoading } = useContext(AppStateContext);
   const { list, setListData } = useMemoContext();
   const { tab } = useTabContext();
   const { setIsError } = useErrorContext();

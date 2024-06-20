@@ -2,8 +2,7 @@ import { HeaderModal } from "ui/molecules/header-modal";
 import "./index.scss";
 import { InputBox, InputButton, InputIcon } from "ui/molecules/input-box";
 import { useContext, useEffect, useState } from "react";
-import { LoadStateContext } from "pages/home";
-import { postAddMemo } from "data/api/postAddMemo";
+import { AppStateContext } from "pages/home";
 import { postAddTask } from "data/api/postAddTask";
 import { TaskType } from "types/types";
 import { useErrorContext } from "providers/error-provider";
@@ -22,7 +21,7 @@ export const AddModal = ({
   const [value, setValue] = useState("");
   const { list, setMemo } = useMemoContext();
   const { tab } = useTabContext();
-  const { setIsLoading } = useContext(LoadStateContext);
+  const { setIsLoading } = useContext(AppStateContext);
   const { setIsError } = useErrorContext();
   const { setToast } = useToastContext();
 

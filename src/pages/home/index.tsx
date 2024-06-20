@@ -2,7 +2,6 @@ import "./index.scss";
 import { MemoCard } from "components/memo-card";
 import { TopBar } from "components/top-bar";
 import { Swiper } from "components/swiper";
-import { PlusButton } from "ui/molecules/plus-button";
 import { Navigation } from "components/navigation";
 import { createContext, useEffect, useState } from "react";
 import { getMemoSummary } from "data/api/getMemoSummary";
@@ -23,10 +22,13 @@ import { EditModal } from "components/edit-modal";
 import { useTabContext } from "providers/tab-provider";
 import { getClientData } from "data/api/getClientData";
 
-export const LoadStateContext = createContext({
+export const AppStateContext = createContext({
   isLoading: false,
   setIsLoading: (_: boolean) => {
-    console.log("load state provider unimplement.");
+    console.log("app state provider unimplement.");
+  },
+  setIsOverflow: (_: boolean) => {
+    console.log("app state provider unimplement.");
   },
 });
 
@@ -69,26 +71,37 @@ export const Home = () => {
   const windowHeight = window.innerHeight;
 
   const [tapY, setTapY] = useState<number | undefined>();
+  const [isOverflow, setIsOverflow] = useState(false);
+  const [isSwipeUpAllow, setIsSwipeUpAllow] = useState(true);
+
+  useEffect(() => {
+    console.log(isCreate);
+  }, [isCreate]);
 
   const handleSwipeUp = () => {
-    !isCreate &&
-      !isEdit &&
-      !isNavigation &&
-      !isMenu &&
-      tapY !== undefined &&
-      windowHeight - tapY < (1 / 4) * windowHeight &&
-      setIsDelete(true);
+    isSwipeUpAllow
+      ? !isEdit &&
+        !isNavigation &&
+        !isMenu &&
+        tapY !== undefined &&
+        (!isOverflow || windowHeight - tapY < (1 / 4) * windowHeight) &&
+        setIsDelete(true)
+      : setIsSwipeUpAllow(true);
     isCreate && setIsCreate(false);
     isEdit && setIsEdit(false);
   };
   const handleSwipeDown = () => {
-    !isDelete &&
+    if (
+      !isDelete &&
       !isEdit &&
       !isNavigation &&
       !isMenu &&
       tapY !== undefined &&
-      tapY < (1 / 4) * windowHeight &&
+      (!isOverflow || tapY < (1 / 4) * windowHeight)
+    ) {
       setIsCreate(true);
+      setIsSwipeUpAllow(false);
+    }
   };
 
   const swipeHandlers = useSwipeable({
@@ -158,7 +171,9 @@ export const Home = () => {
   }, [isKeyDown]);
 
   return (
-    <LoadStateContext.Provider value={{ isLoading, setIsLoading }}>
+    <AppStateContext.Provider
+      value={{ isLoading, setIsLoading, setIsOverflow }}
+    >
       <div
         className={"Home"}
         {...swipeHandlers}
@@ -211,6 +226,6 @@ export const Home = () => {
         />
       </div>
       {isLoading && <Skeleton />}
-    </LoadStateContext.Provider>
+    </AppStateContext.Provider>
   );
 };
