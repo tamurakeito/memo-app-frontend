@@ -1,3 +1,6 @@
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_git_rsa
+
 ## mainブランチに直接コミットする場合
 
 git checkout main

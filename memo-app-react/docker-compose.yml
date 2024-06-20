@@ -5,7 +5,7 @@ services:
     build:
       context: .
     ports:
-      - "8080:80"
+      - "8081:80"
     logging:
       options:
         max-size: "10m"

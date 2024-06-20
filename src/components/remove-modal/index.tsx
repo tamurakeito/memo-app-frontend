@@ -10,6 +10,8 @@ import { useToastContext } from "providers/toast-provider";
 import { AppStateContext } from "pages/home";
 import { useErrorContext } from "providers/error-provider";
 import { getMemoDetail } from "data/api/getMemoDetail";
+import { MemoDetailType } from "types/types";
+import { postAddMemo } from "data/api/postAddMemo";
 
 export const RemoveModal = ({
   isActive,
@@ -18,7 +20,7 @@ export const RemoveModal = ({
 }: {
   isActive: boolean;
   setIsActive: (isActive: boolean) => void;
-  handleReload: () => void;
+  handleReload: () => Promise<void>;
 }) => {
   const { list, setListData } = useMemoContext();
   const { tab, setTabIndex } = useTabContext();
@@ -30,14 +32,36 @@ export const RemoveModal = ({
     setIsLoading(true);
     tab !== undefined
       ? (async () => {
-          const response = await deleteMemo(list[tab].id);
-          tab > 0 && setTabIndex(tab - 1);
+        const id: number = list[tab].id;
+        const memo = await getMemoDetail(id);
+          const response = await deleteMemo(id);
+          // tab == list.length - 1 && setTabIndex(tab - 1);
+          tab > 0 ? setTabIndex(tab - 1):setTabIndex(tab + 1);
           !!response
             ? handleReload()
             : (() => {
                 setIsError(true);
                 setIsLoading(false);
               })();
+          setToast({
+            content: "削除したメモを元に戻す",
+            isSuccess: false,
+            duration: 5000,
+            onClick: 
+            !!memo ? async ()=>{
+              const response = await postAddMemo(memo);
+              if(response){
+                await handleReload();
+                setTabIndex(tab);
+              }else{
+                setToast({content: "メモも復元に失敗しました", isSuccess: false,});
+              }
+            } : () => setToast({
+                content: "メモの復元に失敗しました",
+                isSuccess: false,
+              }),
+          });
+          setIsLoading(false);
         })()
       : (() => {
           setToast({
@@ -100,7 +124,6 @@ export const RemoveModal = ({
 
   return (
     <Modal
-      // modalHeight={(1 / 2) * window.innerHeight}
       modalHeight={400}
       isActive={isActive}
       setIsActive={setIsActive}

@@ -110,13 +110,14 @@ export const Modal = ({
           onMouseMove={handleMovePC}
           onTouchEnd={handleEnd}
           onMouseUp={handleEnd}
-          onClick={modalSlideDown}
+          // onClick={modalSlideDown}
         >
           <div
             className={classes}
             style={{
               transform: `translateY(${
-                2 * window.outerHeight - modalHeight + bottomPosition
+                2*window.innerHeight - modalHeight + bottomPosition
+                
               }px)`,
               transition: `${transition}s`,
             }}

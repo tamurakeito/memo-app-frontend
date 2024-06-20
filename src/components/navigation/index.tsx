@@ -67,6 +67,7 @@ export const Navigation = ({ handleReload }: { handleReload: () => void }) => {
               )}
             </MemoListBox>
             <MemoListBox isTagged={false} handleOnPlus={handleOnPlus}>
+            {isAddMemo && <AddMemoList setIsActive={setIsAddMemo} />}
               {list.map(
                 (memo, index) =>
                   !memo.tag && (
@@ -80,7 +81,6 @@ export const Navigation = ({ handleReload }: { handleReload: () => void }) => {
                     </MemoList>
                   )
               )}
-              {isAddMemo && <AddMemoList setIsActive={setIsAddMemo} />}
             </MemoListBox>
           </ScrollArea>
         ) : (
@@ -191,7 +191,7 @@ const AddMemoList = ({
     setIsActiveNavi(false);
     setIsLoading(true);
     const data: MemoDetailType = {
-      id: 0, // バックエンドで処理されないid
+      id: 0, // バックエンドで無視されるid（errで末尾にデータ挿入される）
       name: value,
       tag: false,
       tasks: [],
