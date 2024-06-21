@@ -214,46 +214,49 @@ export const ListBlock = ({
       ) : (
         <Check className={"point-icon complete"} size={16} />
       )}
-      {!url ? (
-        <Text
-          size={!complete ? TextSizes.text1 : TextSizes.text2}
-          className={"block-content"}
-        >
-          {name}
-        </Text>
-      ) : (
-        <span
-          onClick={() => {
-            console.log("tap!!");
-          }}
-          className={"block-content"}
-        >
-          {name.split(urlRegex).map((part, index) =>
-            urlRegex.test(part) ? (
-              <Text
-                key={index}
-                className={"url-content"}
-                size={TextSizes.text3}
-                onClick={() => {
-                  window.open(part, "_blank");
-                }}
-              >
-                {part}
-              </Text>
-            ) : (
-              !!part && (
+      <div className={"swipable"}>
+        {!url ? (
+          <Text
+            size={!complete ? TextSizes.text1 : TextSizes.text2}
+            className={"block-content"}
+          >
+            {name}
+          </Text>
+        ) : (
+          <span
+            onClick={() => {
+              console.log("tap!!");
+            }}
+            className={"block-content"}
+          >
+            {name.split(urlRegex).map((part, index) =>
+              urlRegex.test(part) ? (
                 <Text
                   key={index}
-                  className={"none-url-content"}
-                  size={TextSizes.text1}
+                  className={"url-content"}
+                  size={TextSizes.text3}
+                  onClick={() => {
+                    window.open(part, "_blank");
+                  }}
                 >
                   {part}
                 </Text>
+              ) : (
+                !!part && (
+                  <Text
+                    key={index}
+                    className={"none-url-content"}
+                    size={TextSizes.text1}
+                  >
+                    {part}
+                  </Text>
+                )
               )
-            )
-          )}
-        </span>
-      )}
+            )}
+          </span>
+        )}
+      </div>
+      <div className={"lid"} />
       {!complete ? (
         <IconButton
           className={"complete-icon"}

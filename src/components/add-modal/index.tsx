@@ -32,11 +32,11 @@ export const AddModal = ({
     }
   };
 
-  const chaLimit = 24;
+  const chaLimit = 100;
   const onChange = (value: string) => {
     value.length > chaLimit
       ? setToast({
-          content: "24文字以内で登録してください",
+          content: "100文字以内で登録してください",
           isSuccess: false,
         })
       : setValue(value);
