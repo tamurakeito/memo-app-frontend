@@ -104,6 +104,7 @@
     .ListBlock {
       height: 32px;
       position: relative;
+      cursor: default;
       &:hover {
         background: var.$GRAY100;
       }
@@ -120,18 +121,34 @@
         position: absolute;
         top: 7px;
         left: 36px;
+        height: 18px;
+        display: inline-flex;
+        justify-content: center;
+        .url-content {
+          padding: {
+            right: 6px;
+          }
+          cursor: pointer;
+        }
+        .none-url-content {
+          padding: {
+            right: 6px;
+          }
+        }
       }
       .complete-icon {
         position: absolute;
         top: 7px;
         right: 3px;
         color: var.$GRAY400;
+        cursor: pointer;
       }
       .delete-icon {
         position: absolute;
         top: 7px;
         right: 3px;
         color: var.$GRAY400;
+        cursor: pointer;
       }
       .input-area {
         font-size: 16px;

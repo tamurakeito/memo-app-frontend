@@ -19,6 +19,9 @@ import { useTabContext } from "providers/tab-provider";
 import { useMemoContext } from "providers/memo-provider";
 import { SkeletonMemoCard } from "components/skeleton";
 
+// URLを検出するための正規表現
+const urlRegex = /(https?:\/\/[^\s]+)/g;
+
 export const MemoCard = ({
   id,
   tabIndex,
@@ -81,6 +84,7 @@ export const MemoCard = ({
                         memoId={memo.id}
                         complete={false}
                         handleReload={handleMemoLoad}
+                        url={urlRegex.test(task.name)}
                       />
                     )
                 )}
@@ -173,12 +177,14 @@ export const ListBlock = ({
   memoId,
   complete,
   handleReload = () => {},
+  url = false,
 }: {
   id: number;
   name: string;
   memoId: number;
   complete: boolean;
   handleReload?: () => void;
+  url?: boolean;
 }) => {
   const data: TaskType = {
     id: id,
@@ -202,18 +208,52 @@ export const ListBlock = ({
     !!response ? handleReload() : failure();
   };
   return (
-    <div className={"ListBlock"}>
+    <div onClick={() => {}} className={"ListBlock"}>
       {!complete ? (
         <Circle className={"point-icon"} size={16} />
       ) : (
         <Check className={"point-icon complete"} size={16} />
       )}
-      <Text
-        size={!complete ? TextSizes.text1 : TextSizes.text2}
-        className={"block-content"}
-      >
-        {name}
-      </Text>
+      {!url ? (
+        <Text
+          size={!complete ? TextSizes.text1 : TextSizes.text2}
+          className={"block-content"}
+        >
+          {name}
+        </Text>
+      ) : (
+        <span
+          onClick={() => {
+            console.log("tap!!");
+          }}
+          className={"block-content"}
+        >
+          {name.split(urlRegex).map((part, index) =>
+            urlRegex.test(part) ? (
+              <Text
+                key={index}
+                className={"url-content"}
+                size={TextSizes.text3}
+                onClick={() => {
+                  window.open(part, "_blank");
+                }}
+              >
+                {part}
+              </Text>
+            ) : (
+              !!part && (
+                <Text
+                  key={index}
+                  className={"none-url-content"}
+                  size={TextSizes.text1}
+                >
+                  {part}
+                </Text>
+              )
+            )
+          )}
+        </span>
+      )}
       {!complete ? (
         <IconButton
           className={"complete-icon"}

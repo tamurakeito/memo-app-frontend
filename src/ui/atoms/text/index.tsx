@@ -8,13 +8,19 @@ export const Text = ({
   children,
   size,
   className,
+  onClick,
 }: {
   children: ReactNode;
   size: TextSize;
   className?: string;
+  onClick?: () => void;
 }) => {
   const classes = classNames(["Text", size, className]);
-  return <span className={classes}>{children}</span>;
+  return (
+    <span className={classes} onClick={onClick}>
+      {children}
+    </span>
+  );
 };
 
 export const TextSizes = {
