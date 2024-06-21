@@ -21,7 +21,7 @@
       z-index: 10;
       margin: {
         // top: 25px;
-        left: 16px;
+        // left: 16px;
         right: 16px;
         bottom: 22px;
       }
@@ -32,7 +32,7 @@
       z-index: 1;
       margin: {
         top: 25px;
-        left: 16px;
+        // left: 16px;
         right: 16px;
         bottom: 22px;
       }
@@ -83,21 +83,21 @@
       position: relative;
       margin: {
         top: 25px;
-        left: 16px;
+        // left: 16px;
         right: 16px;
         bottom: 15px;
       }
       svg {
         position: absolute;
         top: 4px;
-        left: 1px;
+        left: 16px;
         color: var.$GRAY900;
         fill: var.$GRAY300;
       }
       .block-content {
         position: absolute;
         top: 0;
-        left: 35px;
+        left: 50px;
       }
     }
 
@@ -108,11 +108,14 @@
       cursor: default;
       &:hover {
         background: var.$GRAY100;
+        .lid {
+          background: var.$GRAY100;
+        }
       }
       .point-icon {
         position: absolute;
         top: 8px;
-        left: 1px;
+        left: 16px;
         color: var.$GRAY900;
         &.complete {
           color: var.$GRAY400;
@@ -121,8 +124,8 @@
       .swipable {
         position: absolute;
         top: 7px;
-        left: 36px;
-        width: calc(100% - 20px);
+        left: 51px;
+        width: calc(100% - 36px);
         height: 18px;
         display: inline-flex;
         justify-content: left;
