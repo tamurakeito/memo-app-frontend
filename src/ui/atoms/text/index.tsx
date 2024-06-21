@@ -1,8 +1,6 @@
 import classNames from "classnames";
 import { ReactNode } from "react";
 import "./index.scss";
-import { type } from "os";
-import { types } from "sass";
 
 export const Text = ({
   children,
