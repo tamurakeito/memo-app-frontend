@@ -1,7 +1,7 @@
 import "./index.scss";
 import classNames from "classnames";
 import { ReactNode, useContext, useEffect, useState } from "react";
-import { Circle, Plus, Tag } from "react-feather";
+import { Bookmark, Circle, Plus, Tag } from "react-feather";
 import { Line } from "ui/atoms/line";
 import { ScrollArea } from "ui/atoms/scroll-area";
 import { Text } from "ui/atoms/text";
@@ -48,7 +48,6 @@ export const Navigation = ({ handleReload }: { handleReload: () => void }) => {
   return (
     <>
       <div className={classes} {...swipeHandlers}>
-        {/* <Line top={88} /> */}
         {list.length > 0 ? (
           <ScrollArea className={"memo-box-container"}>
             <MemoListBox isTagged={true}>
@@ -120,7 +119,7 @@ const MemoListBox = ({
     <div className={classes}>
       <div className={"tag-box"}>
         {isTagged ? (
-          <Tag className={"tag-point"} size={16} />
+          <Bookmark className={"tag-point"} size={16} />
         ) : (
           <Circle className={"memo-point"} size={14} />
         )}

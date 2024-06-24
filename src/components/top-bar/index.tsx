@@ -1,17 +1,16 @@
 import { IconButton } from "ui/molecules/icon-button";
 import "./index.scss";
-import { Tag, Menu, MoreVertical } from "react-feather";
+import { Tag, Menu, MoreVertical, Bookmark } from "react-feather";
 import { useTabContext } from "providers/tab-provider";
 import { useMemoContext } from "providers/memo-provider";
 import { useEffect, useState } from "react";
 import { useNaviContext } from "providers/navi-provider";
 import { useMenuContext } from "providers/menu-provider";
-import { MemoDetailType, MemoSummaryType } from "types/types";
+import { MemoSummaryType } from "types/types";
 import { getMemoSummary } from "data/api/getMemoSummary";
 import { useErrorContext } from "providers/error-provider";
 import { useToastContext } from "providers/toast-provider";
 import { putRestatusMemo } from "data/api/putRestatusMemo";
-import { getMemoDetail } from "data/api/getMemoDetail";
 import { Line } from "ui/atoms/line";
 
 export const TopBar = () => {
@@ -80,7 +79,8 @@ export const TopBar = () => {
         <>
           <IconButton
             className={`TagIconButton ${isTag && "tagged"}`}
-            defaultIcon={<Tag size={17} />}
+            // defaultIcon={<Tag size={17} />}
+            defaultIcon={<Bookmark size={17} />}
             onClick={onClickTag}
           />
           <IconButton
