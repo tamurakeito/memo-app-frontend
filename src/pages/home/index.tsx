@@ -219,7 +219,6 @@ export const Home = () => {
         onMouseUp={handleEndPC}
       >
         <TopBar />
-        {/* {isOnline ? <div>オンライン</div> : <div>オフライン</div>} */}
         {!isError ? (
           list.length > 0 ? (
             // <>

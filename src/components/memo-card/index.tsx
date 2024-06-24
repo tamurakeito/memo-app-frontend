@@ -37,10 +37,9 @@ export const MemoCard = ({
 
   // 表示されている前後１枚ずつを毎度読み込む
   useEffect(() => {
-    tab === tabIndex && handleMemoLoad();
-    // (tab === tabIndex - 1 || tab === tabIndex + 1) &&
-    //   memo === undefined &&
-    //   handleMemoLoad();
+    (tab === tabIndex || tab === tabIndex - 1 || tab === tabIndex + 1) &&
+      memo === undefined &&
+      handleMemoLoad();
   }, [tab]);
 
   // contextで格納されているやつが変更された場合のみそれを入れる
