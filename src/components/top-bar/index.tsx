@@ -62,8 +62,8 @@ export const TopBar = () => {
         : (() => {
             setToast({
               content: "ステータスの変更に失敗しました",
-              isSuccess: false,
-              // duration: ,
+              isActive: true,
+              duration: 1500,
             });
           })();
     }

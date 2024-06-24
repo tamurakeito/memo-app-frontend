@@ -31,7 +31,8 @@ export const EditModal = ({
     value.length > chaLimit
       ? setToast({
           content: "20文字以内で登録してください",
-          isSuccess: false,
+          isActive: true,
+          duration: 1500,
         })
       : setValue(value);
   };
@@ -62,7 +63,8 @@ export const EditModal = ({
         : (() => {
             setToast({
               content: "メモの編集に失敗しました",
-              isSuccess: false,
+              isActive: true,
+              duration: 1500,
             });
             setIsLoading(false);
           })();

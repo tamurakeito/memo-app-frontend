@@ -64,7 +64,8 @@ export const Menu = ({
             })()
           : setToast({
               content: "ステータスの変更に失敗しました",
-              isSuccess: false,
+              isActive: true,
+              duration: 1500,
             });
         setIsActive(false);
       })();
@@ -84,8 +85,8 @@ export const Menu = ({
           res === undefined &&
             setToast({
               content: "ステータスの変更に失敗しました",
-              isSuccess: false,
-              // duration: ,
+              isActive: true,
+              duration: 1500,
             });
         })();
     });
@@ -105,8 +106,8 @@ export const Menu = ({
           res === undefined &&
             setToast({
               content: "ステータスの変更に失敗しました",
-              isSuccess: false,
-              // duration: ,
+              isActive: true,
+              duration: 1500,
             });
         })();
     });
@@ -120,8 +121,8 @@ export const Menu = ({
           res === undefined &&
             setToast({
               content: "タスクの削除に失敗しました",
-              isSuccess: false,
-              // duration: ,
+              isActive: true,
+              duration: 1500,
             });
         })();
     });

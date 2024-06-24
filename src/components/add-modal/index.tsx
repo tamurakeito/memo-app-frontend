@@ -37,7 +37,8 @@ export const AddModal = ({
     value.length > chaLimit
       ? setToast({
           content: "100文字以内で登録してください",
-          isSuccess: false,
+          isActive: true,
+          duration: 1500,
         })
       : setValue(value);
   };

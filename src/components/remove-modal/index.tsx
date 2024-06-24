@@ -32,11 +32,11 @@ export const RemoveModal = ({
     setIsLoading(true);
     tab !== undefined
       ? (async () => {
-        const id: number = list[tab].id;
-        const memo = await getMemoDetail(id);
+          const id: number = list[tab].id;
+          const memo = await getMemoDetail(id);
           const response = await deleteMemo(id);
           // tab == list.length - 1 && setTabIndex(tab - 1);
-          tab > 0 ? setTabIndex(tab - 1):setTabIndex(tab + 1);
+          tab > 0 ? setTabIndex(tab - 1) : setTabIndex(tab + 1);
           !!response
             ? handleReload()
             : (() => {
@@ -45,28 +45,36 @@ export const RemoveModal = ({
               })();
           setToast({
             content: "削除したメモを元に戻す",
-            isSuccess: false,
+            isActive: true,
             duration: 5000,
-            onClick: 
-            !!memo ? async ()=>{
-              const response = await postAddMemo(memo);
-              if(response){
-                await handleReload();
-                setTabIndex(tab);
-              }else{
-                setToast({content: "メモも復元に失敗しました", isSuccess: false,});
-              }
-            } : () => setToast({
-                content: "メモの復元に失敗しました",
-                isSuccess: false,
-              }),
+            onClick: !!memo
+              ? async () => {
+                  const response = await postAddMemo(memo);
+                  if (response) {
+                    await handleReload();
+                    setTabIndex(tab);
+                  } else {
+                    setToast({
+                      content: "メモも復元に失敗しました",
+                      isActive: true,
+                      duration: 1500,
+                    });
+                  }
+                }
+              : () =>
+                  setToast({
+                    content: "メモの復元に失敗しました",
+                    isActive: true,
+                    duration: 1500,
+                  }),
           });
           setIsLoading(false);
         })()
       : (() => {
           setToast({
             content: "メモの削除に失敗しました",
-            isSuccess: false,
+            isActive: true,
+            duration: 1500,
           });
           setIsLoading(false);
         })();

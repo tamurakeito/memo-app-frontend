@@ -67,7 +67,7 @@ export const Navigation = ({ handleReload }: { handleReload: () => void }) => {
               )}
             </MemoListBox>
             <MemoListBox isTagged={false} handleOnPlus={handleOnPlus}>
-            {isAddMemo && <AddMemoList setIsActive={setIsAddMemo} />}
+              {isAddMemo && <AddMemoList setIsActive={setIsAddMemo} />}
               {list.map(
                 (memo, index) =>
                   !memo.tag && (
@@ -214,7 +214,8 @@ const AddMemoList = ({
       : (() => {
           setToast({
             content: "メモの追加に失敗しました",
-            isSuccess: false,
+            isActive: true,
+            duration: 1500,
           });
           setIsLoading(false);
         })();

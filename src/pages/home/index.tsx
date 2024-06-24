@@ -21,6 +21,9 @@ import { Skeleton } from "components/skeleton";
 import { EditModal } from "components/edit-modal";
 import { useTabContext } from "providers/tab-provider";
 import { getClientData } from "data/api/getClientData";
+import useNetworkStatus from "hooks/useNetworkStatus";
+import { useToastContext } from "providers/toast-provider";
+import { getMemoDetail } from "data/api/getMemoDetail";
 
 export const AppStateContext = createContext({
   isLoading: false,
@@ -42,6 +45,7 @@ export const Home = () => {
   const setIsNavigation = useNaviContext().setIsActive;
   const isMenu = useMenuContext().isActive;
   const { setTabIndex } = useTabContext();
+  const { setToast } = useToastContext();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -170,6 +174,38 @@ export const Home = () => {
     };
   }, [isKeyDown]);
 
+  const isOnline = useNetworkStatus();
+  const [networkFlag, setNetworkFlag] = useState(false);
+  const { tab } = useTabContext();
+  const { setMemo } = useMemoContext();
+  const handleReload = async () => {
+    if (tab !== undefined) {
+      const response = await getMemoDetail(list[tab].id);
+      !!response && setMemo(response);
+      setIsLoading(false);
+    }
+  };
+  useEffect(() => {
+    if (networkFlag) {
+      if (isOnline) {
+        setIsLoading(true);
+        setToast({
+          content: "ネットワーク接続に復帰しました",
+          isActive: true,
+          duration: 1500,
+        });
+        handleReload();
+      } else {
+        setToast({
+          content: "ネットワーク接続がありません",
+          isActive: true,
+        });
+      }
+    } else {
+      setNetworkFlag(true);
+    }
+  }, [isOnline]);
+
   return (
     <AppStateContext.Provider
       value={{ isLoading, setIsLoading, setIsOverflow }}
@@ -183,6 +219,7 @@ export const Home = () => {
         onMouseUp={handleEndPC}
       >
         <TopBar />
+        {/* {isOnline ? <div>オンライン</div> : <div>オフライン</div>} */}
         {!isError ? (
           list.length > 0 ? (
             // <>
@@ -205,12 +242,6 @@ export const Home = () => {
             icon={ExceptionIcons.fail}
           />
         )}
-        {/* <PlusButton
-          onClick={() => {
-            setIsCreate(true);
-            console.log("push");
-          }}
-        /> */}
         <Navigation handleReload={handleGetMemoSummary} />
         <Menu
           setIsEdit={setIsEdit}
