@@ -196,13 +196,15 @@ const AddMemoList = ({
       tasks: [],
     };
     const response = await postAddMemo(data);
+    const id = response?.id;
     response
       ? (async () => {
           const response = await getMemoSummary();
           !!response
             ? (() => {
                 setListData(response);
-                setTabIndex(response.length - 1);
+                const index = response.findIndex((memo) => memo.id === id);
+                setTabIndex(index);
                 setIsLoading(false);
               })()
             : (() => {
