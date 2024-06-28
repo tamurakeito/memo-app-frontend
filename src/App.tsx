@@ -9,23 +9,26 @@ import { NaviContextProvider } from "providers/navi-provider";
 import { MenuContextProvider } from "providers/menu-provider";
 import { ToastContextProvider } from "providers/toast-provider";
 import { ErrorContextProvider } from "providers/error-provider";
+import { TaskContextProvider } from "providers/task-provider";
 
 function App() {
   return (
     <Router>
       <MemoContextProvider>
-        <TabContextProvider>
-          <NaviContextProvider>
-            <MenuContextProvider>
-              <ToastContextProvider>
-                <ErrorContextProvider>
-                  <RouteSelector />
-                  <Toast />
-                </ErrorContextProvider>
-              </ToastContextProvider>
-            </MenuContextProvider>
-          </NaviContextProvider>
-        </TabContextProvider>
+        <TaskContextProvider>
+          <TabContextProvider>
+            <NaviContextProvider>
+              <MenuContextProvider>
+                <ToastContextProvider>
+                  <ErrorContextProvider>
+                    <RouteSelector />
+                    <Toast />
+                  </ErrorContextProvider>
+                </ToastContextProvider>
+              </MenuContextProvider>
+            </NaviContextProvider>
+          </TabContextProvider>
+        </TaskContextProvider>
       </MemoContextProvider>
     </Router>
   );

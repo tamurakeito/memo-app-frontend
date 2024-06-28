@@ -1,6 +1,6 @@
 import { IconButton } from "ui/molecules/icon-button";
 import "./index.scss";
-import { Tag, Menu, MoreVertical, Bookmark } from "react-feather";
+import { Menu, MoreVertical, Bookmark } from "react-feather";
 import { useTabContext } from "providers/tab-provider";
 import { useMemoContext } from "providers/memo-provider";
 import { useEffect, useState } from "react";

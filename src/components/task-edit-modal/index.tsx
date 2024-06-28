@@ -3,21 +3,19 @@ import "./index.scss";
 import { InputBox, InputButton, InputIcon } from "ui/molecules/input-box";
 import { useContext, useEffect, useState } from "react";
 import { AppStateContext } from "pages/home";
-import { postAddTask } from "data/api/postAddTask";
-import { TaskType } from "types/types";
-import { useErrorContext } from "providers/error-provider";
+import { putRestatusMemo } from "data/api/putRestatusMemo";
+import { MemoDetailType, MemoSummaryType, TaskType } from "types/types";
 import { useMemoContext } from "providers/memo-provider";
 import { useTabContext } from "providers/tab-provider";
 import { getMemoDetail } from "data/api/getMemoDetail";
+import { useErrorContext } from "providers/error-provider";
+import { getMemoSummary } from "data/api/getMemoSummary";
 import { useToastContext } from "providers/toast-provider";
+import { useTaskContext } from "providers/task-provider";
+import { putRestatusTask } from "data/api/putRestatusTask";
 
-export const AddModal = ({
-  isActive,
-  setIsActive,
-}: {
-  isActive: boolean;
-  setIsActive: (isActive: boolean) => void;
-}) => {
+export const TaskEditModal = () => {
+  const { task, setTask, isActive, setIsActive } = useTaskContext();
   const [value, setValue] = useState("");
   const { list, setMemo } = useMemoContext();
   const { tab } = useTabContext();
@@ -44,21 +42,21 @@ export const AddModal = ({
   };
 
   useEffect(() => {
-    setValue("");
+    isActive && task !== undefined && setValue(task.name);
   }, [isActive]);
 
-  const handleExec = () => {
-    value && tab !== undefined
+  const handleExec = async () => {
+    value && task !== undefined && value !== task.name
       ? (async () => {
           const data: TaskType = {
-            id: 0, // ここは何を設定してもbackend側で処理されない
+            id: task?.id,
             name: value,
-            memo_id: list[tab].id,
-            complete: false,
+            memo_id: task.memo_id,
+            complete: task.complete,
           };
           setValue("");
           setIsLoading(true);
-          const response = await postAddTask(data);
+          const response = await putRestatusTask(data);
           !!response
             ? (async () => {
                 await handleReload();
@@ -71,6 +69,7 @@ export const AddModal = ({
         })()
       : (() => {
           setValue("");
+          setTask();
         })();
   };
   return (
@@ -79,12 +78,12 @@ export const AddModal = ({
       setIsActive={setIsActive}
       handleExec={handleExec}
     >
-      <div className={"AddModal"}>
+      <div className={"TaskEditModal"}>
         <InputBox
           value={value}
           onChange={onChange}
-          icon={InputIcon.penTool}
-          button={InputButton.plus}
+          icon={InputIcon.edit3}
+          button={InputButton.check}
           handleOnBlur={() => {
             setIsActive(false);
             handleExec();
@@ -93,7 +92,7 @@ export const AddModal = ({
             setIsActive(false);
             handleExec();
           }}
-          placeholder={"新しいタスク"}
+          placeholder={"タスクの内容を入力してください"}
         />
       </div>
     </HeaderModal>

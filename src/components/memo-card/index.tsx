@@ -18,6 +18,8 @@ import { getMemoDetail } from "data/api/getMemoDetail";
 import { useTabContext } from "providers/tab-provider";
 import { useMemoContext } from "providers/memo-provider";
 import { SkeletonMemoCard } from "components/skeleton";
+import { Shadow } from "ui/atoms/shadow";
+import { useTaskContext } from "providers/task-provider";
 
 // URLを検出するための正規表現
 const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -191,10 +193,6 @@ export const ListBlock = ({
     memo_id: memoId,
     complete: true,
   };
-  // const { list, setListData } = useMemoContext();
-  const success = async () => {
-    console.log("success");
-  };
   const failure = () => {
     // setToast("ステータス変更に失敗しました", false);
   };
@@ -206,8 +204,18 @@ export const ListBlock = ({
     const response = await deleteTask(id);
     !!response ? handleReload() : failure();
   };
+
+  const { setTask, setIsActive } = useTaskContext();
+
   return (
-    <div onClick={() => {}} className={"ListBlock"}>
+    <div
+      onClick={() => {
+        console.log("tap");
+        setTask(data);
+        setIsActive(true);
+      }}
+      className={"ListBlock"}
+    >
       {!complete ? (
         <Circle className={"point-icon"} size={16} />
       ) : (

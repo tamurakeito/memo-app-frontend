@@ -24,6 +24,7 @@ import { getClientData } from "data/api/getClientData";
 import useNetworkStatus from "hooks/useNetworkStatus";
 import { useToastContext } from "providers/toast-provider";
 import { getMemoDetail } from "data/api/getMemoDetail";
+import { TaskEditModal } from "components/task-edit-modal";
 
 export const AppStateContext = createContext({
   isLoading: false,
@@ -241,7 +242,7 @@ export const Home = () => {
             icon={ExceptionIcons.fail}
           />
         )}
-        <Navigation handleReload={handleGetMemoSummary} />
+        <Navigation />
         <Menu
           setIsEdit={setIsEdit}
           setIsDelete={setIsDelete}
@@ -254,6 +255,7 @@ export const Home = () => {
           setIsActive={setIsDelete}
           handleReload={handleGetMemoSummary}
         />
+        <TaskEditModal />
       </div>
       {isLoading && <Skeleton />}
     </AppStateContext.Provider>

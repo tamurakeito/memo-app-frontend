@@ -20,10 +20,10 @@ import { AppStateContext } from "pages/home";
 import { useErrorContext } from "providers/error-provider";
 import { MemoDetailType } from "types/types";
 
-export const Navigation = ({ handleReload }: { handleReload: () => void }) => {
+export const Navigation = () => {
   const { isActive, setIsActive } = useNaviContext();
   const classes = classNames(["Navigation", isActive && "active"]);
-  const { list, setListData } = useMemoContext();
+  const { list } = useMemoContext();
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
       if (event.dir === "Left") {

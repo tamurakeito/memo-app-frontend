@@ -1,14 +1,16 @@
 import { useSwipeable } from "react-swipeable";
 import "./index.scss";
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 export const Shadow = ({
+  children,
   isActive,
   handleClick = () => {},
   handleSwipeUp = () => {},
   handleSwipeLeft = () => {},
 }: {
+  children?: ReactNode;
   isActive: boolean;
   handleClick?: () => void;
   handleSwipeUp?: () => void;
@@ -36,7 +38,9 @@ export const Shadow = ({
 
   const classes = classNames(["Shadow", isActive && "active"]);
   return isShadow ? (
-    <div className={classes} onClick={handleClick} {...swipeHandlers}></div>
+    <div className={classes} onClick={handleClick} {...swipeHandlers}>
+      {children}
+    </div>
   ) : (
     <></>
   );

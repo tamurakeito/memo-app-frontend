@@ -18,7 +18,8 @@ export const IconButton = ({
   const toggle = () => {
     setIsPressed(!isPressed);
   };
-  const handleClick = () => {
+  const handleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
+    event.stopPropagation();
     onClick();
     toggle();
   };

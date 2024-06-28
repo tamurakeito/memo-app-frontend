@@ -2,17 +2,18 @@
 @import "assets/scss/animation/keyframes";
 
 .Shadow {
+  z-index: 1;
   position: fixed;
+  display: flex;
+  justify-content: center;
+  // align-items: center;
   top: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba($color: var.$BLACK1000, $alpha: 0.2);
-  // display: none;
+  background: rgba($color: var.$BLACK1000, $alpha: 0.3);
   opacity: 0;
-  // transition: 0.1s;
   animation: fadeOutAnime 0.1s ease;
   &.active {
-    // display: block;
     animation: fadeInAnime 0.1s ease;
     opacity: 1;
   }
