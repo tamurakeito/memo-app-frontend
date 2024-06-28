@@ -11,7 +11,7 @@ export const Text = ({
   children: ReactNode;
   size: TextSize;
   className?: string;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLSpanElement>;
 }) => {
   const classes = classNames(["Text", size, className]);
   return (

@@ -210,7 +210,6 @@ export const ListBlock = ({
   return (
     <div
       onClick={() => {
-        console.log("tap");
         setTask(data);
         setIsActive(true);
       }}
@@ -230,19 +229,15 @@ export const ListBlock = ({
             {name}
           </Text>
         ) : (
-          <span
-            onClick={() => {
-              console.log("tap!!");
-            }}
-            className={"block-content"}
-          >
+          <span className={"block-content"}>
             {name.split(urlRegex).map((part, index) =>
               urlRegex.test(part) ? (
                 <Text
                   key={index}
                   className={"url-content"}
                   size={TextSizes.text3}
-                  onClick={() => {
+                  onClick={(event) => {
+                    event.stopPropagation();
                     window.open(part, "_blank");
                   }}
                 >
