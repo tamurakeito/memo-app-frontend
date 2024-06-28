@@ -105,6 +105,7 @@ export const MemoCard = ({
                             memoId={memo.id}
                             complete={true}
                             handleReload={handleMemoLoad}
+                            url={urlRegex.test(task.name)}
                           />
                         )
                     )}
@@ -235,7 +236,7 @@ export const ListBlock = ({
                 <Text
                   key={index}
                   className={"url-content"}
-                  size={TextSizes.text3}
+                  size={!complete ? TextSizes.text3 : TextSizes.text2}
                   onClick={(event) => {
                     event.stopPropagation();
                     window.open(part, "_blank");
@@ -248,7 +249,7 @@ export const ListBlock = ({
                   <Text
                     key={index}
                     className={"none-url-content"}
-                    size={TextSizes.text1}
+                    size={!complete ? TextSizes.text1 : TextSizes.text2}
                   >
                     {part}
                   </Text>
