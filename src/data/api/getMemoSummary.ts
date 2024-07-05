@@ -7,8 +7,8 @@ export async function getMemoSummary(): Promise<
   try {
     const url = `/memo-summary`;
     const response = await client.get<Array<MemoSummaryType>>(url);
-    const memoListTagged = response.data.filter((memo) => memo.tag).reverse();
-    const memoListUnTagged = response.data.filter((memo) => !memo.tag).reverse();
+    const memoListTagged = response.data.filter((memo) => memo.tag);
+    const memoListUnTagged = response.data.filter((memo) => !memo.tag);
     return [...memoListTagged, ...memoListUnTagged];
   } catch (error) {
     console.error(error);

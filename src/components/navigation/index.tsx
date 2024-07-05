@@ -1,12 +1,10 @@
 import "./index.scss";
 import classNames from "classnames";
 import { ReactNode, useContext, useEffect, useState } from "react";
-import { Bookmark, Circle, Plus, Tag } from "react-feather";
-import { Line } from "ui/atoms/line";
+import { Bookmark, Circle, Plus } from "react-feather";
 import { ScrollArea } from "ui/atoms/scroll-area";
 import { Text } from "ui/atoms/text";
 import { TextSizes } from "ui/atoms/text";
-import { Settings } from "react-feather";
 import { useSwipeable } from "react-swipeable";
 import { useTabContext } from "providers/tab-provider";
 import { useNaviContext } from "providers/navi-provider";
@@ -15,15 +13,18 @@ import { useMemoContext } from "providers/memo-provider";
 import { getMemoSummary } from "data/api/getMemoSummary";
 import { postAddMemo } from "data/api/postAddMemo";
 import { useToastContext } from "providers/toast-provider";
-import { log } from "console";
 import { AppStateContext } from "pages/home";
 import { useErrorContext } from "providers/error-provider";
 import { MemoDetailType } from "types/types";
+import { SortableList } from "components/sortable-list";
+import { putMemoOderOverride } from "data/api/putMemoOderOverride";
 
 export const Navigation = () => {
   const { isActive, setIsActive } = useNaviContext();
   const classes = classNames(["Navigation", isActive && "active"]);
-  const { list } = useMemoContext();
+  const { list, setListData } = useMemoContext();
+  const { setTabIndex } = useTabContext();
+  const { setToast } = useToastContext();
   const swipeHandlers = useSwipeable({
     onSwiped: (event) => {
       if (event.dir === "Left") {
@@ -33,27 +34,46 @@ export const Navigation = () => {
     trackMouse: true,
   });
 
-  // useEffect(() => {
-  //   !isActive &&
-  //     (() => {
-  //       handleReload(); // →handleGetMemoSummary();
-  //     })();
-  // }, [isActive]);
-
   const [isAddMemo, setIsAddMemo] = useState(false);
   const handleOnPlus = () => {
     setIsAddMemo(true);
-    // setTabIndex(undefined);
   };
+
+  const tagCount = list.filter((memo) => memo.tag).length;
+
+  const moveItem = async (fromIndex: number, toIndex: number) => {
+    const originalOder = list;
+    const moveMemo = list[fromIndex];
+    const spliceArr = list.filter((_, index) => index !== fromIndex);
+    const newOder = [
+      ...spliceArr.slice(0, toIndex),
+      moveMemo,
+      ...spliceArr.slice(toIndex, spliceArr.length),
+    ];
+    setListData(newOder);
+    const response = await putMemoOderOverride(newOder.map((memo) => memo.id));
+    if (response) {
+      setTabIndex(toIndex);
+    } else {
+      setListData(originalOder);
+      setToast({
+        content: "エラー：メモの並べ替えに失敗しました",
+        isActive: true,
+        duration: 1500,
+      });
+    }
+  };
+
   return (
     <>
       <div className={classes} {...swipeHandlers}>
         {list.length > 0 ? (
           <ScrollArea className={"memo-box-container"}>
             <MemoListBox isTagged={true}>
-              {list.map(
-                (memo, index) =>
-                  memo.tag && (
+              <SortableList
+                list={list
+                  .filter((memo) => memo.tag)
+                  .map((memo, index) => (
                     <MemoList
                       key={index}
                       index={index}
@@ -62,24 +82,30 @@ export const Navigation = () => {
                     >
                       {memo.name}
                     </MemoList>
-                  )
-              )}
+                  ))}
+                moveItem={moveItem}
+              />
             </MemoListBox>
             <MemoListBox isTagged={false} handleOnPlus={handleOnPlus}>
               {isAddMemo && <AddMemoList setIsActive={setIsAddMemo} />}
-              {list.map(
-                (memo, index) =>
-                  !memo.tag && (
+              <SortableList
+                list={list
+                  .filter((memo) => !memo.tag)
+                  .map((memo, index) => (
                     <MemoList
                       key={index}
-                      index={index}
+                      index={index + tagCount}
                       length={memo.length}
                       isAddMemo={isAddMemo}
                     >
                       {memo.name}
                     </MemoList>
-                  )
-              )}
+                  ))}
+                adjuster={tagCount}
+                moveItem={(fromIndex: number, toIndex: number) =>
+                  moveItem(fromIndex + tagCount, toIndex + tagCount)
+                }
+              />
             </MemoListBox>
           </ScrollArea>
         ) : (

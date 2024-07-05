@@ -1,0 +1,26 @@
+@use "assets/scss/config/variables" as var;
+
+.SortableList {
+  cursor: default;
+}
+
+.SortableCard {
+  z-index: 10;
+  position: absolute;
+  width: 100%;
+  cursor: grabbing;
+  &.dragged {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    background: var.$WHITE000;
+  }
+}
+
+.GhostSpacer {
+  // background: var.$WHITE000;
+  height: 0;
+  transition: 0.2s;
+  &.active {
+    height: 30px;
+    // background: var.$GRAY100;
+  }
+}

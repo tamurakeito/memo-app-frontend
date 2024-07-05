@@ -18,7 +18,6 @@ import { getMemoDetail } from "data/api/getMemoDetail";
 import { useTabContext } from "providers/tab-provider";
 import { useMemoContext } from "providers/memo-provider";
 import { SkeletonMemoCard } from "components/skeleton";
-import { Shadow } from "ui/atoms/shadow";
 import { useTaskContext } from "providers/task-provider";
 
 // URLを検出するための正規表現
@@ -50,7 +49,7 @@ export const MemoCard = ({
   }, [displayMemo]);
 
   useEffect(() => {
-    tab === tabIndex && handleMemoLoad();
+    tab === tabIndex ? handleMemoLoad() : setMemo(undefined);
   }, [list]);
 
   const handleMemoLoad = async () => {
