@@ -164,7 +164,7 @@ const CompleteContainer = ({ children }: { children: ReactNode }) => {
 export const TitleBlock = ({ children }: { children: ReactNode }) => {
   return (
     <div className={"TitleBlock"}>
-      <Circle size={16} />
+      <Circle size={16} className={"icon"} />
       <Text size={TextSizes.title} className={"block-content"}>
         {children}
       </Text>

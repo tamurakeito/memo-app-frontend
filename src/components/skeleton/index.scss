@@ -6,28 +6,27 @@
   width: 100vw;
   height: 100vh;
   background: var.$WHITE000;
-  // opacity: 0.8;
-  .SkeletonBox {
-    border-radius: 8px;
-    background: var.$GRAY100;
-  }
-  .SkeletonBox::before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 100;
-    content: "";
-    display: block;
-    background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0),
-      rgba(255, 255, 255, 0.4),
-      rgba(255, 255, 255, 0)
-    );
-    animation: skeleton-animation 0.5s linear infinite;
-  }
+}
+.SkeletonBox {
+  border-radius: 8px;
+  background: var.$GRAY100;
+}
+.SkeletonBox::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  content: "";
+  display: block;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0)
+  );
+  animation: skeleton-animation 0.5s linear infinite;
 }
 @keyframes skeleton-animation {
   0% {
@@ -37,3 +36,71 @@
     transform: translateX(100%);
   }
 }
+
+// .SkeletonListBlock {
+//   width: 100%;
+//   height: 32px;
+//   position: relative;
+//   .point-icon {
+//     position: absolute;
+//     top: 8px;
+//     left: 16px;
+//     color: var.$GRAY900;
+//     &.complete {
+//       color: var.$GRAY400;
+//     }
+//   }
+//   .swipable {
+//     position: absolute;
+//     top: 7px;
+//     left: 51px;
+//     width: calc(100% - 36px);
+//     height: 18px;
+//     display: inline-flex;
+//     justify-content: left;
+//     overflow-x: auto;
+//     scrollbar-width: none;
+//     .block-content {
+//       display: inline-flex;
+//       justify-content: center;
+//       .url-content {
+//         padding: {
+//           right: 6px;
+//         }
+//         cursor: pointer;
+//       }
+//       .none-url-content {
+//         padding: {
+//           right: 6px;
+//         }
+//       }
+//     }
+//   }
+//   .lid {
+//     position: absolute;
+//     right: -16px;
+//     width: 50px;
+//     height: 32px;
+//     background: var.$WHITE000;
+//   }
+//   .complete-icon {
+//     position: absolute;
+//     top: 7px;
+//     right: 3px;
+//     color: var.$GRAY400;
+//     cursor: pointer;
+//   }
+//   .delete-icon {
+//     position: absolute;
+//     top: 7px;
+//     right: 3px;
+//     color: var.$GRAY400;
+//     cursor: pointer;
+//   }
+//   .input-area {
+//     font-size: 16px;
+//     font-weight: 500;
+//     color: var.$GRAY900;
+//     // background: skyblue;
+//   }
+// }

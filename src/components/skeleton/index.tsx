@@ -23,7 +23,7 @@ const SkeletonBox = ({
   return <div className={classes} style={{ width: width, height: height }} />;
 };
 
-const SkeletonIconButton = ({ className }: { className: string }) => {
+const SkeletonIconButton = ({ className }: { className?: string }) => {
   return (
     <div className={`IconButton ${className}`}>
       <SkeletonBox width={20} height={20} />
@@ -36,7 +36,9 @@ const SkeletonListBlock = () => {
       <div className={"point-icon"}>
         <SkeletonBox width={16} height={16} />
       </div>
-      <SkeletonBox width={200} height={16} className={"block-content"} />
+      <div className={"swipable"}>
+        <SkeletonBox width={200} height={16} className={"block-content"} />
+      </div>
       <div className={"complete-icon"}>
         <SkeletonBox width={18} height={18} />
       </div>
@@ -59,9 +61,12 @@ export const Skeleton = () => {
         <SkeletonIconButton className={"HamburgerIconButton"} />
         <SkeletonIconButton className={"TagIconButton"} />
         <SkeletonIconButton className={"OptionIconButton"} />
+        <Line top={47} />
       </div>
       <div className="Swiper">
-        <SkeletonMemoCard />
+        <div className={"MemoCard"}>
+          <SkeletonMemoCard />
+        </div>
         <div className="SwipeIndexDisplay">
           <SkeletonSwipeIndexCircle />
           <SkeletonSwipeIndexCircle />
@@ -75,32 +80,16 @@ export const Skeleton = () => {
 
 export const SkeletonMemoCard = () => {
   return (
-    <div className="MemoCard">
-      <Line top={0} />
-      <div className="memo-card">
-        <SkeletonBox width={250} height={25} className={"TitleBlock"} />
-        <div className="InCompleteContainer">
-          <SkeletonListBlock />
-          <SkeletonListBlock />
-          <SkeletonListBlock />
-          <SkeletonListBlock />
-        </div>
-        {/* <Line /> */}
-        {/* <div className="CompleteContainer">
-          <div className="toggle">
-            <Text className={"kanryou"} size={TextSizes.text2}>
-              完了
-            </Text>
-            <div className={"arrow open"}>
-              <ChevronUp />
-            </div>
-          </div>
-          <div className="complete-box open">
-            <ListBlock key={0} id={0} name={"スケルトン"} complete={true} />
-            <ListBlock key={1} id={0} name={"スケルトン"} complete={true} />
-            <ListBlock key={2} id={0} name={"スケルトン"} complete={true} />
-          </div>
-        </div> */}
+    <div className="memo-card">
+      <div className={"TitleBlock"}>
+        <SkeletonBox width={18} height={18} className={"icon"} />
+        <SkeletonBox width={250} height={25} className={"block-content"} />
+      </div>
+      <div className="InCompleteContainer">
+        <SkeletonListBlock />
+        <SkeletonListBlock />
+        <SkeletonListBlock />
+        <SkeletonListBlock />
       </div>
     </div>
   );
