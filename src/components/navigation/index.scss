@@ -6,7 +6,7 @@
   width: 275px;
   height: 100vh;
   top: 0;
-  transform: translateX(-100vw);
+  transform: translateX(-275px);
   background: var.$WHITE000;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
   transition: 0.2s;
@@ -24,6 +24,12 @@
     left: 23px;
     color: var.$GRAY400;
   }
+}
+
+.navigation-hover-area {
+  position: fixed;
+  width: 15px;
+  height: 100vh;
 }
 
 .MemoListBox {

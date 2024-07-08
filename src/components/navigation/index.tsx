@@ -64,9 +64,27 @@ export const Navigation = () => {
     }
   };
 
+  const [isHover, setIsHover] = useState(false);
+  const handleMouseHover = () => {
+    if (!isActive) {
+      setIsHover(true);
+      setIsActive(true);
+    }
+  };
+  const handleMouseLeave = () => {
+    if (isHover) {
+      setIsHover(false);
+      setIsActive(false);
+    }
+  };
+
   return (
     <>
-      <div className={classes} {...swipeHandlers}>
+      <div
+        className={classes}
+        {...swipeHandlers}
+        onMouseLeave={handleMouseLeave}
+      >
         {list.length > 0 ? (
           <ScrollArea className={"memo-box-container"}>
             <MemoListBox isTagged={true}>
@@ -118,6 +136,10 @@ export const Navigation = () => {
         {/* <Line bottom={137} /> */}
         {/* <Settings className={"icon-setting"} size={16} /> */}
       </div>
+      <div
+        className={"navigation-hover-area"}
+        onMouseEnter={handleMouseHover}
+      />
       <Shadow
         isActive={isActive}
         handleClick={() => {
