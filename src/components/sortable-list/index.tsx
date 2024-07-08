@@ -71,7 +71,11 @@ export const SortableList = ({
     if (isDrag) {
       setIsDrag(false);
       setSelected(0);
-      moveItem(selected, Math.floor(cursorPosition / 30));
+      const fromIndex = selected;
+      const toIndex = Math.floor(cursorPosition / 30);
+      if (fromIndex !== toIndex) {
+        moveItem(fromIndex, toIndex);
+      }
     }
   };
 
