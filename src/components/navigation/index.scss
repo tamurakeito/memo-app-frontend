@@ -36,12 +36,9 @@
   position: relative;
   margin: {
     top: 15px;
-    // left: 23px;
-    // right: 23px;
     bottom: 25px;
   }
   .tag-box {
-    // background: skyblue;
     height: 20px;
     margin: {
       bottom: 6px;
@@ -83,7 +80,9 @@
   &.selected {
     background: var.$GRAY200;
   }
-  // background: pink;
+  &:hover {
+    background: var.$GRAY100;
+  }
   .memo-point {
     position: absolute;
     top: 9px;
