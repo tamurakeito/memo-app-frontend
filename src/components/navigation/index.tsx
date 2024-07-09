@@ -21,6 +21,7 @@ import { putMemoOderOverride } from "data/api/putMemoOderOverride";
 
 export const Navigation = () => {
   const { isActive, setIsActive } = useNaviContext();
+  const { isAddMemo, setIsAddMemo } = useNaviContext();
   const classes = classNames(["Navigation", isActive && "active"]);
   const { list, setListData } = useMemoContext();
   const { setTabIndex } = useTabContext();
@@ -34,9 +35,9 @@ export const Navigation = () => {
     trackMouse: true,
   });
 
-  const [isAddMemo, setIsAddMemo] = useState(false);
+  const [isAddActive, setIsAddActive] = useState(false);
   const handleOnPlus = () => {
-    setIsAddMemo(true);
+    setIsAddActive(true);
   };
 
   const tagCount = list.filter((memo) => memo.tag).length;
@@ -78,6 +79,14 @@ export const Navigation = () => {
     }
   };
 
+  useEffect(() => {
+    isActive && setIsAddMemo(false);
+  }, [isActive]);
+
+  useEffect(() => {
+    setIsAddActive(true);
+  }, [isAddMemo]);
+
   return (
     <>
       <div
@@ -96,7 +105,7 @@ export const Navigation = () => {
                       key={index}
                       index={index}
                       length={memo.length}
-                      isAddMemo={isAddMemo}
+                      isAddMemo={isAddActive}
                     >
                       {memo.name}
                     </MemoList>
@@ -105,7 +114,7 @@ export const Navigation = () => {
               />
             </MemoListBox>
             <MemoListBox isTagged={false} handleOnPlus={handleOnPlus}>
-              {isAddMemo && <AddMemoList setIsActive={setIsAddMemo} />}
+              {isAddActive && <AddMemoList setIsActive={setIsAddActive} />}
               <SortableList
                 list={list
                   .filter((memo) => !memo.tag)
@@ -114,7 +123,7 @@ export const Navigation = () => {
                       key={index}
                       index={index + tagCount}
                       length={memo.length}
-                      isAddMemo={isAddMemo}
+                      isAddMemo={isAddActive}
                     >
                       {memo.name}
                     </MemoList>
@@ -236,38 +245,40 @@ const AddMemoList = ({
   };
   const handleOnEnter = async () => {
     setIsActiveNavi(false);
-    setIsLoading(true);
-    const data: MemoDetailType = {
-      id: 0, // バックエンドで無視されるid（errで末尾にデータ挿入される）
-      name: value,
-      tag: false,
-      tasks: [],
-    };
-    const response = await postAddMemo(data);
-    const id = response?.id;
-    response
-      ? (async () => {
-          const response = await getMemoSummary();
-          !!response
-            ? (() => {
-                setListData(response);
-                const index = response.findIndex((memo) => memo.id === id);
-                setTabIndex(index);
-                setIsLoading(false);
-              })()
-            : (() => {
-                setIsError(true);
-                setIsLoading(false);
-              })();
-        })()
-      : (() => {
-          setToast({
-            content: "メモの追加に失敗しました",
-            isActive: true,
-            duration: 1500,
-          });
-          setIsLoading(false);
-        })();
+    if (value !== "") {
+      setIsLoading(true);
+      const data: MemoDetailType = {
+        id: 0, // バックエンドで無視されるid（errで末尾にデータ挿入される）
+        name: value,
+        tag: false,
+        tasks: [],
+      };
+      const response = await postAddMemo(data);
+      const id = response?.id;
+      response
+        ? (async () => {
+            const response = await getMemoSummary();
+            !!response
+              ? (() => {
+                  setListData(response);
+                  const index = response.findIndex((memo) => memo.id === id);
+                  setTabIndex(index);
+                  setIsLoading(false);
+                })()
+              : (() => {
+                  setIsError(true);
+                  setIsLoading(false);
+                })();
+          })()
+        : (() => {
+            setToast({
+              content: "メモの追加に失敗しました",
+              isActive: true,
+              duration: 1500,
+            });
+            setIsLoading(false);
+          })();
+    }
     setIsActive(false);
   };
   // IME入力時に確定させない

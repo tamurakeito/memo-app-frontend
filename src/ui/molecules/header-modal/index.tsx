@@ -34,7 +34,7 @@ export const HeaderModal = ({
     setIsShadowActive(true);
     setTimeout(() => {
       topPosition === -topDefalut && setTopPosition(0);
-    }, 10);
+    }, 20);
   };
 
   const modalSlideOut = async () => {

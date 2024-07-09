@@ -3,7 +3,7 @@ import { MemoCard } from "components/memo-card";
 import { TopBar } from "components/top-bar";
 import { Swiper } from "components/swiper";
 import { Navigation } from "components/navigation";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import { getMemoSummary } from "data/api/getMemoSummary";
 import { useMemoContext } from "providers/memo-provider";
 import {
@@ -45,6 +45,7 @@ export const Home = () => {
   const [isDelete, setIsDelete] = useState(false);
   const isNavigation = useNaviContext().isActive;
   const setIsNavigation = useNaviContext().setIsActive;
+  const { setIsAddMemo } = useNaviContext();
   const isMenu = useMenuContext().isActive;
   const { setTabIndex } = useTabContext();
   const { setToast } = useToastContext();
@@ -142,17 +143,46 @@ export const Home = () => {
     }
   };
 
+  // const [isScroll, setIsScroll] = useState(false);
+  // const scrollTimeoutRef = useRef<number | undefined>(undefined);
+  // const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
+  //   if (!isScroll) {
+  //     setIsScroll(true);
+  //     if (event.deltaY < 0) {
+  //       isDelete ? setIsDelete(false) : setIsCreate(true);
+  //     } else if (event.deltaY > 0) {
+  //       isCreate ? setIsCreate(false) : setIsDelete(true);
+  //     }
+  //   }
+  //   // 前のタイマーをクリア
+  //   if (scrollTimeoutRef.current) {
+  //     clearTimeout(scrollTimeoutRef.current);
+  //   }
+  //   // スクロール終了を検出するためのタイマーを設定
+  //   scrollTimeoutRef.current = window.setTimeout(() => {
+  //     setIsScroll(false);
+  //   }, 50);
+  // };
+
   const [isKeyDown, setIsKeyDown] = useState(false);
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (isKeyDown) {
+        console.log(event.key);
         switch (event.key) {
-          case "Dead": // alt + n
-            !isCreate && setIsNavigation(!isNavigation);
-            break;
           case "å": // alt + a
             !isNavigation && setIsCreate(!isCreate);
             break;
+          case "Dead": // alt + n
+            !isCreate && setIsNavigation(!isNavigation);
+            break;
+          case "µ": // alt + m
+            if (!isCreate) {
+              setIsNavigation(true);
+              setIsAddMemo(true);
+            }
+            break;
+
           default:
             break;
         }
@@ -219,6 +249,7 @@ export const Home = () => {
         onMouseDown={handleStartPC}
         onTouchEnd={handleEnd}
         onMouseUp={handleEndPC}
+        // onWheel={handleWheel}
       >
         <TopBar />
         {!isError ? (

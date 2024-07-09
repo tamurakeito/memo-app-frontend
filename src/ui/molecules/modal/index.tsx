@@ -21,10 +21,11 @@ export const Modal = ({
   UpView?: ReactNode;
   DownView?: ReactNode;
 }) => {
+  const [isModalActive, setIsModalActive] = useState(false);
   const [isShadowActive, setIsShadowActive] = useState(isActive);
   const [isTransparent, setIsTransparent] = useState(false);
   const classes = classNames(
-    ["modal-scroll", isActive && "active"],
+    ["modal-scroll", isModalActive && "active"],
     isTransparent && "transparent"
   );
 
@@ -37,7 +38,8 @@ export const Modal = ({
     setIsShadowActive(false);
     setTimeout(() => {
       setIsActive(false);
-    }, 200);
+      setIsModalActive(false);
+    }, 100);
   };
   const modalSlideUp = async () => {
     setTransition(0.5);
@@ -46,18 +48,24 @@ export const Modal = ({
     setIsTransparent(true);
     setTimeout(() => {
       setTransition(0.2);
-      setIsActive(false);
+      setIsModalActive(false);
       setIsTransparent(false);
       setBottomPosition(modalHeight);
     }, 500);
   };
 
   useEffect(() => {
-    isActive &&
-      (() => {
-        setIsShadowActive(true);
-        setBottomPosition(0);
-      })();
+    isActive
+      ? (() => {
+          setIsModalActive(true);
+          setIsShadowActive(true);
+          setTimeout(() => {
+            setBottomPosition(0);
+          }, 20);
+        })()
+      : (() => {
+          modalSlideDown();
+        })();
   }, [isActive]);
 
   const [isMouseDown, setIsMouseDown] = useState(false);
@@ -101,7 +109,7 @@ export const Modal = ({
 
   return (
     <>
-      {isActive && (
+      {isModalActive && (
         <div
           className="Modal"
           onTouchStart={handleStart}
@@ -110,14 +118,13 @@ export const Modal = ({
           onMouseMove={handleMovePC}
           onTouchEnd={handleEnd}
           onMouseUp={handleEnd}
-          // onClick={modalSlideDown}
+          onClick={modalSlideDown}
         >
           <div
             className={classes}
             style={{
               transform: `translateY(${
-                2*window.innerHeight - modalHeight + bottomPosition
-                
+                2 * window.innerHeight - modalHeight + bottomPosition
               }px)`,
               transition: `${transition}s`,
             }}
