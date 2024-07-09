@@ -187,17 +187,16 @@ export const ListBlock = ({
   handleReload?: () => void;
   url?: boolean;
 }) => {
-  const data: TaskType = {
-    id: id,
-    name: name,
-    memo_id: memoId,
-    complete: true,
-  };
   const failure = () => {
     // setToast("ステータス変更に失敗しました", false);
   };
   const handleClickCheck = async () => {
-    const response = await putRestatusTask(data);
+    const response = await putRestatusTask({
+      id: id,
+      name: name,
+      memo_id: memoId,
+      complete: true,
+    });
     !!response ? handleReload() : failure();
   };
   const handleClickDelete = async () => {
@@ -210,7 +209,7 @@ export const ListBlock = ({
   return (
     <div
       onClick={() => {
-        setTask(data);
+        setTask({ id: id, name: name, memo_id: memoId, complete: complete });
         setIsActive(true);
       }}
       className={"ListBlock"}

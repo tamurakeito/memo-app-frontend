@@ -41,6 +41,7 @@ export const TaskEditModal = () => {
 
   useEffect(() => {
     isActive && task !== undefined && setValue(task.name);
+    console.log(task !== undefined ? task.complete : "");
   }, [isActive]);
 
   const handleExec = async () => {
@@ -54,6 +55,7 @@ export const TaskEditModal = () => {
           };
           setValue("");
           setIsLoading(true);
+          console.log(data.complete);
           const response = await putRestatusTask(data);
           !!response
             ? (async () => {
