@@ -1,13 +1,5 @@
 import { Line } from "ui/atoms/line";
 import "./index.scss";
-import { IconButton } from "ui/molecules/icon-button";
-import { ChevronUp, Menu, MoreVertical, Tag } from "react-feather";
-import { ListBlock, TitleBlock } from "components/memo-card";
-import { Text, TextSizes } from "ui/atoms/text";
-import { SwipeIndexDisplay } from "components/swiper";
-import useInterval from "hooks/useInterval";
-import { useState } from "react";
-import { log } from "console";
 import classNames from "classnames";
 
 const SkeletonBox = ({

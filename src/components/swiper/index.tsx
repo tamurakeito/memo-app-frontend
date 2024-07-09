@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import "./index.scss";
 import classNames from "classnames";
 import { useSwipeable } from "react-swipeable";
@@ -17,10 +17,21 @@ export const Swiper = ({
   const { tab, setTabIndex } = useTabContext();
   const isNavigation = useNaviContext().isActive;
   const setIsNavigation = useNaviContext().setIsActive;
+
+  const [isRefractory, setIsRefractory] = useState(false);
+  useEffect(() => {
+    if (!isNavigation) {
+      setIsRefractory(true);
+      setTimeout(() => {
+        setIsRefractory(false);
+      }, 150);
+    }
+  }, [isNavigation]);
+
   const handleSwipeLeft = () => {
     if (tab !== undefined) {
       !isNavigation
-        ? tab < pages.length - 1 && setTabIndex(tab + 1)
+        ? tab < pages.length - 1 && !isRefractory && setTabIndex(tab + 1)
         : setIsNavigation(false);
     }
   };
@@ -168,8 +179,30 @@ const SwipeCard = ({
   handleClickRight?: () => void;
 }) => {
   const classes = classNames(["SwipeCard", position]);
+
+  const [isScroll, setIsScroll] = useState(false);
+  const scrollTimeoutRef = useRef<number | undefined>(undefined);
+  const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
+    setIsScroll(true);
+    if (!isScroll) {
+      if (event.deltaX < 0) {
+        handleClickLeft && handleClickLeft();
+      } else if (event.deltaX > 0) {
+        handleClickRight && handleClickRight();
+      }
+    }
+    // 前のタイマーをクリア
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
+    }
+    // スクロール終了を検出するためのタイマーを設定
+    scrollTimeoutRef.current = window.setTimeout(() => {
+      setIsScroll(false);
+    }, 100);
+  };
+
   return (
-    <div className={classes}>
+    <div className={classes} onWheel={handleWheel}>
       {children}
       {handleClickLeft && (
         <SwipeTapArea
