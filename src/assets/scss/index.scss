@@ -1,5 +1,7 @@
 html {
   font-family: "Noto Sans JP", "ヒラギノ角ゴシック", sans-serif;
+  overflow: hidden;
+  overscroll-behavior-x: none;
 }
 
 body {

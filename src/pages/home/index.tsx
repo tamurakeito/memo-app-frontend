@@ -25,7 +25,7 @@ import useNetworkStatus from "hooks/useNetworkStatus";
 import { useToastContext } from "providers/toast-provider";
 import { getMemoDetail } from "data/api/getMemoDetail";
 import { TaskEditModal } from "components/task-edit-modal";
-import useTwoFingerSwipe from "hooks/useTwoFingerSwipe";
+import { useNavigate } from "react-router-dom";
 
 export const AppStateContext = createContext({
   isLoading: false,
