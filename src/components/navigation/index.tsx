@@ -84,7 +84,7 @@ export const Navigation = () => {
   }, [isActive]);
 
   useEffect(() => {
-    setIsAddActive(true);
+    isAddMemo && setIsAddActive(true);
   }, [isAddMemo]);
 
   return (
