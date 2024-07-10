@@ -1,0 +1,10 @@
+@use "assets/scss/config/variables" as var;
+@import "assets/scss/animation/keyframes";
+
+.LoadingCircle {
+  color: var.$GRAY500;
+  animation: spin 1s linear infinite;
+  * {
+    display: block;
+  }
+}

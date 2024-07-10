@@ -7,7 +7,6 @@ import classNames from "classnames";
 import { IconButton } from "ui/molecules/icon-button";
 import { ScrollArea } from "ui/atoms/scroll-area";
 import { MemoDetailType } from "types/types";
-import { TaskType } from "types/types";
 import { putRestatusTask } from "data/api/putRestatusTask";
 import { deleteTask } from "data/api/deleteTask";
 import {
@@ -19,6 +18,7 @@ import { useTabContext } from "providers/tab-provider";
 import { useMemoContext } from "providers/memo-provider";
 import { SkeletonMemoCard } from "components/skeleton";
 import { useTaskContext } from "providers/task-provider";
+import { LoadingCircle } from "ui/molecules/loading-circle";
 
 // URLを検出するための正規表現
 const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -61,6 +61,13 @@ export const MemoCard = ({
     }
   };
 
+  const handleReLoad = async () => {
+    const response = await getMemoDetail(id);
+    if (!!response) {
+      setMemo(response);
+    }
+  };
+
   return (
     <ScrollArea className={"MemoCard"}>
       {isLoading ? (
@@ -83,7 +90,7 @@ export const MemoCard = ({
                         name={task.name}
                         memoId={memo.id}
                         complete={false}
-                        handleReload={handleMemoLoad}
+                        handleReload={handleReLoad}
                         url={urlRegex.test(task.name)}
                       />
                     )
@@ -103,7 +110,7 @@ export const MemoCard = ({
                             name={task.name}
                             memoId={memo.id}
                             complete={true}
-                            handleReload={handleMemoLoad}
+                            handleReload={handleReLoad}
                             url={urlRegex.test(task.name)}
                           />
                         )
@@ -187,10 +194,11 @@ export const ListBlock = ({
   handleReload?: () => void;
   url?: boolean;
 }) => {
-  const failure = () => {
-    // setToast("ステータス変更に失敗しました", false);
-  };
+  const { setTask, setIsActive } = useTaskContext();
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleClickCheck = async () => {
+    setIsLoading(true);
     const response = await putRestatusTask({
       id: id,
       name: name,
@@ -200,11 +208,13 @@ export const ListBlock = ({
     !!response ? handleReload() : failure();
   };
   const handleClickDelete = async () => {
+    setIsLoading(true);
     const response = await deleteTask(id);
     !!response ? handleReload() : failure();
   };
-
-  const { setTask, setIsActive } = useTaskContext();
+  const failure = () => {
+    // setToast("ステータス変更に失敗しました", false);
+  };
 
   return (
     <div
@@ -258,18 +268,22 @@ export const ListBlock = ({
         )}
       </div>
       <div className={"lid"} />
-      {!complete ? (
-        <IconButton
-          className={"complete-icon"}
-          defaultIcon={<Check size={18} />}
-          onClick={handleClickCheck}
-        />
+      {!isLoading ? (
+        !complete ? (
+          <IconButton
+            className={"right-box-icon"}
+            defaultIcon={<Check size={18} />}
+            onClick={handleClickCheck}
+          />
+        ) : (
+          <IconButton
+            className={"right-box-icon"}
+            defaultIcon={<X size={18} />}
+            onClick={handleClickDelete}
+          />
+        )
       ) : (
-        <IconButton
-          className={"delete-icon"}
-          defaultIcon={<X size={18} />}
-          onClick={handleClickDelete}
-        />
+        <LoadingCircle className={"right-box-icon"} size={16} />
       )}
     </div>
   );
