@@ -19,9 +19,8 @@ export const AddModal = ({
   setIsActive: (isActive: boolean) => void;
 }) => {
   const [value, setValue] = useState("");
-  const { list, setMemo } = useMemoContext();
+  const { list, setMemo, setIsLoading } = useMemoContext();
   const { tab } = useTabContext();
-  const { setIsLoading } = useContext(AppStateContext);
   const { setIsError } = useErrorContext();
   const { setToast } = useToastContext();
 

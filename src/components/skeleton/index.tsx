@@ -22,7 +22,7 @@ const SkeletonIconButton = ({ className }: { className?: string }) => {
     </div>
   );
 };
-const SkeletonListBlock = () => {
+export const SkeletonListBlock = () => {
   return (
     <div className={"ListBlock"}>
       <div className={"point-icon"}>
@@ -31,7 +31,7 @@ const SkeletonListBlock = () => {
       <div className={"swipable"}>
         <SkeletonBox width={200} height={16} className={"block-content"} />
       </div>
-      <div className={"complete-icon"}>
+      <div className={"right-box-icon"}>
         <SkeletonBox width={18} height={18} />
       </div>
     </div>

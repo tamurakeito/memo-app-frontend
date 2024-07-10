@@ -16,7 +16,7 @@ import {
 import { getMemoDetail } from "data/api/getMemoDetail";
 import { useTabContext } from "providers/tab-provider";
 import { useMemoContext } from "providers/memo-provider";
-import { SkeletonMemoCard } from "components/skeleton";
+import { SkeletonListBlock, SkeletonMemoCard } from "components/skeleton";
 import { useTaskContext } from "providers/task-provider";
 import { LoadingCircle } from "ui/molecules/loading-circle";
 
@@ -34,6 +34,7 @@ export const MemoCard = ({
   const [memo, setMemo] = useState<MemoDetailType>();
   const { list } = useMemoContext();
   const displayMemo = useMemoContext().memo;
+  const addMemoLoading = useMemoContext().isLoading;
   const [isLoading, setIsLoading] = useState(false);
 
   // 表示されている前後１枚ずつを毎度読み込む
@@ -95,6 +96,7 @@ export const MemoCard = ({
                       />
                     )
                 )}
+                {addMemoLoading && <SkeletonListBlock />}
               </InCompleteContainer>
               {memo.tasks.filter((task) => task.complete === true).length >
                 0 && (

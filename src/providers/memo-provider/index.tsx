@@ -6,6 +6,8 @@ export type MemoContext = {
   setListData: (list: Array<MemoSummaryType>) => void;
   memo: MemoDetailType | undefined;
   setMemo: (memo: MemoDetailType) => void;
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
 };
 
 const MemoContext = React.createContext<MemoContext>({
@@ -17,6 +19,10 @@ const MemoContext = React.createContext<MemoContext>({
   setMemo: () => {
     console.log("memo-provider unimplement.");
   },
+  isLoading: false,
+  setIsLoading: () => {
+    console.log("memo-provider unimplement.");
+  },
 });
 
 export const MemoContextProvider = ({ children }: { children: ReactNode }) => {
@@ -25,8 +31,11 @@ export const MemoContextProvider = ({ children }: { children: ReactNode }) => {
     setList(list);
   };
   const [memo, setMemo] = useState<MemoDetailType>();
+  const [isLoading, setIsLoading] = useState(false);
   return (
-    <MemoContext.Provider value={{ list, setListData, memo, setMemo }}>
+    <MemoContext.Provider
+      value={{ list, setListData, memo, setMemo, isLoading, setIsLoading }}
+    >
       {children}
     </MemoContext.Provider>
   );
