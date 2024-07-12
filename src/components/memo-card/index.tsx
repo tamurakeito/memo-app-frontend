@@ -6,7 +6,7 @@ import { Line } from "ui/atoms/line";
 import classNames from "classnames";
 import { IconButton } from "ui/molecules/icon-button";
 import { ScrollArea } from "ui/atoms/scroll-area";
-import { MemoDetailType } from "types/types";
+import { MemoDetailType, TaskOrder, TaskType } from "types/types";
 import { putRestatusTask } from "data/api/putRestatusTask";
 import { deleteTask } from "data/api/deleteTask";
 import {
@@ -19,6 +19,9 @@ import { useMemoContext } from "providers/memo-provider";
 import { SkeletonListBlock, SkeletonMemoCard } from "components/skeleton";
 import { useTaskContext } from "providers/task-provider";
 import { LoadingCircle } from "ui/molecules/loading-circle";
+import { SortableList } from "components/sortable-list";
+import { putTaskOrderOverride } from "data/api/putTaskOrderOverride";
+import { useToastContext } from "providers/toast-provider";
 
 // URLを検出するための正規表現
 const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -36,6 +39,7 @@ export const MemoCard = ({
   const displayMemo = useMemoContext().memo;
   const addMemoLoading = useMemoContext().isLoading;
   const [isLoading, setIsLoading] = useState(false);
+  const { setToast } = useToastContext();
 
   // 表示されている前後１枚ずつを毎度読み込む
   useEffect(() => {
@@ -69,6 +73,40 @@ export const MemoCard = ({
     }
   };
 
+  const moveItem = async (fromIndex: number, toIndex: number) => {
+    if (memo) {
+      const originalArr = memo.tasks;
+      const moveTask = originalArr[fromIndex];
+      const spliceArr = originalArr.filter((_, index) => index !== fromIndex);
+      const newArr = [
+        ...spliceArr.slice(0, toIndex),
+        moveTask,
+        ...spliceArr.slice(toIndex, spliceArr.length),
+      ];
+      const originalMemo = memo;
+      const newMemo: MemoDetailType = {
+        id: memo.id,
+        name: memo.name,
+        tag: memo.tag,
+        tasks: newArr,
+      };
+      setMemo(newMemo);
+      const data: TaskOrder = {
+        id: memo?.id,
+        order: newArr.map((task) => task.id),
+      };
+      const response = await putTaskOrderOverride(data);
+      if (!response) {
+        setMemo(originalMemo);
+        setToast({
+          content: "エラー：タスクの並べ替えに失敗しました",
+          isActive: true,
+          duration: 1500,
+        });
+      }
+    }
+    
+  };
   return (
     <ScrollArea className={"MemoCard"}>
       {isLoading ? (
@@ -82,9 +120,10 @@ export const MemoCard = ({
           memo.tasks.length > 0 ? (
             <>
               <InCompleteContainer>
-                {memo.tasks.map(
-                  (task, index) =>
-                    !task.complete && (
+                <SortableList
+                  list={memo.tasks
+                    .filter((task) => !task.complete)
+                    .map((task, index) => (
                       <ListBlock
                         key={index}
                         id={task.id}
@@ -94,8 +133,9 @@ export const MemoCard = ({
                         handleReload={handleReLoad}
                         url={urlRegex.test(task.name)}
                       />
-                    )
-                )}
+                    ))}
+                  moveItem={moveItem}
+                />
                 {addMemoLoading && <SkeletonListBlock />}
               </InCompleteContainer>
               {memo.tasks.filter((task) => task.complete === true).length >

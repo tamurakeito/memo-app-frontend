@@ -22,3 +22,8 @@ export type TaskType = {
 export type ClientData = {
   tab: number;
 };
+
+export type TaskOrder = {
+  id: number;
+  order: Array<number>;
+};

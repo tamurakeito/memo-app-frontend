@@ -1,6 +1,5 @@
 import "./index.scss";
 import classNames from "classnames";
-import { useMemoContext } from "providers/memo-provider";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
 export const SortableList = ({
@@ -35,6 +34,7 @@ export const SortableList = ({
 
   const handleLongPress = () => {
     if (event) {
+      event.stopPropagation();
       setIsDrag(true);
       setSelected(Math.floor((event.clientY - yPosition) / 30));
       setCursorPosition(event.clientY - yPosition);
@@ -54,6 +54,7 @@ export const SortableList = ({
   const handleMouseDown = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
+    event.stopPropagation();
     setIsPress(true);
     setEvent(event);
   };
@@ -61,12 +62,16 @@ export const SortableList = ({
   const handleMouseMove = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
+    event.stopPropagation();
     if (isDrag) {
       setCursorPosition(event.clientY - yPosition);
     }
   };
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
     setIsPress(false);
     if (isDrag) {
       setIsDrag(false);
@@ -97,7 +102,7 @@ export const SortableList = ({
         <>
           <SortableCard
             top={Math.min(
-              Math.max(cursorPosition + 10, 26),
+              Math.max(cursorPosition - 12, 0),
               list.length * 30 - 4
             )}
           >
