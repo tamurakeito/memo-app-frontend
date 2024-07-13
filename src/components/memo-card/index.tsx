@@ -250,9 +250,10 @@ export const ListBlock = ({
       complete: true,
     });
     !!response ? handleReload() : failure();
+    setIsLoading(false);
   };
   const handleClickDelete = async () => {
-    setIsLoading(true);
+    // setIsLoading(true);
     const response = await deleteTask(id);
     !!response ? handleReload() : failure();
   };
