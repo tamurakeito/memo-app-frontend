@@ -75,7 +75,10 @@ export const MemoCard = ({
 
   const moveItem = async (fromIndex: number, toIndex: number) => {
     if (memo) {
-      const originalArr = memo.tasks;
+      const originalArr = [
+        ...memo.tasks.filter((task) => !task.complete),
+        ...memo.tasks.filter((task) => task.complete),
+      ];
       const moveTask = originalArr[fromIndex];
       const spliceArr = originalArr.filter((_, index) => index !== fromIndex);
       const newArr = [
@@ -105,7 +108,6 @@ export const MemoCard = ({
         });
       }
     }
-    
   };
   return (
     <ScrollArea className={"MemoCard"}>
@@ -277,6 +279,7 @@ export const ListBlock = ({
             size={!complete ? TextSizes.text1 : TextSizes.text2}
             className={"block-content"}
           >
+            <div>{id}</div>
             {name}
           </Text>
         ) : (
