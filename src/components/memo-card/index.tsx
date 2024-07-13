@@ -279,7 +279,6 @@ export const ListBlock = ({
             size={!complete ? TextSizes.text1 : TextSizes.text2}
             className={"block-content"}
           >
-            <div>{id}</div>
             {name}
           </Text>
         ) : (
