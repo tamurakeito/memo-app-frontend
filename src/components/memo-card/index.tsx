@@ -136,6 +136,7 @@ export const MemoCard = ({
                         url={urlRegex.test(task.name)}
                       />
                     ))}
+                  itemHeight={32}
                   moveItem={moveItem}
                 />
                 {addMemoLoading && <SkeletonListBlock />}

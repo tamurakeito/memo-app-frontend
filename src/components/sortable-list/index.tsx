@@ -5,11 +5,13 @@ import { ReactNode, useEffect, useRef, useState } from "react";
 export const SortableList = ({
   className,
   list,
+  itemHeight,
   adjuster = 0,
   moveItem,
 }: {
   className?: string;
   list: Array<ReactNode>;
+  itemHeight: number;
   adjuster?: number;
   moveItem: (fromIndex: number, toIndex: number) => void;
 }) => {
@@ -20,24 +22,24 @@ export const SortableList = ({
   const [yPosition, setYPosition] = useState(0);
   const [cursorPosition, setCursorPosition] = useState(-1);
 
-  useEffect(() => {
-    if (divRef.current) {
-      const rect = divRef.current.getBoundingClientRect();
-      setYPosition(rect.top + window.scrollY); // ページ全体のスクロール位置を考慮
-    }
-  }, []);
-
   var [isPressed, setIsPress] = useState(false);
   const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
   const [event, setEvent] =
     useState<React.MouseEvent<HTMLDivElement, MouseEvent>>();
 
   const handleLongPress = () => {
-    if (event) {
+    if (event && divRef.current) {
       event.stopPropagation();
       setIsDrag(true);
-      setSelected(Math.floor((event.clientY - yPosition) / 30));
-      setCursorPosition(event.clientY - yPosition);
+      const rect = divRef.current.getBoundingClientRect();
+      const y = rect.top + window.scrollY;
+      setYPosition(y);
+      setSelected(Math.floor((event.clientY - y) / itemHeight));
+      setCursorPosition(event.clientY - y);
+      console.log(event.clientY);
+      console.log(y);
+      console.log(event.clientY - y);
+      console.log(Math.floor((event.clientY - y) / itemHeight));
     }
   };
 
@@ -77,7 +79,7 @@ export const SortableList = ({
       setIsDrag(false);
       setSelected(0);
       const fromIndex = selected;
-      const toIndex = Math.floor(cursorPosition / 30);
+      const toIndex = Math.floor(cursorPosition / itemHeight);
       if (fromIndex !== toIndex) {
         moveItem(fromIndex, toIndex);
       }
@@ -103,7 +105,7 @@ export const SortableList = ({
           <SortableCard
             top={Math.min(
               Math.max(cursorPosition - 12, 0),
-              list.length * 30 - 4
+              list.length * itemHeight - 4
             )}
           >
             {list[selected]}
@@ -116,15 +118,17 @@ export const SortableList = ({
                   <GhostSpacer
                     active={
                       index > 0
-                        ? index === Math.floor(cursorPosition / 30)
-                        : cursorPosition < 30
+                        ? index === Math.floor(cursorPosition / itemHeight)
+                        : cursorPosition < itemHeight
                     }
                   />
                   {node}
                 </span>
               );
             })}
-          <GhostSpacer active={cursorPosition > (list.length - 1) * 30} />
+          <GhostSpacer
+            active={cursorPosition > (list.length - 1) * itemHeight}
+          />
         </>
       )}
     </div>

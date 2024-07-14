@@ -110,6 +110,7 @@ export const Navigation = () => {
                       {memo.name}
                     </MemoList>
                   ))}
+                itemHeight={30}
                 moveItem={moveItem}
               />
             </MemoListBox>
@@ -128,6 +129,7 @@ export const Navigation = () => {
                       {memo.name}
                     </MemoList>
                   ))}
+                itemHeight={30}
                 adjuster={tagCount}
                 moveItem={(fromIndex: number, toIndex: number) =>
                   moveItem(fromIndex + tagCount, toIndex + tagCount)
