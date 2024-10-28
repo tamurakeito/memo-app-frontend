@@ -29,8 +29,8 @@
     "ini": "chmod 755 .init.sh && ./.init.sh",
     "mock_server": "./node_modules/.bin/json-server --watch mock/db_mock.json --routes mock/routes.json --middlewares mock/middleware.js  --port 3004",
     "deploy:firebase": "yarn build && mv build firebase/public && cd firebase && firebase deploy ",
-    "deploy:gcp": "sudo rm -r memo-app-react/build || true && yarn build && mv build memo-app-react/ && scp -r memo-app-react/* tamurakeito@35.230.126.124:/home/tamurakeito/memo-app-react || true",
-    "run:gcp": "ssh tamurakeito@35.230.126.124 'bash -s' < docker-script.sh",
+    "deploy:gcp": "sudo rm -r memo-app-react/build || true && yarn build && mv build memo-app-react/ && scp -r memo-app-react/* tamurakeito@34.146.93.87:/home/tamurakeito/memo-app-react || true",
+    "run:gcp": "ssh tamurakeito@34.146.93.87 'bash -s' < docker-script.sh",
     "git:push": "./.gitpush.sh",
     "deploy": "yarn git:push && yarn ssh && yarn deploy:gcp && yarn run:gcp",
     "ssh": "ssh-agent && ssh-add ~/.ssh/gcp_tamurakeito_key"
